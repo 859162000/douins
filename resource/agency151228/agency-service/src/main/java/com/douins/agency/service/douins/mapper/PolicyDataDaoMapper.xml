@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.agency.service.douins.dao.PolicyDataDao">
+
+	<select id="queryPolicys" parameterType="Map" resultType="com.douins.agency.service.douins.domain.model.PolicyData">
+		SELECT * FROM dt_lianlife_policydata d
+		WHERE <![CDATA[ d.createTime >= #{createTime}]]> AND d.policyNo in
+		<foreach collection="list" item="it" index="index" open="("  separator="," close=")">
+			#{it}
+		</foreach>
+	</select>
+	<select id="queryResp" parameterType="Map" resultType="String">
+	   SELECT total_premium FROM policy_reservation_response WHERE policy_no = #{policyNo} 
+	   AND trade_code = #{tradeCode}
+	   AND response_code = #{responseCode}
+	   AND is_success = #{isSuccess}
+	   AND create_time >= #{createTime}
+	</select>
+	<!-- 
+	<select id="queryWDInfo" parameterType="String" resultType="com.douins.agency.service.douins.domain.vo.QunarFNQueryWDVo"> 
+		SELECT wdPoundage,wdPremium FROM dt_lianlife_policydata WHERE policyNo = #{policyNo} 
+	</select>
+	-->
+	<select id="queryWDInfo" parameterType="String" resultType="com.douins.agency.service.douins.domain.model.PolicyData">
+		SELECT * FROM dt_lianlife_policydata WHERE policyNo = #{policyNo}
+	</select>
+	<!-- 查询利安保险收益 -->
+	<select id="validation" resultType="com.douins.agency.service.douins.domain.model.PolicyData">
+		select * from dt_lianlife_policydata where to_days(createTime) >= to_days(now())
+	</select>
+	<!-- 查询利安退款成功的保单 -->
+	<!-- <select id="getPolicyNoWithSuccess" resultType="com.douins.agency.service.douins.domain.model.PolicyReservationRequest"> -->
+		<!-- SELECT * FROM policy_reservation_request WHERE partner_identifier = 'qunafn' AND policy_no &lt;&gt; "" -->
+	<select id="getPolicyNoWithSuccess" resultType="com.douins.agency.service.douins.domain.model.PolicyData">
+	SELECT * FROM dt_lianlife_policydata 
+		where refundDate is not null
+		and ifnull(refundDate,'null')  &lt;&gt; 'null'
+		and trim(refundDate)  &lt;&gt; ''
+		and policyNo in (
+		    select pre.`policy_no`  from `policy_reservation_request` prt
+		    inner join `policy_reservation_response` pre on prt.`order_id` = pre.`order_id` and pre.`trade_code` = '20002'
+		    where prt.partner_identifier = 'qunafn'
+		)
+		and to_days(createTime) >= to_days(now())
+	</select>
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.agency.service.douins.dao.ProductInfoDao">
+<select id="getProductVoByChannl" parameterType="com.douins.agency.service.douins.domain.vo.ProductWhrCondition" resultType="com.douins.agency.service.douins.domain.vo.ProductVo">
+ SELECT a.productId, a.insurePdId, b.clauseCode,
+        b.kindCode,
+        b.amount,
+        c.premium,
+        c.saleStrategy
+   FROM dt_product_fact a
+   INNER JOIN dt_product_ccic b  ON a.productId = b.productId
+   INNER JOIN dt_pdSaleStrategy_ccic c  ON b.productId = c.productId and b.kindCode = c.kindCode AND b.clauseCode = c.clauseCode
+   WHERE a.channlCode = #{channlCode} 
+     AND a.channlPdId = #{channlPdId} 
+     AND c.saleStrategy = #{saleStrategy}
+</select>
+
+<select id="getProductVoByDuration" parameterType="Map" resultType="com.douins.agency.service.douins.domain.vo.ProductVo">
+    SELECT a.productId, a.insurePdId, b.clauseCode, b.kindCode, b.amount, c.premium, c.saleStrategy
+   FROM dt_product_fact a INNER JOIN dt_product_ccic b  ON a.productId = b.productId
+   INNER JOIN dt_pdSaleStrategy_ccic c  ON b.productId = c.productId and b.kindCode = c.kindCode AND b.clauseCode = c.clauseCode
+   WHERE a.channlCode = #{channlCode} 
+     AND a.channlPdId = #{chPdId} 
+     AND c.dateRangeLow <![CDATA[<=]]> #{duration}
+     AND c.dateRangeHigh <![CDATA[>=]]> #{duration}
+</select>
+
+<select id="test" parameterType="String"  resultType="com.douins.agency.service.douins.domain.model.ProductFact">
+    select * from dt_product_fact where productId = #{productId}
+</select>
+<!-- 以下为产品销售总额数据表的相关操作 -->
+<resultMap id="ProductValidResultMap" type="com.douins.agency.service.douins.domain.model.ProductValid">
+	<id column="ID" property="id" jdbcType="INTEGER" />
+	<result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+	<result column="TOTAL_SALES" property="totalSales" jdbcType="VARCHAR" />
+</resultMap>
+<!-- 插入一条新数据到产品销售总额表中 -->
+<insert id="saveProductSales" parameterType="com.douins.agency.service.douins.domain.model.ProductValid" >
+    insert into dt_product_valid(PRODUCT_CODE,TOTAL_SALES,CREATE_DATE,MODIFY_DATE) values(#{productCode},#{totalSales},now(),now())
+</insert>
+<!-- 更新数据到产品销售总额表中 -->
+<insert id="updateProductSales" parameterType="com.douins.agency.service.douins.domain.model.ProductValid" >
+	update dt_product_valid set TOTAL_SALES = #{totalSales},MODIFY_DATE=now() where ID=#{id} and PRODUCT_CODE = #{totalSales}
+</insert>
+<select id="getProductSaleWithOrderId" parameterType="String"  resultMap="ProductValidResultMap">
+    select 2 as ID,PRODUCT_CODE,"0" as TOTAL_SALES from policy_reservation_request where order_id  = #{orderId} and trade_code = '10002'  LIMIT 1
+</select>
+<!-- 通过产品编号取出销售总额数据，取一条 -->
+<select id="getProductSaleWithProductCode" parameterType="String"  resultMap="ProductValidResultMap">
+    select ID,PRODUCT_CODE,TOTAL_SALES from dt_product_valid where PRODUCT_CODE = #{productCode} LIMIT 1
+</select>
+<!-- 取回所有产品的总销售额 -->
+<select id="getProductSaleSum" parameterType="String"  resultMap="ProductValidResultMap">
+    select 1 as ID,"" as PRODUCT_CODE,sum(TOTAL_SALES) as TOTAL_SALES from dt_product_valid
+    where PRODUCT_CODE in (select PRODUCT_CODE_QUF from dt_product_relation where PRODUCT_CODE_DOUINS = #{productCode})
+    or PRODUCT_CODE = #{productCode}
+</select>
+<select id="getProductSaleWithPolicyNo" parameterType="String"  resultMap="ProductValidResultMap">
+    select ID,PRODUCT_CODE,TOTAL_SALES from dt_product_valid where PRODUCT_CODE = #{productCode}
+</select>
+<!-- 通过订单号直接从核保数据中取出产品编号 -->
+<select id="getProductSaleWithISS" parameterType="String"  resultMap="ProductValidResultMap">
+    select -1 as ID,PRODUCT_CODE,total_premium as TOTAL_SALES from policy_reservation_request where trade_code = '10002' and order_id = #{orderId}  
+    and uuid IN (SELECT ack_uuid FROM policy_reservation_response WHERE is_success = '1' and trade_code  = '10002')
+    LIMIT 1
+</select> 
+<!-- 通过保单号从承保数据中取出订单号，然后通过订单号从核保数据中取出产品编号 -->
+<select id="getProductSaleWithWD" parameterType="String"  resultMap="ProductValidResultMap">
+    select -1 as ID,PRODUCT_CODE,total_premium as TOTAL_SALES from policy_reservation_request where trade_code = '10002' 
+	and order_id = (
+	select order_id from policy_reservation_response where trade_code = '20002' and is_success = '1' and policy_no = #{policyNo} LIMIT 1
+	)
+	and uuid IN (SELECT ack_uuid FROM policy_reservation_response WHERE is_success = '1' and trade_code  = '10002')
+	LIMIT 1
+</select>
+</mapper>

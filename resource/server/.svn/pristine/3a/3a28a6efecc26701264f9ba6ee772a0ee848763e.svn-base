@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title>登录中</title>
+</head>
+<body>
+		<table >
+			<tbody id="logining_">
+			</tbody>
+		</table>
+    <script src="m/resources/js/manager/version.js"></script>
+    <script src="m/resources/js/lib/sea.js"></script>
+    
+    <script>seajs.config({base:"./m/resources/js/",alias:version()});</script>
+    <script>seajs.use("modules/index");</script>
+</body>
+</html>

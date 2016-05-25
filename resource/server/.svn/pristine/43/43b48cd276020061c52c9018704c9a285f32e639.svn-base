@@ -1,0 +1,1 @@
+alter table t_insurance add trans_channel varchar2(10);

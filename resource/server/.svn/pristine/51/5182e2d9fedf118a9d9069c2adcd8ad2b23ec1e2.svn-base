@@ -1,0 +1,5 @@
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://120.26.218.0:3306/douins_dev?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+jdbc.username=root
+jdbc.password=douins_dev@123
+jdbc.validationQuery=SELECT 1

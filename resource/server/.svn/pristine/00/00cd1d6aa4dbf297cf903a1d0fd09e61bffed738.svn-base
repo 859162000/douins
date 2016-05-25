@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.account.model.UserAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.account.model.UserAccount" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USER_ACCOUNT_ID" property="userAccountId" jdbcType="CHAR" />
+    <result column="USER_ID" property="userId" jdbcType="CHAR" />
+    <result column="ACCOUNT_AMOUNT" property="accountAmount" jdbcType="DECIMAL" />
+    <result column="POINT" property="point" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_BALANCE" property="accountBalance" jdbcType="DECIMAL" />
+    <result column="POLICY_VALUE" property="policyValue" jdbcType="DECIMAL" />
+    <result column="LOAN_AMOUNT" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="VIRTUAL_ACCOUNT_NO" property="virtualAccountNo" jdbcType="VARCHAR" />
+    <result column="SURR_AMOUNT" property="surrAmount" jdbcType="DECIMAL" />
+    <result column="REPAY_AMOUNT" property="repayAmount" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,USER_ACCOUNT_ID, USER_ID, ACCOUNT_AMOUNT, POINT, ACCOUNT_BALANCE, POLICY_VALUE, LOAN_AMOUNT, VIRTUAL_ACCOUNT_NO, SURR_AMOUNT, REPAY_AMOUNT, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.mango.fortune.account.model.UserAccount" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_USER_ACCOUNT a
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}</if>
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=CHAR}</if>
+			<if test="virtualAccountNo != null and virtualAccountNo != ''"> and VIRTUAL_ACCOUNT_NO = #{virtualAccountNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.mango.fortune.account.model.UserAccount" resultType="java.lang.Integer" >
+	   select count(*) from T_USER_ACCOUNT a
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}</if>
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=CHAR}</if>
+			<if test="virtualAccountNo != null and virtualAccountNo != ''"> and VIRTUAL_ACCOUNT_NO = #{virtualAccountNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>	
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_USER_ACCOUNT SET ISVALID='0' where USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_USER_ACCOUNT
+    where USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mango.fortune.account.model.UserAccount" >
+    insert into T_USER_ACCOUNT (USER_ACCOUNT_ID, ID, USER_ID, 
+      ACCOUNT_AMOUNT, POINT, ACCOUNT_BALANCE, 
+      POLICY_VALUE, LOAN_AMOUNT, VIRTUAL_ACCOUNT_NO, 
+      SURR_AMOUNT, REPAY_AMOUNT, STATUS, 
+      ISVALID, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{userAccountId,jdbcType=CHAR}, #{id,jdbcType=DECIMAL}, #{userId,jdbcType=CHAR}, 
+      #{accountAmount,jdbcType=DECIMAL}, #{point,jdbcType=DECIMAL}, #{accountBalance,jdbcType=DECIMAL}, 
+      #{policyValue,jdbcType=DECIMAL}, #{loanAmount,jdbcType=DECIMAL}, #{virtualAccountNo,jdbcType=VARCHAR}, 
+      #{surrAmount,jdbcType=DECIMAL}, #{repayAmount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      '1', #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.account.model.UserAccount" >
+    update T_USER_ACCOUNT
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="userId != null and userId != ''">USER_ID = #{userId,jdbcType=CHAR},</if>
+      <if test="accountAmount != null">ACCOUNT_AMOUNT = #{accountAmount,jdbcType=DECIMAL},</if>
+      <if test="point != null">POINT = #{point,jdbcType=DECIMAL},</if>
+      <if test="accountBalance != null">ACCOUNT_BALANCE = #{accountBalance,jdbcType=DECIMAL},</if>
+      <if test="policyValue != null">POLICY_VALUE = #{policyValue,jdbcType=DECIMAL},</if>
+      <if test="loanAmount != null">LOAN_AMOUNT = #{loanAmount,jdbcType=DECIMAL},</if>
+      <if test="virtualAccountNo != null and virtualAccountNo != ''">VIRTUAL_ACCOUNT_NO = #{virtualAccountNo,jdbcType=VARCHAR},</if>
+      <if test="surrAmount != null">SURR_AMOUNT = #{surrAmount,jdbcType=DECIMAL},</if>
+      <if test="repayAmount != null">REPAY_AMOUNT = #{repayAmount,jdbcType=DECIMAL},</if>
+      <if test="status != null and status != ''">STATUS = #{status,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=CHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},</if>
+    </trim>  
+    where USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_USER_ACCOUNT where USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+ 
+</mapper>

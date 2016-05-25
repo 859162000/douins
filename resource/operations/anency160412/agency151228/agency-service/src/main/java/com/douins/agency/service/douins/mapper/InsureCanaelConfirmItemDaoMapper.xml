@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.douins.agency.service.douins.dao.InsureCancelConfirmItemDao">
+
+	<insert id="insert" parameterType="com.douins.agency.service.douins.domain.model.InsureCancelConfirmItem">
+		INSERT IGNORE INTO dt_insurecnlc_itm (
+        headId,
+        policyNo,
+        tradeNo,
+        createTime
+		) VALUES
+		<foreach collection="list" item="it" index="index" separator=",">
+		(
+        #{it.headId},
+        #{it.policyNo},
+        #{it.tradeNo},
+        NOW()
+        )
+		</foreach>
+	</insert>	
+
+</mapper>

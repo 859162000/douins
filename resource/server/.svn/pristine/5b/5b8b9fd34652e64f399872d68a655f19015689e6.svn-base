@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口</title>
+
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<form id="documentForm" method="post">
+
+<h2>南粤支付通知接口测试页面</h2>
+
+<p>1、南粤通知参数</p>
+
+<p>
+    <textarea rows="20" cols="100">
+<?xml version="1.0" encoding="utf-8"?>
+
+<SDOROOT>
+  <SYS_HEAD>
+    <SIGN_MSG>xvdBg6s5/Nr+MOQdDRbCkV3TZ6MrdFBhk9D3T+/09cC41V48hkev/Nw/NM/Nk517cnn7QYgV6wZhO07bG7TybNoKX55L/PzntT0mkCjkWkoQJ1cwHdsu6cqUe3qLrq98LRQ2qd8oQp6LcvfNGxe+OpUy/osMBey2rOj+ZJpnOMs=</SIGN_MSG>
+  </SYS_HEAD>
+  <BODY>
+    <FLOW_NO>0101062016050980319300</FLOW_NO>
+    <CUST_NO>EC10000563485</CUST_NO>
+    <CHANL_NO>PTP0000009</CHANL_NO>
+    <TRAN_DATE>20160509</TRAN_DATE>
+    <TRAN_TIME>155516463</TRAN_TIME>
+    <STATUS>00</STATUS>
+    <RET_CODE>I030006000000</RET_CODE>
+    <RET_MSG>??????</RET_MSG>
+    <PROJ_CODE>DY000001</PROJ_CODE>
+    <PAY_ACCT>999001270040026</PAY_ACCT>
+    <PAY_OPENBRAN>null</PAY_OPENBRAN>
+    <PAY_ACCTNAME>????????????-???????</PAY_ACCTNAME>
+    <RCV_ACCT>999001270040012</RCV_ACCT>
+    <RCV_ACCTNAME>???????-?????</RCV_ACCTNAME>
+    <RCV_BANK>9990</RCV_BANK>
+    <TRAN_TYPE>8</TRAN_TYPE>
+    <CURR>CNY</CURR>
+    <AMT>1000</AMT>
+    <FEE>null</FEE>
+    <USAGE>payment of premium</USAGE>
+    <PAY_TYPE>null</PAY_TYPE>
+    <FREEZE_NO>null</FREEZE_NO>
+    <PROJ_NAME>null</PROJ_NAME>
+    <TRAN_TITLE>??????</TRAN_TITLE>
+    <TRAN_DESC>?????????</TRAN_DESC>
+    <CHANL_FLOW_NO>146241963433605090746</CHANL_FLOW_NO>
+  </BODY>
+</SDOROOT>
+
+
+
+    </textarea>
+</p>
+
+<p>2、接口地址 <input type="text" value="2"> <button>提交</button></p>
+    
+</form>
+
+<hr>
+
+<p>返回参数</p>
+<textarea id="response" rows="20" cols="100">
+</textarea>
+
+<script src="http://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
+
+
+<script type="text/javascript">
+$('button').on('click', function() {
+
+       var title = $('input[type=text]').val(),
+           content = $('textarea').val();
+
+       $('form').ajaxSubmit({
+           type: 'post', // 提交方式 get/post
+           url: '/api/bank/ny/callback/payinfo2', // 需要提交的 url
+           data: {
+               'title': title,
+               'content': content
+           },
+           success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+               $("#response").val(data);
+           }
+       });
+       return false; // 阻止表单自动提交事件
+});
+</script>
+</body>

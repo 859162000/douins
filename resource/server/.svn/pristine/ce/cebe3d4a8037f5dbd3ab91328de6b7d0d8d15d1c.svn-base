@@ -1,0 +1,14 @@
+#Production
+#log4j.rootLogger=ERROR,p2pFile
+#log4j.logger.com.mango=INFO
+#log4j.appender.p2pFile=org.apache.log4j.DailyRollingFileAppender 
+#log4j.appender.p2pFile.File=${catalina.base}/logs/online/online.log
+#log4j.appender.p2pFile.layout=org.apache.log4j.PatternLayout
+#log4j.appender.p2pFile.layout.ConversionPattern=%-d{yyyy-MM-dd HH:mm:ss} %p[%c{3}] -%m%n
+#Develop
+log4j.rootLogger=error,console
+log4j.logger.com.mango=debug
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%-d{yyyy-MM-dd HH:mm:ss} %p[%c{3}] -%m%n
+

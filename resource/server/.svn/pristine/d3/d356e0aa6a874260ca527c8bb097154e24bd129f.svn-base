@@ -1,0 +1,25 @@
+log4j.rootLogger=INFO,console, logfile, logfilr_error
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=[Douins] %d{yyyy-MM-dd HH:mm:ss} [%5p] (%F:%L) - %m%n
+
+#logfile
+log4j.appender.logfile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.logfile.File=/data/douins/dev/logs/douins.log
+log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile.Threshold=INFO
+log4j.appender.logfile.layout.ConversionPattern=[Douins] %d{yyyy-MM-dd HH:mm:ss} [%5p] (%F:%L) - %m%n
+
+#logfile_err
+log4j.appender.logfile_error=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.logfile_error.File=/data/douins/dev/logs/douins-error.log
+log4j.appender.logfile_error.Threshold=ERROR
+log4j.appender.logfile_error.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile_error.layout.ConversionPattern=[Douins] %d{yyyy-MM-dd HH:mm:ss} [%5p] (%F:%L) - %m%n
+
+# Control logging for other open source packages
+# Changing the log level to DEBUG when debug
+log4j.logger.org.springframework=INFO
+# Changing the log level to DEBUG will display SQL Hibernate generated
+log4j.logger.com.douins=INFO

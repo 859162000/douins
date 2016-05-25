@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.account.dao.UserAccountDao" >
+  <resultMap id="BaseResultMap" type="com.douins.account.domain.model.UserAccount" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USER_ACCOUNT_ID" property="userAccountId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_AMOUNT" property="accountAmount" jdbcType="DECIMAL" />
+    <result column="POINT" property="point" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_BALANCE" property="accountBalance" jdbcType="DECIMAL" />
+    <result column="FROZEN_AMOUNT" property="frozenAmount" jdbcType="DECIMAL" />
+    <result column="POLICY_VALUE" property="policyValue" jdbcType="DECIMAL" />
+    <result column="LOAN_AMOUNT" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="VIRTUAL_ACCOUNT_NO" property="virtualAccountNo" jdbcType="VARCHAR" />
+    <result column="VIRTUAL_ACCOUNT_ID" property="virtualAccountId" jdbcType="VARCHAR" />
+    <result column="SURR_AMOUNT" property="surrAmount" jdbcType="DECIMAL" />
+    <result column="REPAY_AMOUNT" property="repayAmount" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PASSWORD_STATUS" property="passwordStatus" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    
+    <result column="credit_card" property="creditCard" jdbcType="DECIMAL" />
+    <result column="bind_card_flag" property="bindCardFlag" jdbcType="VARCHAR" />
+    <result column="bind_card_phone" property="bindPhone" jdbcType="VARCHAR" />
+
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,USER_ACCOUNT_ID, USER_ID, ACCOUNT_AMOUNT, POINT, ACCOUNT_BALANCE, FROZEN_AMOUNT, POLICY_VALUE, LOAN_AMOUNT, VIRTUAL_ACCOUNT_NO, 
+    VIRTUAL_ACCOUNT_ID, SURR_AMOUNT, REPAY_AMOUNT, STATUS, PASSWORD_STATUS, ISVALID, CREATE_DATE, UPDATE_DATE,credit_card,bind_card_flag,bind_card_phone
+  </sql>
+  
+  <select id="getList" parameterType="com.douins.account.domain.model.UserAccount" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_USER_ACCOUNT a
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=VARCHAR}</if>
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=VARCHAR}</if>
+			<if test="virtualAccountNo != null and virtualAccountNo != ''"> and VIRTUAL_ACCOUNT_NO = #{virtualAccountNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=VARCHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=VARCHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.douins.account.domain.model.UserAccount" resultType="java.lang.Integer" >
+	   select count(*) from T_USER_ACCOUNT a
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=VARCHAR}</if>
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=VARCHAR}</if>
+			<if test="virtualAccountNo != null and virtualAccountNo != ''"> and VIRTUAL_ACCOUNT_NO = #{virtualAccountNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=VARCHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=VARCHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>	
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+    <!-- softDeleteByPrimaryKey -->
+   <update id="delete" parameterType="java.lang.String" >
+   	update T_USER_ACCOUNT SET ISVALID='0' where USER_ACCOUNT_ID = #{userAccountId,jdbcType=VARCHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_USER_ACCOUNT
+    where USER_ACCOUNT_ID = #{userAccountId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- insert -->
+  <insert id="add" useGeneratedKeys="true" keyProperty="USER_ACCOUNT_ID" parameterType="com.douins.account.domain.model.UserAccount" >
+    insert ignore into T_USER_ACCOUNT (USER_ACCOUNT_ID,  USER_ID, 
+      ACCOUNT_AMOUNT, POINT, ACCOUNT_BALANCE,  FROZEN_AMOUNT,
+      POLICY_VALUE, LOAN_AMOUNT, VIRTUAL_ACCOUNT_NO,  VIRTUAL_ACCOUNT_ID,
+      SURR_AMOUNT, REPAY_AMOUNT, STATUS, 
+      ISVALID,PASSWORD_STATUS, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{userAccountId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{accountAmount,jdbcType=DECIMAL}, #{point,jdbcType=DECIMAL}, #{accountBalance,jdbcType=DECIMAL}, #{frozenAmount},
+      #{policyValue,jdbcType=DECIMAL}, #{loanAmount,jdbcType=DECIMAL}, #{virtualAccountNo,jdbcType=VARCHAR}, 
+      #{virtualAccountId},#{surrAmount,jdbcType=DECIMAL}, #{repayAmount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      '1', #{passwordStatus}, NOW(),  NOW()
+      )
+  </insert>
+  
+  <!-- updateByPrimaryKey -->
+  <update id="update" parameterType="com.douins.account.domain.model.UserAccount" >
+    update T_USER_ACCOUNT
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="userId != null and userId != ''">USER_ID = #{userId,jdbcType=VARCHAR},</if>
+      <if test="accountAmount != null">ACCOUNT_AMOUNT = #{accountAmount,jdbcType=DECIMAL},</if>
+      <if test="point != null">POINT = #{point,jdbcType=DECIMAL},</if>
+      <if test="accountBalance != null">ACCOUNT_BALANCE = #{accountBalance,jdbcType=DECIMAL},</if>
+      <if test="frozenAmount != null">FROZEN_AMOUNT = #{frozenAmount},</if>
+      <if test="policyValue != null">POLICY_VALUE = #{policyValue,jdbcType=DECIMAL},</if>
+      <if test="loanAmount != null">LOAN_AMOUNT = #{loanAmount,jdbcType=DECIMAL},</if>
+      <if test="virtualAccountNo != null and virtualAccountNo != ''">VIRTUAL_ACCOUNT_NO = #{virtualAccountNo,jdbcType=VARCHAR},</if>
+      <if test="virtualAccountId != null and virtualAccountId != ''">VIRTUAL_ACCOUNT_ID = #{virtualAccountId,jdbcType=VARCHAR},</if>
+      <if test="surrAmount != null">SURR_AMOUNT = #{surrAmount,jdbcType=DECIMAL},</if>
+      <if test="repayAmount != null">REPAY_AMOUNT = #{repayAmount,jdbcType=DECIMAL},</if>
+      <if test="status != null and status != ''">STATUS = #{status,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=VARCHAR},</if>
+      <if test="passwordStatus != null and passwordStatus != ''">PASSWORD_STATUS = #{passwordStatus,jdbcType=VARCHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = NOW(),</if>
+      
+      <if test="bindCardFlag != null and bindCardFlag != ''">bind_card_flag = #{bindCardFlag,jdbcType=VARCHAR},</if>
+      <if test="bindCardFlowNo != null and bindCardFlowNo != ''">bind_card_flow_no = #{bindCardFlowNo,jdbcType=VARCHAR},</if>
+      <if test="creditCard != null and creditCard != ''">credit_card = #{creditCard,jdbcType=VARCHAR},</if>
+      <if test="unbindCardFlowNo != null and unbindCardFlowNo != ''">unbind_card_flow_no = #{unbindCardFlowNo,jdbcType=VARCHAR},</if>
+    </trim>  
+    	where USER_ACCOUNT_ID = #{userAccountId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- selectByPrimaryKey -->
+  <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_USER_ACCOUNT where USER_ID = #{userAccountId,jdbcType=VARCHAR} AND ISVALID = '1'
+  </select>
+  
+    <select id="findUserAccountByToken" resultType="com.douins.account.domain.model.UserAccount" parameterType="java.lang.String" >
+      	select  acc.bind_card_flag AS "bindCardFlag" ,acc.credit_card AS "creditCard",
+      			acc.VIRTUAL_ACCOUNT_NO AS "virtualAccountNo", acc.USER_ACCOUNT_ID  AS "userAccountId",
+      			acc.virtual_account_id  AS "virtualAccountId",
+      			acc.bind_card_phone AS "bindPhone", acc.ACCOUNT_BALANCE AS "accountBalance"
+      			
+      	FROM T_USER_ACCOUNT acc  join td_user_authority au ON acc.USER_ID =au.uid
+		WHERE au.token=#{token}
+  	</select>
+  
+  
+  <update id="updateUserAccountBindCardByFlowNo"  parameterType="java.lang.String" ><!--绑定  -->
+  	 UPDATE T_USER_ACCOUNT
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="bindCardFlag != null and bindCardFlag != ''">bind_card_flag = #{bindCardFlag,jdbcType=VARCHAR},</if>
+      STATUS ="31",UPDATE_DATE = NOW()
+    </trim>  
+   	 WHERE bind_card_flow_no = #{bindFlowNo,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateCreditCardByAccountId" parameterType="com.douins.account.domain.model.UserAccount" >
+    update T_USER_ACCOUNT
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="bindCardFlag != null and bindCardFlag != ''">bind_card_flag = #{bindCardFlag,jdbcType=VARCHAR},</if>
+      <if test="bindCardFlowNo != null and bindCardFlowNo != ''">bind_card_flow_no = #{bindCardFlowNo,jdbcType=VARCHAR},</if>
+      <if test="creditCard != null and creditCard != ''">credit_card = #{creditCard,jdbcType=VARCHAR},</if>
+       <if test="bindPhone != null and bindPhone != ''">bind_card_phone = #{bindPhone,jdbcType=VARCHAR},</if>
+      UPDATE_DATE = NOW()
+    </trim>  
+    	where USER_ACCOUNT_ID = #{userAccountId,jdbcType=VARCHAR}
+  </update>
+  
+    <update id="updateUserAccountUnbindCardByUnbindFlowNo"  parameterType="java.lang.String" ><!--解除绑定  -->
+	UPDATE T_USER_ACCOUNT
+
+	SET  history_bind_card= CONCAT(credit_card,","), bind_card_flag ="0",credit_card="",bind_card_phone="",UPDATE_DATE =NOW(),STATUS ="30"
+	
+	WHERE unbind_card_flow_no = #{unbindflowNo,jdbcType=VARCHAR}
+  </update>
+	<select id="getCardByUserId" resultType="String" parameterType="String">
+	   SELECT credit_card AS "creditCard" from T_USER_ACCOUNT where user_id=#{userId}
+	</select>  
+
+
+
+  
+  
+ 
+</mapper>

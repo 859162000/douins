@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- 启动触发器的配置开始 -->
+	<bean name="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<!-- 暂时不启动 -->
+				<!-- 利安保险收益发到app后台 -->
+				<ref bean="updateDataJobTrigger" />
+				<!-- 把利安退款的通知发到去哪儿 -->
+				<ref bean="sendPolicySuccessJobTrigger" />
+			</list>
+		</property>
+	</bean>
+	<!-- 启动触发器的配置结束 -->
+
+	<!-- quartz-2.x的配置 -->
+	<bean id="updateDataJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="updateDataJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每天凌晨12点45分调度-->
+			<value>0 45 0 * * ?</value>
+		</property>
+	</bean>
+	<bean id="sendPolicySuccessJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="sendPolicySuccessJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每天凌晨1点30分调度 -->
+			<value>0 30 1 * * ?</value>
+		</property>
+	</bean>
+	<!-- 调度的配置结束 -->
+
+	<!-- job的配置开始 -->
+	<bean id="updateDataJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" >
+			<bean class="com.douins.agency.service.douins.service.impl.LianConvertServiceImpl" />
+		</property>
+		<property name="targetMethod">
+			<value>ValidationJob</value>
+		</property>
+	</bean>
+	<bean id="sendPolicySuccessJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" >
+			<bean class="com.douins.agency.service.douins.service.impl.LianConvertServiceImpl" />
+		</property>
+		<property name="targetMethod">
+			<value>PolicyJob</value>
+		</property>
+	</bean>
+	<!-- job的配置结束 -->
+
+</beans>

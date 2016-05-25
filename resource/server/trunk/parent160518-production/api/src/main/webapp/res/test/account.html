@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>资金账户开户</title>
+</head>
+<body>
+    <h2>资金账户开户测试</h2>
+    <div>
+        <form method="post">
+            <div style="height:30px">姓名:
+                <input id="name" type="text" name="name"><br>
+            </div>
+            <div style="height:30px">身份证号:
+                <input id="certi" type="text" name="certiCode"><br>
+            </div>
+            <div style="height:30px">手机号:
+                <input id="phone" type="tel" name="mobile"><br>
+            </div>
+            <div style="height:30px">选择开户行:
+                <select id="bank" style="width:120px">
+                    <option id="ny">ny</option>
+                </select>
+        </form>
+    </div>
+        <div style="height:50px;top:40px">
+            <button id="btn" style="height:30px; width:100px">提交</button>
+        </div>
+        <p>返回数据</p>
+        <div>
+            <textarea id="response" rows="10" cols="100"></textarea>
+        </div>
+        
+    
+    
+<script src="../jquery-2.1.4.min.js"></script>
+<script src="../jquery.form.min.js"></script>
+<script type="text/javascript" src="../json2.js"></script>
+
+<script type="text/javascript">
+    $("#btn").on('click', function(){
+    	var userName = $("#name").val();
+    	var certiCode = $("#certi").val();
+    	var userMobile = $("#phone").val();
+    	var bank = $("#bank").val();
+    	var timestamp=new Date().getTime();
+        var params = {
+        		accessToken : "95b73d2231d249ab8e9defa304a4532f",     // uid = 119
+                requestTrans : {
+                    transId: timestamp,
+                    transChannel: "01",
+                    transTime: timestamp,
+                    transId : timestamp,
+                    transType: "000"
+                },
+                requestParams: {
+                    'userName' : userName,
+                    'certiCode' : certiCode,
+                    'userMobile' : userMobile
+              },
+              bankCode: bank
+        };
+        
+    	$('form').ajaxSubmit({
+    		type : 'post',
+    		url : '/api/test/account/regist',
+    		data: {
+    			'data' : JSON.stringify(params)
+    		},
+    			
+    		success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+                $("#response").val(data);
+            }
+    	});
+    });
+</script>    
+</body>

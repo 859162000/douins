@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.douins.partner.dao.BankDao">
+  <resultMap id="BaseResultMap" type="com.douins.partner.domain.model.Bank">
+    <id column="ID"  property="id" jdbcType="INTEGER" />
+    <result column="BANK_ID"  property="bankId" jdbcType="CHAR" />
+    <result column="BANK_NAME"  property="bankName" jdbcType="VARCHAR" />
+    <result column="BANK_CODE"  property="bankCode" jdbcType="VARCHAR" />
+    <result column="BANK_ABBR_NAME"  property="bankAbbrName" jdbcType="VARCHAR" />
+    <result column="ISVALID"  property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE"  property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE"  property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <sql id="Base_Column_List" >
+    ID,BANK_ID, BANK_NAME, BANK_CODE, BANK_ABBR_NAME, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.douins.partner.domain.model.Bank" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_BANK 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="bankId != null and bankId != ''"> and BANK_ID = #{bankId,jdbcType=CHAR}</if>
+			<if test="bankName != null and bankName != ''"> and BANK_NAME = #{bankName,jdbcType=VARCHAR}</if>
+			<if test="bankCode != null and bankCode != ''"> and BANK_CODE = #{bankCode,jdbcType=VARCHAR}</if>
+			<if test="bankAbbrName != null and bankAbbrName != ''"> and BANK_ABBR_NAME = #{bankAbbrName,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.douins.partner.domain.model.Bank" resultType="java.lang.Integer" >
+	   select count(*) from T_BANK 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="bankId != null and bankId != ''"> and BANK_ID = #{bankId,jdbcType=CHAR}</if>
+			<if test="bankName != null and bankName != ''"> and BANK_NAME = #{bankName,jdbcType=VARCHAR}</if>
+			<if test="bankCode != null and bankCode != ''"> and BANK_CODE = #{bankCode,jdbcType=VARCHAR}</if>
+			<if test="bankAbbrName != null and bankAbbrName != ''"> and BANK_ABBR_NAME = #{bankAbbrName,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>			
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+    <!-- softDeleteByPrimaryKey -->
+   <update id="delete" parameterType="java.lang.String" >
+   	update T_BANK SET ISVALID='0' where BANK_ID = #{bankId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BANK where BANK_ID = #{bankId,jdbcType=CHAR}
+  </delete>
+  
+  <!-- insert -->
+  <insert id="add" parameterType="com.douins.partner.domain.model.Bank">
+    insert into T_BANK (BANK_ID, BANK_NAME, BANK_CODE, BANK_ABBR_NAME, ISVALID, CREATE_DATE, UPDATE_DATE)
+    values (#{bankId,jdbcType=CHAR}, #{bankName,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, #{bankAbbrName,jdbcType=VARCHAR}, '1', 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <!-- updateByPrimaryKey -->
+  <update id="update" parameterType="com.douins.partner.domain.model.Bank">
+    update T_BANK
+    set ID = #{id,jdbcType=DECIMAL},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+      BANK_ABBR_NAME = #{bankAbbrName,jdbcType=VARCHAR},
+      ISVALID = #{isvalid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where BANK_ID = #{bankId,jdbcType=CHAR}
+  </update>
+  
+  <!-- selectByPrimaryKey -->
+  <select id="findByBankId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />  from T_BANK where BANK_ID = #{bankId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+ 
+  
+</mapper>

@@ -1,0 +1,7 @@
+[1] setenv.sh
+location： /var/tomcat/default2/bin
+discription:将 setenv.sh 添加到指定路径下
+
+[2] catalina.sh
+location： /var/tomcat/default2/bin
+discription：将该脚本中“default”改为“default2”

@@ -1,0 +1,286 @@
+﻿body {
+  margin:0px;
+  background-image:none;
+  position:static;
+  left:auto;
+  width:654px;
+  margin-left:0;
+  margin-right:0;
+  text-align:left;
+}
+#base {
+  position:absolute;
+  z-index:0;
+}
+#u1 {
+  position:absolute;
+  left:100px;
+  top:100px;
+  width:320px;
+  height:568px;
+}
+#u1_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:320px;
+  height:568px;
+}
+#u2 {
+  position:absolute;
+  left:2px;
+  top:276px;
+  width:316px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u4 {
+  position:absolute;
+  left:100px;
+  top:100px;
+  width:320px;
+  height:56px;
+  font-family:'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC';
+  font-weight:200;
+  font-style:normal;
+}
+#u4_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:320px;
+  height:56px;
+}
+#u5 {
+  position:absolute;
+  left:2px;
+  top:20px;
+  width:316px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u6 {
+  position:absolute;
+  left:108px;
+  top:100px;
+  width:308px;
+  height:13px;
+}
+#u6_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:308px;
+  height:13px;
+}
+#u7 {
+  position:absolute;
+  left:2px;
+  top:-2px;
+  width:304px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u8 {
+  position:absolute;
+  left:108px;
+  top:127px;
+  width:22px;
+  height:22px;
+}
+#u8_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:22px;
+  height:22px;
+}
+#u9 {
+  position:absolute;
+  left:2px;
+  top:3px;
+  width:18px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u10 {
+  position:absolute;
+  left:220px;
+  top:126px;
+  width:81px;
+  height:21px;
+  font-family:'ArialMT', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:20px;
+}
+#u10_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:81px;
+  height:21px;
+}
+#u11 {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:81px;
+  white-space:nowrap;
+}
+#u12 {
+  position:absolute;
+  left:100px;
+  top:176px;
+  width:320px;
+  height:45px;
+}
+#u12_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:320px;
+  height:45px;
+}
+#u13 {
+  position:absolute;
+  left:2px;
+  top:14px;
+  width:316px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u14 {
+  position:absolute;
+  left:120px;
+  top:256px;
+  width:280px;
+  height:40px;
+  font-family:'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC';
+  font-weight:200;
+  font-style:normal;
+  font-size:18px;
+  color:#FFFFFF;
+}
+#u14_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:280px;
+  height:40px;
+}
+#u15 {
+  position:absolute;
+  left:2px;
+  top:10px;
+  width:276px;
+  word-wrap:break-word;
+}
+#u16 {
+  position:absolute;
+  left:120px;
+  top:231px;
+  width:130px;
+  height:13px;
+}
+#u17 {
+  position:absolute;
+  left:16px;
+  top:0px;
+  width:112px;
+  word-wrap:break-word;
+}
+#u16_input {
+  position:absolute;
+  left:-3px;
+  top:-2px;
+}
+#u18 {
+  position:absolute;
+  left:112px;
+  top:190px;
+  width:86px;
+  height:21px;
+  font-size:18px;
+  color:#000000;
+}
+#u18_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:86px;
+  height:21px;
+}
+#u19 {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:86px;
+  word-wrap:break-word;
+}
+#u20 {
+  position:absolute;
+  left:210px;
+  top:183px;
+  width:170px;
+  height:36px;
+}
+#u20_input {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:170px;
+  height:36px;
+  font-family:'STHeitiSC-Light', 'Heiti SC Light', 'Heiti SC';
+  font-weight:200;
+  font-style:normal;
+  font-size:13px;
+  text-decoration:none;
+  color:#000000;
+  text-align:left;
+  border-color:transparent;
+  outline-style:none;
+}
+#u21 {
+  position:absolute;
+  left:390px;
+  top:192px;
+  width:21px;
+  height:13px;
+}
+#u21_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:21px;
+  height:13px;
+}
+#u22 {
+  position:absolute;
+  left:2px;
+  top:-2px;
+  width:17px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u23 {
+  position:absolute;
+  left:490px;
+  top:190px;
+  width:164px;
+  height:15px;
+}
+#u23_img {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:164px;
+  height:15px;
+}
+#u24 {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:164px;
+  white-space:nowrap;
+}

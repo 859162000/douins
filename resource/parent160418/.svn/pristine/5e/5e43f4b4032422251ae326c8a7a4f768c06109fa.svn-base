@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口</title>
+
+	<style>
+	body {
+	    font-family: monospace;
+	    padding-left: 10px;
+	}
+	
+	.intro {
+	    margin-left: 40px;
+	}
+	
+	ul {
+	    margin-left: 40px;
+	    padding-left: 0px;
+	}
+	
+	h3 {
+	    width: 400px;
+	    border-bottom-color: #ccc;
+	    border-bottom-style: solid;
+	    border-bottom-width: 1px;
+	    padding-bottom: 5px;
+	}
+	
+	.blank20 {
+	    clear: both;
+	    height: 20px;
+	}
+	
+	.json {
+	    padding-left: 100px;
+	    border-left: 1px solid #eee;
+	    font-size: 16px;
+	    color: #666;
+	    margin-top: 20px;
+	    margin-bottom: 20px;
+	}
+	
+	.red{
+	    color: red;
+	}
+	</style>
+</head>
+
+<body>
+
+	<form id="documentForm" method="post">
+	
+		<h2>南粤银行项目信息登记接口测试</h2>
+		
+		<p>
+			项目名称：<input type="text" id="PROJ_NAME" value="豆芽1号">
+		</p>
+		<p>
+			项目描述：<input type="text" id="PROJ_DESC" value="...">
+		</p>
+		<p>
+			融资规模：<input type="text" id="PROJ_SIZE" value="10000">
+		</p>
+		<p>
+			项目编号：<input type="text" id="PROJ_CODE" value="DY000001">
+		</p>
+		<p>
+			项目状态：
+			<input type="radio" name="PROJ_STATUS" value="0" checked>启用
+			<input type="radio" name="PROJ_STATUS" value="1">禁用
+		</p>
+		
+		<p><button>提交</button></p>
+		
+	</form>
+	
+	
+	<p>南粤响应信息</p>
+	<textarea id="response" rows="20" cols="50">
+	</textarea>
+	
+	<script src="http://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
+	
+	
+	<script type="text/javascript">
+	
+		var name = $('#PROJ_NAME').val();
+		var desc = $('#PROJ_DESC').val();
+		var size = $('#PROJ_SIZE').val();
+		var code = $('#PROJ_CODE').val();
+		var status = $("input[name='PROJ_STATUS']:checked").val();
+		
+		$('input').change(function(){
+			name = $('#PROJ_NAME').val();
+			desc = $('#PROJ_DESC').val();
+			size = $('#PROJ_SIZE').val();
+			code = $('#PROJ_CODE').val();
+			status = $("input[name='PROJ_STATUS']:checked").val();
+		});
+		
+		$('button').on('click', function() {
+		
+		       $('form').ajaxSubmit({
+		           type: 'post', // 提交方式 get/post
+		           url: '/api/bank/ny/test/project', // 需要提交的 url
+		           data: {
+		               'name': name,
+		               'desc': desc,
+		               'size': size,
+		               'code': code,
+		               'status': status,
+		           },
+		           success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+		               $("#response").val(data);
+		           }
+		       });
+		       return false; // 阻止表单自动提交事件
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.agency.service.douins.dao.InsureCancelConfirmFeedbackDao">
+<insert id="insert" parameterType="com.douins.agency.service.douins.domain.model.InsureCancelConfirmFeedback">
+	INSERT INTO dt_insurecnlc_fb(
+	tradeNo,
+	responseCode,
+	responseMessage,
+	endorseNo,
+	endorsePrintNo,
+	chgPremium,
+	endorseText,
+	printNo,
+	proposalNo,
+	policyNo,
+	startDate,
+	endDate,
+	amount,
+	premium,
+	comCode,
+	comName,
+	comAddress,
+	comPostCode,
+	comPhoneNumber,
+	handler,
+	salesName,
+	createTime
+	)VALUES
+	<foreach collection="list" item="it" index="index" separator=",">
+	(
+	#{it.tradeNo},
+    #{it.responseCode},
+    #{it.responseMessage},
+    #{it.endorseNo},
+    #{it.endorsePrintNo},
+    #{it.chgPremium},
+    #{it.endorseText},
+    #{it.printNo},
+    #{it.proposalNo},
+    #{it.policyNo},
+    #{it.startDate},
+    #{it.endDate},
+    #{it.amount},
+    #{it.premium},
+    #{it.comCode},
+    #{it.comName},
+    #{it.comAddress},
+    #{it.comPostCode},
+    #{it.comPhoneNumber},
+    #{it.handler},
+    #{it.salesName},
+    NOW()
+    )
+	</foreach>
+</insert>
+</mapper>

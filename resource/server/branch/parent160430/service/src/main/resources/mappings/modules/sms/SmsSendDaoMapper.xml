@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.sms.dao.SmsSendDao">
+	<resultMap id="BaseResultMap" type="com.douins.sms.domain.model.SmsSend">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="SMS_ID" property="smsId" jdbcType="CHAR" />
+		<result column="transType" property="transType" jdbcType="CHAR" />
+		<result column="SMS_TEMPLATE_ID" property="smsTemplateId" jdbcType="VARCHAR" />
+		<result column="SMS_CONTENT" property="smsContent" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="SMS_APPLY" property="smsApply" jdbcType="VARCHAR" />
+		<result column="SMS_TIME" property="smsTime" jdbcType="TIMESTAMP" />
+		<result column="SMS_STATUS" property="status" jdbcType="TIMESTAMP" />
+		<result column="RESULT_MSG" property="resultMsg" jdbcType="VARCHAR" />
+		<result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="checkCode" property="checkCode" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,SMS_ID,transType,SMS_TEMPLATE_ID,SMS_CONTENT,MOBILE,SMS_APPLY,SMS_TIME,RESULT_MSG,SMS_STATUS,ISVALID,CREATE_DATE,UPDATE_DATE,checkCode
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_SMS_SEND where SMS_ID = #{smsId,jdbcType=CHAR}
+	</select>
+	
+	<insert id="insert" parameterType="com.douins.sms.domain.model.SmsSend">
+		insert into
+		T_SMS_SEND(SMS_ID,transType,SMS_TEMPLATE_ID,SMS_CONTENT,MOBILE,SMS_APPLY,SMS_TIME,RESULT_MSG,ISVALID,SMS_STATUS,CREATE_DATE,UPDATE_DATE,checkCode
+		)
+		VALUES(#{smsId,jdbcType=CHAR},#{transType,jdbcType=CHAR},#{smsTemplateId,jdbcType=VARCHAR},#{smsContent,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{smsApply,jdbcType=VARCHAR},#{smsTime,jdbcType=TIMESTAMP},#{resultMsg,jdbcType=VARCHAR},'1',#{status,jdbcType=VARCHAR},NOW(), NOW()
+		,#{checkCode,jdbcType=VARCHAR})
+	</insert>
+	<update id="updateForStatus" parameterType="com.douins.sms.domain.model.SmsSend">
+		update T_SMS_SEND set SMS_STATUS=#{status,jdbcType=VARCHAR},RESULT_MSG = #{resultMsg,jdbcType=VARCHAR} ,UPDATE_DATE = NOW() where SMS_ID = #{smsId,jdbcType=CHAR}
+	</update>
+	<update id="softDeleteByPrimaryKey" parameterType="java.lang.String">
+		update T_SMS_SEND SET ISVALID='0', UPDATE_DATE = NOW() where SMS_ID = #{smsId,jdbcType=CHAR}
+	</update>
+	
+	<select id="findSmsLast" resultMap="BaseResultMap" parameterType="com.douins.sms.domain.model.SmsSend">
+	SELECT <include refid="Base_Column_List" /> FROM (select * from T_SMS_SEND where transType = #{transType,jdbcType=CHAR} and mobile = #{mobile,jdbcType=VARCHAR} order by CREATE_DATE DESC)  where  <![CDATA[rownum<2]]>
+	</select>
+	
+	<!-- <select id="findSmsLast_Count" resultType="java.lang.Integer" parameterType="com.mango.online.sms.model.SmsSend">
+	SELECT   count(*) FROM (select * from T_SMS_SEND where transType = #{transType,jdbcType=CHAR} and mobile = #{mobile,jdbcType=CHAR} order by CREATE_DATE DESC)  
+  	where  <![CDATA[rownum<2]]>
+	</select> -->
+	
+
+</mapper>

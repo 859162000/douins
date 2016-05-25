@@ -1,0 +1,45 @@
+# \u5e38\u91cf\u914d\u7f6e\u7684\u5c5e\u6027\u6587\u4ef6
+## \u6d4b\u8bd5\u6587\u4ef6\u8bfb\u53d6
+test.reader=just a test. \u8fd9\u662f\u6d4b\u8bd5\u3002
+
+env=dev
+ip.dev=120.26.218.0
+ip.qa=121.41.38.30
+ip.online=null
+
+locale=zh_CN
+url_escaping_charset=UTF-8
+
+#------------ Template ------------
+template.encoding=UTF-8
+template.update_delay=0
+template.number_format=0.######
+template.boolean_format=true,false
+template.datetime_format=yyyy-MM-dd
+template.date_format=yyyy-MM-dd
+template.time_format=HH:mm:ss
+template.loader_path=/WEB-INF/template/,classpath:/template/
+template.suffix=.ftl
+
+#------------ CCIC 信息-----------------
+jks_keystore_path_ccic=classpath:keystore/ccickeystore.jks
+jks_truststore_path_ccic=classpath:truststore/ccictruststore.jks
+jsk_password_ccic=123456
+url_ccic=https://ywtest.ccic-net.com.cn:8912/newlife
+
+#------------ LianLife -----------------
+jks_keystore_path_lianlife=classpath:keystore/lianlifekeystore.jks
+jks_truststore_path_lianlife=classpath:truststore/lianlifetruststore.jks
+jsk_password_lianlife=12345
+url_lianlife=http://app.lianlife.com/PROXY/CGW_DEV/
+org_checkcode=12345
+part_identify=dyjf
+
+#------------ 给去哪儿发利安退款成功的通知的URL -----------------
+#------------ 生产环境地址http://money.qunar.com/dy/callback
+#------------ 测试环境地址http://imoney.beta.qunar.com//dy/callback
+qunaer_url=http://money.qunar.com/dy/callback
+#------------ 给APP后台发送保险收益的数据的URL -----------------
+#------------ 生产环境地址http://app.douins.com/api/agencyJob/updateData
+#------------ 测试环境地址http://localhost:8080/api/agencyJob/updateData
+appcontroller_url=http://app.douins.com/api/agencyJob/updateData

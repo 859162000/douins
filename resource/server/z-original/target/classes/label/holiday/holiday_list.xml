@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!--法定节假日-->
+  <holiday>
+  	<!--2015年-->
+     <days name="元旦" value="2015-01-01"/>
+     <days name="元旦" value="2015-01-02"/>
+     <days name="春节" value="2015-02-18"/>  
+     <days name="春节" value="2015-02-19"/>  
+     <days name="春节" value="2015-02-20"/>
+     <days name="春节" value="2015-02-23"/> 
+     <days name="春节" value="2015-02-24"/> 
+     <days name="清明节" value="2015-04-06"/>
+     <days name="劳动节" value="2015-05-01"/> 
+     <days name="端午节" value="2015-06-22"/>
+     <days name="国庆节" value="2015-10-01"/>
+     <days name="国庆节" value="2015-10-02"/>
+     <days name="国庆节" value="2015-10-05"/>
+     <days name="国庆节" value="2015-10-06"/>
+     <days name="国庆节" value="2015-10-07"/>
+  </holiday>
+  <!--法定节假调休日-->
+  <workday>
+  	<!--2015年-->
+  	 <days name="元旦" value="2015-01-04"/>
+     <days name="春节" value="2015-02-15"/>
+     <days name="春节" value="2015-02-28"/>
+     <days name="国庆节" value="2015-10-10"/>
+  </workday>
+</root>

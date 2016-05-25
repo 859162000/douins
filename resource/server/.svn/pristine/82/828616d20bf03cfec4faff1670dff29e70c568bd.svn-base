@@ -1,0 +1,19 @@
+#jdbc.driver=oracle.jdbc.driver.OracleDriver
+#jdbc.username=c##wzuser1
+#jdbc.password=wz0RCLo877
+#jdbc.url=jdbc:oracle:thin:@10.161.165.192:1521:orcl
+#cc
+#jdbc.driver=oracle.jdbc.driver.OracleDriver
+#jdbc.username=emis
+#jdbc.password=emis1234
+#jdbc.url=jdbc:oracle:thin:@101.251.235.186:1521:instony
+
+#jdbc.driver=oracle.jdbc.driver.OracleDriver
+#jdbc.username=c##myfortune
+#jdbc.password=myfortune
+#jdbc.url=jdbc:oracle:thin:@localhost:1521:orcl
+
+jdbc.url=jdbc:mysql://120.26.218.0:3306/zmkm_dev?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+jdbc.username=root
+jdbc.password=123456
+jdbc.validationQuery=SELECT 1

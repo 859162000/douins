@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.agency.service.douins.dao.ProductInfoDao">
+<select id="getProductVoByChannl" parameterType="com.douins.agency.service.douins.domain.vo.ProductWhrCondition" resultType="com.douins.agency.service.douins.domain.vo.ProductVo">
+ SELECT a.productId, a.insurePdId, b.clauseCode,
+        b.kindCode,
+        b.amount,
+        c.premium,
+        c.saleStrategy
+   FROM dt_product_fact a
+   INNER JOIN dt_product_ccic b 
+        ON a.productId = b.productId
+   INNER JOIN dt_pdSaleStrategy_ccic c 
+        ON b.productId = c.productId and b.kindCode = c.kindCode AND b.clauseCode = c.clauseCode
+   WHERE a.channlCode = #{channlCode} 
+     AND a.channlPdId = #{channlPdId} 
+     AND c.saleStrategy = #{saleStrategy}
+</select>
+
+<select id="getProductVoByDuration" parameterType="Map" resultType="com.douins.agency.service.douins.domain.vo.ProductVo">
+    SELECT a.productId, a.insurePdId, b.clauseCode, b.kindCode, b.amount, c.premium, c.saleStrategy
+   FROM dt_product_fact a INNER JOIN dt_product_ccic b 
+        ON a.productId = b.productId
+   INNER JOIN dt_pdSaleStrategy_ccic c 
+        ON b.productId = c.productId and b.kindCode = c.kindCode AND b.clauseCode = c.clauseCode
+     AND c.dateRangeHigh <![CDATA[>=]]> #{duration}
+</select>
+
+<select id="test" parameterType="String"  resultType="com.douins.agency.service.douins.domain.model.ProductFact">
+    select * from dt_product_fact where productId = #{productId}
+</select>
+</mapper>

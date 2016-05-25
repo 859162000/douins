@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.partner.model.InsuranceMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.partner.model.Insurance" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="INSURANCE_ID" property="insuranceId" jdbcType="CHAR" />
+    <result column="INSURANCE_NAME" property="insuranceName" jdbcType="VARCHAR" />
+    <result column="INSURANCE_CODE" property="insuranceCode" jdbcType="VARCHAR" />
+    <result column="INSURANCE_ABBR_NAME" property="insuranceAbbrName" jdbcType="VARCHAR" />
+    <result column="SIGN_KEY" property="signKey" jdbcType="VARCHAR" />
+    <result column="TRANS_CHANNEL" property="transChannel" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,INSURANCE_ID, INSURANCE_NAME, INSURANCE_CODE, INSURANCE_ABBR_NAME, ISVALID, CREATE_DATE, UPDATE_DATE,SIGN_KEY,TRANS_CHANNEL
+  </sql>
+  
+  <select id="getList" parameterType="com.mango.fortune.partner.model.Insurance" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_INSURANCE 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="insuranceId != null and insuranceId != ''"> and INSURANCE_ID = #{insuranceId,jdbcType=CHAR}</if>
+			<if test="insuranceName != null and insuranceName != ''"> and INSURANCE_NAME = #{insuranceName,jdbcType=VARCHAR}</if>
+			<if test="insuranceCode != null and insuranceCode != ''"> and INSURANCE_CODE = #{insuranceCode,jdbcType=VARCHAR}</if>
+			<if test="insuranceAbbrName != null and insuranceAbbrName != ''"> and INSURANCE_ABBR_NAME = #{insuranceAbbrName,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.mango.fortune.partner.model.Insurance" resultType="java.lang.Integer" >
+	   select count(*) from T_INSURANCE 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="insuranceId != null and insuranceId != ''"> and INSURANCE_ID = #{insuranceId,jdbcType=CHAR}</if>
+			<if test="insuranceName != null and insuranceName != ''"> and INSURANCE_NAME = #{insuranceName,jdbcType=VARCHAR}</if>
+			<if test="insuranceCode != null and insuranceCode != ''"> and INSURANCE_CODE = #{insuranceCode,jdbcType=VARCHAR}</if>
+			<if test="insuranceAbbrName != null and insuranceAbbrName != ''"> and INSURANCE_ABBR_NAME = #{insuranceAbbrName,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_INSURANCE SET ISVALID='0' where INSURANCE_ID = #{insuranceId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_INSURANCE
+    where INSURANCE_ID = #{insuranceId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mango.fortune.partner.model.Insurance" >
+    insert into T_INSURANCE (INSURANCE_ID, ID, INSURANCE_NAME, 
+      INSURANCE_CODE, INSURANCE_ABBR_NAME, ISVALID, 
+      CREATE_DATE, UPDATE_DATE,SIGN_KEY,TRANS_CHANNEL)
+    values (#{insuranceId,jdbcType=CHAR}, #{id,jdbcType=DECIMAL}, #{insuranceName,jdbcType=VARCHAR}, 
+      #{insuranceCode,jdbcType=VARCHAR}, #{insuranceAbbrName,jdbcType=VARCHAR}, '1', 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{signKey,jdbcType=VARCHAR},#{transChannel,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.partner.model.Insurance" >
+    update T_INSURANCE
+    set ID = #{id,jdbcType=DECIMAL},
+      INSURANCE_NAME = #{insuranceName,jdbcType=VARCHAR},
+      INSURANCE_CODE = #{insuranceCode,jdbcType=VARCHAR},
+      INSURANCE_ABBR_NAME = #{insuranceAbbrName,jdbcType=VARCHAR},
+      ISVALID = #{isvalid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      SIGN_KEY = #{signKey,jdbcType=VARCHAR},
+      TRANS_CHANNEL = #{transChannel,jdbcType=VARCHAR}
+    where INSURANCE_ID = #{insuranceId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_INSURANCE where INSURANCE_ID = #{insuranceId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+</mapper>

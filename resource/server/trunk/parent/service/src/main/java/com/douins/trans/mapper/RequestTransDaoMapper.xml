@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.trans.dao.RequestTransDao" >
+  	<resultMap id="BaseResultMap" type="com.douins.trans.domain.model.RequestTrans" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="REQUEST_TRANS_ID" property="requestTransId" jdbcType="CHAR" />
+    <result column="TRANS_NO" property="transNo" jdbcType="VARCHAR" />
+    <result column="TRANS_ID" property="transId" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="TRANS_CHANNEL" property="transChannel" jdbcType="VARCHAR" />
+    <result column="TRANS_TIME" property="transTimeDate" jdbcType="TIMESTAMP" />
+    <result column="REQUEST_TIME" property="requestTime" jdbcType="TIMESTAMP" />
+    <result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
+    <result column="CLIENT_TYPE" property="clientType" jdbcType="VARCHAR" />
+    <result column="RESPONSE_CODE" property="responseCode" jdbcType="VARCHAR" />
+    <result column="RESPONSE_MSG" property="responseMsg" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,REQUEST_TRANS_ID,TRANS_NO,TRANS_ID,TRANS_TYPE,TRANS_CHANNEL,TRANS_TIME,REQUEST_TIME,IP_ADDRESS,CLIENT_TYPE,RESPONSE_CODE,RESPONSE_MSG,CREATE_DATE,UPDATE_DATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_REQUEST_TRANS where REQUEST_TRANS_ID = #{requestTransId,jdbcType=CHAR}
+  </select>
+  
+   <insert id="insert" parameterType="com.douins.trans.domain.model.RequestTrans" >
+    insert into T_REQUEST_TRANS(REQUEST_TRANS_ID,TRANS_NO,TRANS_ID,TRANS_TYPE,TRANS_CHANNEL,TRANS_TIME,REQUEST_TIME,IP_ADDRESS,CLIENT_TYPE,RESPONSE_CODE,RESPONSE_MSG,CREATE_DATE,UPDATE_DATE) 
+    VALUES(#{requestTransId,jdbcType=CHAR},#{transNo,jdbcType=VARCHAR},
+    #{transId,jdbcType=VARCHAR},#{transType,jdbcType=VARCHAR},#{transChannel,jdbcType=VARCHAR},#{transTimeDate},#{requestTime},
+    #{ipAddress,jdbcType=VARCHAR},#{clientType,jdbcType=VARCHAR},#{responseCode,jdbcType=VARCHAR},#{responseMsg,jdbcType=VARCHAR},#{createDate},
+    #{updateDate})
+  </insert>
+ 
+  <update id="updateResponseInfo" parameterType="com.douins.trans.domain.model.RequestTrans" >
+    update T_REQUEST_TRANS SET RESPONSE_CODE=#{responseCode,jdbcType=VARCHAR},RESPONSE_MSG=#{responseMsg,jdbcType=VARCHAR},
+    UPDATE_DATE=#{updateDate} where REQUEST_TRANS_ID = #{requestTransId,jdbcType=CHAR}
+  </update>  
+</mapper>

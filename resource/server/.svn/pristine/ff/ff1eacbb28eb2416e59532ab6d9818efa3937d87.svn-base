@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.bank.dao.BankResponeDao">
+
+<resultMap id="BaseResultMap" type="com.douins.bank.domain.model.nybc.CallBackRequest" >
+  	<!-- <id column="ID" property="body.id" jdbcType="INTEGER" /> -->
+    <result column="sign_msg" property="sysHead.signMsg" jdbcType="VARCHAR" />
+    <result column="chanl_no" property="body.chanlNo" jdbcType="VARCHAR" />
+    <result column="flow_no" property="body.flowNo" jdbcType="VARCHAR" />
+    <result column="cust_no" property="body.custNo" jdbcType="VARCHAR" />
+    <result column="tran_date" property="body.tranDate" jdbcType="VARCHAR" />
+    <result column="status" property="body.status" jdbcType="VARCHAR" />
+    <result column="ret_code" property="body.retCode" jdbcType="VARCHAR" />
+    <result column="ret_msg" property="body.retMsg" jdbcType="VARCHAR" />
+    <result column="proj_code" property="body.projCode" jdbcType="VARCHAR" />
+    <result column="pay_acct" property="body.payAcct" jdbcType="VARCHAR" />
+    <result column="pay_openbran" property="body.payOpenbran" jdbcType="VARCHAR" />
+    <result column="pay_acctname" property="body.payAcctname" jdbcType="VARCHAR" />
+    <result column="rcv_acct" property="body.rcvAcct" jdbcType="VARCHAR" />
+    <result column="rcv_acctname" property="body.rcvAcctname" jdbcType="VARCHAR" />
+    <result column="rcv_bank" property="body.rcvBank" jdbcType="VARCHAR" />
+    <result column="tran_type" property="body.tranType" jdbcType="VARCHAR" />
+    <result column="curr" property="body.curr" jdbcType="VARCHAR" />
+    <result column="amt" property="body.amt" jdbcType="VARCHAR" />
+    <result column="fee" property="body.fee" jdbcType="VARCHAR" />
+    <!-- <result column="usage" property="body.usage" jdbcType="VARCHAR" /> -->
+    <result column="pay_type" property="body.payType" jdbcType="VARCHAR" />
+    <result column="freeze_no" property="body.freezeNo" jdbcType="VARCHAR" />
+    <result column="proj_name" property="body.projName" jdbcType="VARCHAR" />
+    <result column="tran_title" property="body.tranTitle" jdbcType="VARCHAR" />
+    <result column="tran_desc" property="body.tranDesc" jdbcType="VARCHAR" />
+    <result column="chanl_flow_no" property="body.chanlFlowNo" jdbcType="VARCHAR" />
+  </resultMap>
+    <insert id="add" parameterType="com.douins.bank.domain.model.BankResponseModel">
+        insert into  tb_trans_record_b (
+		       userId, transId, transType, status, errorMsg, bankCode, 
+		       bankTransId, channelNo, sign, createTime, updateTime
+        )
+        values (
+	        #{userId}, #{transId}, #{transType}, #{status}, #{errorMsg}, #{bankCode},
+	        #{bankTransId}, #{channelNo}, #{sign}, NOW(), NOW()
+        )
+    </insert>
+    
+    <update id="update" parameterType="com.douins.bank.domain.model.BankResponseModel">
+        update tb_trans_record_b 
+        <trim prefix="set" suffixOverrides=",">
+            <if test="status != null and status !=''">status = #{status},</if>
+            <if test="errorMsg != null and errorMsg != ''">errorMsg = #{errorMsg},</if>
+            <if test="sign != null and sign != ''">sign = #{sign},</if>  
+            <if test="bankTransId != null and bankTransId != ''">bankTransId = #{bankTransId},</if>
+            <if test="transId != null and transId != ''">updateTime = NOW()</if>
+        </trim>
+        where transId = #{transId}
+    </update>
+    
+    
+    <insert id="insertNYCallbackInfo"  parameterType="com.douins.bank.domain.model.nybc.CallBackRequest" >
+
+	INSERT INTO t_ny_callback_info 
+	(   sign_msg,chanl_no,flow_no,cust_no,
+		tran_date,status,ret_code,ret_msg,
+		proj_code,pay_acct,pay_openbran, pay_acctname,
+		rcv_acct,rcv_acctname,
+		rcv_bank, tran_type, curr,amt, fee,
+		pay_type,freeze_no,proj_name,tran_title, tran_desc, chanl_flow_no)
+
+	VALUES (
+		#{sysHead.signMsg},#{body.chanlNo},#{body.flowNo},#{body.custNo},
+		#{body.tranDate},#{body.status},#{body.retCode},#{body.retMsg},
+		#{body.projCode},#{body.payAcct},#{body.payOpenBran},#{body.payAcctname},
+		#{body.rcvAcct},#{body.rcvAcctname},
+		#{body.rcvBank},#{body.tranType},#{body.curr},#{body.amt},#{body.fee},
+		#{body.payType},#{body.freezeNo},#{body.projName},#{body.tranTitle},#{body.tranDesc},#{body.chanlFlowNo}
+
+	)
+    </insert>
+    
+   <sql id="Base_Column_List" >
+        sign_msg as "sysHead.signMsg",chanl_no AS "body.flowNo",
+        flow_no AS "body.payAcct",cust_no AS "body.custNo",
+		tran_date AS "body.tranDate",status AS "body.status",
+		ret_code AS "body.retCode",ret_msg AS "body.retMsg",
+		proj_code AS "body.projCode",pay_acct AS "body.payAcct",
+		pay_openbran AS "body.payOpenBran", pay_acctname AS "body.payAcctname",
+		
+		rcv_acct AS "body.rcvAcct",rcv_acctname AS "body.rcvAcctname",
+		rcv_bank AS "body.rcvBank", tran_type AS "body.tranType", 
+		curr AS "body.curr",amt AS "body.amt", fee AS "body.fee",
+		pay_type AS "body.payType",freeze_no AS "body.freezeNo",
+		proj_name AS "body.projName",tran_title AS "body.tranTitle", 
+		tran_desc AS "body.tranDesc", chanl_flow_no AS "body.chanlFlowNo"
+  </sql>
+  
+    
+  <!-- selectByPrimaryKey -->
+  <select id="findPayInfo" parameterType="java.lang.String"  resultType="com.douins.bank.domain.model.nybc.CallBackRequest">
+    select <include refid="Base_Column_List" />  from t_ny_callback_info where chanl_flow_no = #{chanlFlowNo,jdbcType=CHAR}  limit 1
+  </select>
+  
+    
+</mapper>

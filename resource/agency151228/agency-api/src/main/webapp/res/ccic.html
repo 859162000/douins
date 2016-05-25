@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口</title>
+
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<form id="documentForm" method="post">
+
+<h2>CCIC 接口测试页面</h2>
+
+<p>1、请求参数</p>
+
+<p>
+    <textarea rows="20" cols="100">
+<?xml version="1.0" encoding="GBK"?>
+<abbsParamXml>
+<Header>
+<TRAN_CODE>ABBS01</TRAN_CODE>
+<documentId>001</documentId>
+<profileRequest>16</profileRequest>
+<function>policyTrial</function>
+<from>11-24-0001</from>
+<to>11-11-1111</to>
+</Header>
+<Request>
+<policyTrial>
+<groupInfo>
+<orderNo>QN3387466989</orderNo>
+<businessId>QN14267645577376095</businessId>
+<agencyNo>QUNAR-00002</agencyNo>
+</groupInfo>
+<paramList>
+<parameter>
+<applySeq>1161496</applySeq>
+<insurantInfo>
+<insurantName>梁竣瑜</insurantName>
+<insurantGender>M</insurantGender>
+<insurantBirthday>19931213</insurantBirthday>
+<insurantIdType>1</insurantIdType>
+<insurantIdno>440181199312130311</insurantIdno>
+<insurantMobile>18922303087</insurantMobile>
+</insurantInfo>
+<insurerInfo>
+<insurerName>梁竣瑜</insurerName>
+<insurerGender>M</insurerGender>
+<insurerBirthday>19931213</insurerBirthday>
+<insurerIdType>1</insurerIdType>
+<insurerIdno>440181199312130311</insurerIdno>
+<insurerMobile>18922303087</insurerMobile>
+</insurerInfo>
+<productNo>EID0150277</productNo>
+<unit>1</unit>
+<effDate>20160321000000</effDate>
+<matuDate>20160322235959</matuDate>
+<linkManInfo>
+<linkManName>梁竣瑜</linkManName>
+<linkManMobile>18922303087</linkManMobile>
+</linkManInfo>
+</parameter>
+<parameter>
+<applySeq>1161497</applySeq>
+<insurantInfo>
+<insurantName>杨靖</insurantName>
+<insurantGender>F</insurantGender>
+<insurantBirthday>19930924</insurantBirthday>
+<insurantIdType>1</insurantIdType>
+<insurantIdno>440181199309240325</insurantIdno>
+<insurantMobile>18922303087</insurantMobile>
+</insurantInfo>
+<insurerInfo>
+<insurerName>杨靖</insurerName>
+<insurerGender>F</insurerGender>
+<insurerBirthday>19930924</insurerBirthday>
+<insurerIdType>1</insurerIdType>
+<insurerIdno>440181199309240325</insurerIdno>
+<insurerMobile>18922303087</insurerMobile>
+</insurerInfo>
+<productNo>EID0150277</productNo>
+<unit>1</unit>
+<effDate>20160321000000</effDate>
+<matuDate>20160322235959</matuDate>
+<linkManInfo>
+<linkManName>梁竣瑜</linkManName>
+<linkManMobile>18922303087</linkManMobile>
+</linkManInfo>
+</parameter>
+</paramList>
+</policyTrial>
+</Request>
+</abbsParamXml>
+
+    </textarea>
+</p>
+
+<p>2、接口地址 <input type="text" value="1"> <button>提交</button></p>
+    
+</form>
+
+<hr>
+
+<p>返回参数</p>
+<textarea id="response" rows="20" cols="100">
+</textarea>
+
+<script src="http://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
+ <script type="text/javascript">
+    timestamp=new Date().getTime();
+</script>
+
+<script type="text/javascript">
+$('button').on('click', function() {
+    
+       var title = $('input[type=text]').val(),
+           content = $('textarea').val();
+
+       $('form').ajaxSubmit({
+           type: 'post', // 提交方式 get/post
+           url: '/agencyapi/uw,param:&lt', // 需要提交的 url
+           data: {
+               'title': title,
+               'content': content
+           },
+           success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+               $("#response").val(data);
+           }
+       });
+       return false; // 阻止表单自动提交事件
+});
+</script>
+</body>

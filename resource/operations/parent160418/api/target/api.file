@@ -1,0 +1,30 @@
+#!/bin/bash 
+
+name='api.war'
+file_path=`pwd`
+build_time=`stat ${name} | grep Modify | cut -d":" -f2- | tr -d " "`
+md5sum=`md5sum ${name} | cut -d " " -f 1 | tr -d " "`
+
+cat <<!
+================================================================
+                 FIEL INFO CONFORM
+----------------------------------------------------------------
+FILE_NAME        ${name}                                                        
+FIEL_PATH        ${file_path}
+BUILD_TIME       ${build_time}   
+MD5SUM           ${md5sum}
+================================================================
+!
+
+read -n1 -p "All of the above information is correct[y/n]?" answer
+
+case $answer in
+Y | y)
+     :      ;;
+N | n)
+     exit 1 ;;
+*)
+     echo -e "bad choice";;
+esac
+
+echo "hello"

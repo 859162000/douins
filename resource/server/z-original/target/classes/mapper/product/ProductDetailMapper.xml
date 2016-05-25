@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.product.model.ProductDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.product.model.ProductDetail" >
+  	<id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PRODUCT_DETAIL_ID" property="productDetailId" jdbcType="CHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="CHAR" />
+    <result column="PRODUCT_AMOUNT" property="productAmount" jdbcType="DECIMAL" />
+    <result column="RECEIVE_TIME_DESC" property="receiveTimeDesc" jdbcType="VARCHAR" />
+    <result column="RECEIVE_TYPE" property="receiveType" jdbcType="VARCHAR" />
+    <result column="PRODUCT_DESC" property="productDesc" jdbcType="VARCHAR" />
+    <result column="BUY_DESC" property="buyDesc" jdbcType="VARCHAR" />
+    <result column="PRODUCT_BUY_DESC" property="productBuyDesc" jdbcType="VARCHAR" />
+    <result column="RISK_DESC" property="riskDesc" jdbcType="VARCHAR" />
+    <result column="PRODUCT_INSURE_NAME" property="productInsureName" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+	ID, PRODUCT_DETAIL_ID, PRODUCT_ID, PRODUCT_AMOUNT, RECEIVE_TIME_DESC, RECEIVE_TYPE, PRODUCT_DESC, BUY_DESC, PRODUCT_BUY_DESC, RISK_DESC,PRODUCT_INSURE_NAME, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+ 
+  <insert id="insert" parameterType="com.mango.fortune.product.model.ProductDetail" >
+    insert into T_PRODUCT_DETAIL (PRODUCT_DETAIL_ID, PRODUCT_ID, 
+      PRODUCT_AMOUNT, RECEIVE_TIME_DESC, RECEIVE_TYPE, 
+      PRODUCT_DESC, BUY_DESC, PRODUCT_BUY_DESC, 
+      RISK_DESC,PRODUCT_INSURE_NAME, ISVALID, CREATE_DATE, 
+      UPDATE_DATE)
+    values (#{productDetailId,jdbcType=CHAR}, #{productId,jdbcType=CHAR}, 
+      #{productAmount,jdbcType=DECIMAL}, #{receiveTimeDesc,jdbcType=VARCHAR}, #{receiveType,jdbcType=VARCHAR}, 
+      #{productDesc,jdbcType=VARCHAR}, #{buyDesc,jdbcType=VARCHAR}, #{productBuyDesc,jdbcType=VARCHAR}, 
+      #{riskDesc,jdbcType=VARCHAR}, #{productInsureName,jdbcType=VARCHAR},#{isvalid,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.product.model.ProductDetail" >
+    update T_PRODUCT_DETAIL
+    set 
+      PRODUCT_ID = #{productId,jdbcType=CHAR},
+      PRODUCT_AMOUNT = #{productAmount,jdbcType=DECIMAL},
+      RECEIVE_TIME_DESC = #{receiveTimeDesc,jdbcType=VARCHAR},
+      RECEIVE_TYPE = #{receiveType,jdbcType=VARCHAR},
+      PRODUCT_DESC = #{productDesc,jdbcType=VARCHAR},
+      BUY_DESC = #{buyDesc,jdbcType=VARCHAR},
+      PRODUCT_BUY_DESC = #{productBuyDesc,jdbcType=VARCHAR},
+      RISK_DESC = #{riskDesc,jdbcType=VARCHAR},
+      PRODUCT_INSURE_NAME = #{productInsureName,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where PRODUCT_DETAIL_ID = #{productDetailId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_PRODUCT_DETAIL
+    where PRODUCT_DETAIL_ID = #{productDetailId,jdbcType=CHAR} AND ISVALID='1'
+  </select>
+  
+   <select id="getByProductId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_PRODUCT_DETAIL where PRODUCT_ID = #{productDetailId,jdbcType=CHAR} AND ISVALID='1'
+  </select>
+ 
+</mapper>

@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<label name="c_status">
+		<item name="1" selected="1">有效</item>
+		<item name="2">失效</item>
+	</label>
+	<label name="c_repay_type">
+		<item name="0" selected="0">正常赎回</item>
+		<item name="1">紧急赎回</item>
+		<item name="2">续投</item>
+		<item name="3">月息赎回</item>
+	</label>
+	
+	<label name="c_tGrade">
+		<item name="1">一级</item>
+		<item name="2">二级</item>
+		<item name="3">三级</item>
+		<item name="4">四级</item>
+		<item name="5">五级</item>
+	</label>
+	
+	<label name="c_isWork">
+		<item name="1" selected="1">在职</item>
+		<item name="2">离职</item>
+	</label>
+	<label name="c_isvalid">
+		<item name="0">失效</item>
+		<item name="1" selected="1">有效</item>
+	</label>
+	<label name="c_yn">
+		<item name="0" selected="0">否</item>
+		<item name="1">是</item>
+	</label>
+	<label name="c_sex">
+		<item name="1" selected="1">先生</item>
+		<item name="2">女士</item>
+	</label>
+	<label name="c_customerType">
+		<item name="1" select="1">个人客户</item>
+		<item name="2" >法人</item>
+		<item name="3" >股东</item>
+	</label>
+	<label name="banklist">
+		<item name="中国工商银行">中国工商银行</item>
+		<item name="招商银行">招商银行</item>
+		<item name="中国农业银行">中国农业银行</item>
+		<item name="中国建设银行">中国建设银行</item>
+		<item name="兴业银行">兴业银行</item>
+		<item name="中信实业银行">中信实业银行</item>
+		<item name="中国光大银行">中国光大银行</item>
+		<item name="中国银行">中国银行</item>
+		<item name="平安银行股份有限公司">平安银行股份有限公司</item>
+		<item name="华夏银行">华夏银行</item>
+		<item name="广东发展银行">广东发展银行</item>
+		<item name="国家邮政局邮政储汇局">国家邮政局邮政储汇局</item>
+		<item name="上海浦东发展银行">上海浦东发展银行</item>
+	</label>
+	<label name="c_companyType">
+		<item name="1" >国企</item>
+		<item name="2" select="1">民营</item>
+		<item name="3" >合资</item>
+		<item name="4" >外商独资</item>
+		<item name="5" >股份制企业</item>
+		<item name="6" >上市公司</item>
+		<item name="7" >外企代表处</item>
+		<item name="8" >国家机关</item>
+		<item name="9" >事业单位</item>
+		<item name="10" >其他</item>
+	</label>
+	<label name="c_degree">
+		<item name="1">初中</item>
+		<item name="2">高中</item>
+		<item name="3">中专</item>
+		<item name="4">大专</item>
+		<item name="5">本科</item>
+		<item name="6">硕士</item>
+		<item name="7">博士</item>
+		<item name="8">博士后</item>
+		<item name="9">其它</item>
+	</label>
+	<label name="c_fertility_status">
+		<item name="0">0个</item>
+		<item name="1">1个</item>
+		<item name="2">2个</item>
+		<item name="3">多于2个</item>
+	</label>
+	<label name="c_house_status">
+		<item name="1">有房有房贷</item>
+		<item name="2">有房无房贷</item>
+		<item name="3">租房</item>
+		<item name="4">宿舍</item>
+		<item name="5">无房</item>
+	</label>
+	<label name="c_car_status">
+		<item name="0">无</item>
+		<item name="1">有</item>
+	</label>
+	<label name="c_contact_relation">
+		<item name="1">父子</item>
+		<item name="2">母子</item>
+		<item name="3">亲戚</item>
+		<item name="4">朋友</item>
+		<item name="5">同学</item>
+		<item name="6">同事</item>
+		<item name="7">其他</item>
+	</label>
+	<label name="c_marital_status">
+		<item name="1">未婚</item>
+		<item name="2">已婚</item>
+		<item name="3">离异</item>
+		<item name="4">丧偶</item>
+	</label>
+	<label name="c_country">
+		<item name="0">中国</item>
+		<item name="1">其他</item>
+	</label>
+	<label name="c_user_notype" >
+		<item name="0">身份证</item>
+	<!--<item name="1">驾驶证</item> -->
+		<item name="2">护照</item>
+		<item name="3">军官证</item>
+		<item name="4">其他</item>
+	</label>
+	<label name="c_customer_source">
+		<item name="2">自有客户</item>
+		<item name="4">老客户续投</item>
+		<item name="0">商超路演</item>
+		<item name="1">转介绍</item>
+		<item name="5">电销</item>
+		<item name="6">网销</item>
+		<item name="9">报纸传媒</item>
+		<item name="10">讲座展会</item>
+		<item name="8">驻点销售</item>
+		<!-- <item name="3">渠道客户</item> -->
+		<item name="7">其它</item>
+	</label>
+	<label name="c_company_type">
+		<item name="1">机关及事业单位</item>
+		<item name="2">国营</item>
+		<item name="3">民营</item>
+		<item name="4">三资企业</item>
+		<item name="5">其它</item>
+	</label>
+	<label name="c_image_type">
+		<item name="1">用户头像</item>
+		<item name="2">用户真实照片</item>
+		<item name="3">身份证正面</item>
+		<item name="4">身份证反面</item>
+		<item name="5">户口本复印件</item>
+		<item name="6">信用报告</item>
+		<item name="7">银行流水</item>
+		<item name="8">收入证明</item>
+		<item name="9">房产证明</item>
+		<item name="10">工作证明</item>
+		<item name="11">学校证明</item>
+		<item name="12">公司证明</item>
+		<item name="13">住址证明</item>
+		<item name="14">公司房产证明</item>     
+		<item name="20">银行卡扫面件</item>   
+		<item name="21">开户申请书</item> 		
+		<item name="36">用户照片</item>
+		<item name="15">其他</item>
+	</label>
+	<label name="c_document_type">
+		<item name="16">借款合同</item>
+		<item name="17">服务协议</item>
+		<item name="19">法人身份证</item>
+		<item name="20">营业执照证明</item>
+		<item name="21">纳税证明</item>
+		<item name="22">组织机构代码证明</item>
+		<item name="23">办公地证明</item>
+		<item name="24">机构信用代码证明</item>
+		<item name="25">银行开户许可证明</item>
+		<item name="26">公司验资报告证明</item>
+		<item name="27">不动产相关证件</item>
+		<item name="28">动产相关证件</item>
+		<item name="29">公司章程</item>
+		<item name="30">财务报告证明</item>
+		<item name="31">负债明细证明</item>
+		<item name="32">法院案件说明</item>
+		<item name="33">企业征信证明</item>
+		<item name="34">股东同意贷款决议</item>
+		<item name="35">经营情况类文件</item>
+		<item name="37">尽调材料</item>
+	</label>
+	<label name="c_file_folde">
+		<item name="1">合同协议</item>
+		<item name="2">身份证正反面</item>
+		<item name="3">银行卡正反面</item>
+		<item name="4">打款凭条扫描件</item>
+		<item name="5">委托扣款扫描件</item>
+		<item name="6">POS机小票</item>
+		<item name="7">补充文件</item>
+		<item name="8">其他文件</item>
+	</label>
+	<label name="c_product_type">
+		<item name="1">理财产品</item>
+		<item name="2">基金</item>
+		<item name="3">债权</item>
+	</label>
+	<label name="c_risk_level">
+		<item name="1">谨慎型</item>
+		<item name="2">稳健型</item>
+		<item name="3">平衡型</item>
+		<item name="4">较高风险</item>
+		<item name="5">高风险</item>
+	</label>
+	<label name="c_payment_method">
+		<item name="1">等额本息</item>
+		<item name="2">一次还本付息</item>
+		<item name="3">分次付息</item>
+	</label>
+	<label name="c_address_type">
+		<item name="1">现住址</item>
+		<item name="2">家庭地址</item>
+		<item name="3">其他地址</item>
+	</label>
+	<label name="c_badrecord_type">
+		<item name="1">身份证遭冒用</item>
+		<item name="2">信用卡使用不当</item>
+		<item name="3">未能及时归还贷款本息</item>
+		<item name="4">其他</item>
+	</label>
+	<label name="c_badrecord_degree">
+		<item name="1">轻微</item>
+		<item name="2">中度</item>
+		<item name="3">严重</item>
+	</label>
+	<label name="c_rank">
+		<!-- <item name="1">S1</item>
+		<item name="12">S2</item>
+		<item name="13">S3</item>
+		<item name="14">S4</item>
+		<item name="15">S5</item>
+		<item name="16">S6</item>
+		<item name="17">S7</item>
+		<item name="2">M1</item>
+		<item name="22">M2</item>
+		<item name="23">M3</item>
+		<item name="3">D1</item>
+		<item name="32">D2</item>
+		<item name="33">D3</item>
+		<item name="4">副总经理</item>
+		<item name="5">常务副总经理</item>
+		<item name="51">总经理</item> -->
+		<item name="C3">C3</item>
+		<item name="C2">C2</item>
+		<item name="C1">C1</item>
+		<item name="M1">M1</item>
+		<item name="M2">M2</item>
+		<item name="M3">M3</item>
+		<item name="M4">M4</item>
+		<item name="M5">M5</item>
+		<item name="M6">M6</item>
+		<item name="M7">M7</item>
+		<item name="B1">B1</item>
+	</label>
+	<label name="c_investment_payment">
+		<item name="1" selected="1">委托划扣</item>
+		<item name="2">自行转账</item>
+		<item name="3">POS机授权转让</item>
+		<item name="4">续投</item>
+	</label>
+	<label name="c_cycle_unit">
+		<item name="1">天</item>
+		<item name="2">月</item>
+		<item name="3">年</item>
+	</label>
+	<label name="c_bankcard_purpose">
+		<item name="0" selected="0">付款</item>
+		<item name="1">收款</item>
+		<item name="2">两者皆有</item>
+	</label>
+	<label name="c_contractledger_status">
+		<item name="1">在投</item>
+		<item name="2">正常赎回</item>
+		<item name="3">紧急赎回</item>
+		<item name="4">失效</item>
+		<item name="5">待查账</item>
+		<item name="9">到账审核</item>
+		<item name="10">到账驳回</item>
+		<item name="11">到账异常</item>
+	</label>
+	<label name="c_amountReceived_status">
+		<item name="0">到账恰当</item>
+		<item name="1">到账溢出</item>
+		<item name="2">到账不足</item>
+	</label>
+	<label name="c_contract_status">
+		<item name="1">初稿</item>
+		<item name="2">待审核</item>
+		<item name="3">待查帐</item>
+		<item name="4">到账异常</item>
+		<item name="5">有效</item>
+		<item name="6">失效</item>
+		<item name="7">初审驳回</item>
+		<item name="8">待终审</item>
+		<item name="9">终审驳回</item>
+		<item name="10">紧急赎回</item>
+		<item name="11">正常赎回</item>
+	</label>
+	<label name="is_first_time">
+		<item name="0" selected="1">是</item>
+		<item name="1">否</item>
+	</label>
+	<label name="c_product">
+		<item name="半月丰">半月丰</item>
+		<item name="运通宝">运通宝</item>
+		<item name="单季丰">单季丰</item>
+		<item name="信通宝">信通宝</item>
+		<item name="月月盈">月月盈</item>
+		<item name="众通宝">众通宝</item>
+		<item name="众信宝">众信宝</item>
+	</label>
+	<label name="c_city_l">
+		<item name="1">一线城市</item>
+		<item name="2">二线城市</item>
+		<item name="3">三线城市</item>
+	</label>
+	<label name="c_filter_time">
+		<item name="1">本月</item>
+		<item name="2">本周</item>
+		<item name="3">本天</item>
+	</label>
+	<label name="c_repay_status">
+		<item name="0">请求审核</item>
+		<item name="1">待初审</item>
+		<item name="2">待终审</item>
+		<item name="3">待结算审核</item>
+		<item name="4">结算审核</item>
+		<item name="5">待付款</item>
+		<item name="6">已打款</item>
+		<item name="7">付款成功</item>
+		<item name="8">初审驳回</item>
+		<item name="9">终审驳回</item>
+		<item name="10">合同审核驳回</item>
+		<item name="11">台帐审核驳回</item>
+		<item name="12">申请审核驳回</item>
+		<item name="13">结算驳回</item>
+		<item name="14">打款失败</item>
+		<item name="15">打款失败[未到账]</item>
+		
+	</label>
+	
+	<label name="c_statistics_team_status">
+		<item name="first">初稿</item>
+		<item name="waitAudit">待审核</item>
+		<item name="waitAmount">待查账</item>
+		<item name="amounting">在投</item>
+		<item name="normalOver">正常赎回</item>
+	</label>
+	
+	<label name="c_sale_grade">
+		<item name="C" selected="1">客户经理</item>
+		<item name="T">团队经理</item>
+		<item name="B">营业部经理</item>
+		<item name="D">城市经理</item>
+	</label>
+	
+	<label name="c_perYear">
+		<item name="2015" selected="1">2015</item>
+		<item name="2016">2016</item>
+	</label>
+	<label name="c_month">
+		<item name="1" selected="1">1</item>
+		<item name="2">2</item>
+		<item name="3">3</item>
+		<item name="4">4</item>
+		<item name="5">5</item>
+		<item name="6">6</item>
+		<item name="7">7</item>
+		<item name="8">8</item>
+		<item name="9">9</item>
+		<item name="10">10</item>
+		<item name="11">11</item>
+		<item name="12">12</item>
+	</label>
+	<label name="c_post">
+		<item name="1">已邮寄</item>
+	</label>
+	<label name="c_branch">
+		<item name="ALL" selected="1">全国</item>
+		<item name="SH">上海</item>
+		<item name="KM">昆明</item>
+		<item name="BJ">北京</item>
+	</label>
+	<label name="c_calType">
+		<item name="1" selected="1">按天</item>
+		<item name="2">按月</item>
+	</label>
+</root>

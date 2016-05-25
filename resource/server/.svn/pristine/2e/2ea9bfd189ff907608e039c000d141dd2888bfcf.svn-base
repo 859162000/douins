@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/api/" >
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口</title>
+    
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+    <h2>前后端接口列表</h2>
+    <div class="intro">
+        所有接口返回格式：
+        <div class="json">{"status": 0, "message": "success","data":JSONObject or JSONArray}</div>
+    </div>
+    
+    <div class="blank20"></div>
+    
+    <div>
+        <h3>部署测试接口</h3>
+        <ul>
+            <a target="_blank" class="red" href="user/test">获取一条用户信息</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>用户信息</h3>
+        <ul>
+            <a href="user/regist">用户注册</a>
+        </ul>
+        <ul>
+            <a href="user/login">用户登录</a>
+        </ul>
+        <ul>
+            <a href="user/passwordChange">修改密码</a>
+        </ul>
+        <ul>
+            <a href="user/modify">用户信息修改</a>
+        </ul>
+    </div>
+    
+    
+    <div>
+        <h3>用户账户</h3>
+        <ul >
+            <a href="userAcount/add">开户</a>
+        </ul>
+        <ul>
+            <a href="userAccount/get">查询账户信息</a>
+        </ul>
+        <ul>
+            <a href="userAccount/pay">充值或提现</a>
+        </ul>
+        
+    </div>
+        <h3>用户账户详情</h3>
+        <ul>
+            <a href="userAccountDetail/getList">查询账户交易记录</a>
+        </ul>
+    <div>
+    
+    <div>
+        <h3>用户支付账户</h3>
+        <ul>
+            <a href="userPayAccount/add">添加账户：绑卡并开户</a>
+        </ul>
+        <ul>
+            <a href="userPayAccount/getList">查询绑定的银行卡</a>
+        </ul>
+        <ul>
+            <a href="userPayAccount/change">变更银行卡</a>
+        </ul>
+        <ul>
+            <a href="userAccount/validate">验证支付密码</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>验证码</h3>
+        <ul>
+            <a href="validateCode/send">发送验证码</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>客户信息</h3>
+        <ul>
+            <a href="customer/getList">查询客户</a>
+        </ul>
+        <ul>
+            <a href="customer/add">新增客户</a>
+        </ul>
+        <ul>
+            <a href="customer/delete">删除客户</a>
+        </ul>
+        <ul>
+            <a href="customer/modify">修改客户</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>保单信息</h3>
+        <ul>
+            <a href="policy/getList">查询保单</a>
+        </ul>
+        <ul>
+            <a href="policy/uw">保单核保</a>
+        </ul>
+        <ul>
+            <a href="policy/pay">保单承保并支付</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>贷款申请</h3>
+        <ul>
+            <a href="loan/loan">申请贷款</a>
+        </ul>
+        <ul>
+            <a href="loan/save">确认贷款</a>
+        </ul>
+        <ul>
+            <a href="loan/get">查询用户保单贷款的信息(我的保单贷款)</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>还款申请</h3>
+        <ul>
+            <a href="repay/save">确认还款</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>退保申请</h3>
+        <ul>
+            <a href="surrender/surrender">申请退保</a>
+        </ul>
+        <ul>
+            <a href="surrender/save">确认退保</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>银行信息接口</h3>
+        <ul>
+            <a href="bankType/getList">银行列表</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>产品信息</h3>
+        <ul>
+            <a href="product/get">产品(保险)列表</a>
+        </ul>
+        <ul>
+            <a href="product/detail">保险介绍</a>
+        </ul>
+        <ul>
+            <a href="product/recommend">产品推荐</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>广告位</h3>
+        <ul>
+            <a href="ads/imgs/get">获取广告图像</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>END</h3>
+    </div>    
+    </div>  
+</body>
+</html>

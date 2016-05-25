@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.product.dao.ProductDao" >
+
+  <resultMap id="BaseResultMap" type="com.douins.product.domain.model.Product" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="INSURANCE_ID" property="insuranceId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="PARTNER_PRODUCT_CODE" property="partnerProductCode" jdbcType="VARCHAR" />
+    <result column="PARTNER_CODE" property="partnerCode" jdbcType="VARCHAR" />
+    <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" />
+    <result column="PRODUCT_INCOME_DESC" property="productIncomeDesc" jdbcType="VARCHAR" />
+    <result column="PRODUCT_RISK_DESC" property="productRiskDesc" jdbcType="VARCHAR" />
+    <result column="RISK_LEVEL" property="riskLevel" jdbcType="VARCHAR" />
+    <result column="AGE_UPPER" property="ageUpper" jdbcType="DECIMAL" />
+    <result column="AGE_FLOOR" property="ageFloor" jdbcType="DECIMAL" />
+    <result column="AREA_LIMIT" property="areaLimit" jdbcType="VARCHAR" />
+    <result column="PRODUCT_PERIOD" property="productPeriod" jdbcType="DECIMAL" />
+    <result column="PERIOD_TYPE" property="periodType" jdbcType="VARCHAR" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="REPAY_DATE" property="repayDate" jdbcType="TIMESTAMP" />
+    <result column="INCOME_TYPE" property="incomeType" jdbcType="VARCHAR" />
+    <result column="EXPECT_RATE" property="expectRate" jdbcType="DECIMAL" />
+    <result column="MIN_RATE" property="minRate" jdbcType="DECIMAL" />
+    <result column="STOCK" property="stock" jdbcType="INTEGER" />
+    <result column="UNIT_PREM" property="unitPrem" jdbcType="DECIMAL" />
+    <result column="MIN_PREM" property="minPrem" jdbcType="DECIMAL" />
+    <result column="MAX_PREM" property="maxPrem" jdbcType="DECIMAL" />
+    <result column="MAX_PER_PREM" property="maxPerPrem" jdbcType="DECIMAL" />
+    <result column="SALE_BEGIN_TIME" property="saleBeginTime" jdbcType="TIMESTAMP" />
+    <result column="SALE_END_TIME" property="saleEndTime" jdbcType="TIMESTAMP" />
+    <result column="DEFAULT_RENEW_TYPE" property="defaultRenewType" jdbcType="VARCHAR" />
+    <result column="RENEW_TYPE" property="renewType" jdbcType="VARCHAR" />
+    <result column="AHEAD_REPAY_FALG" property="aheadRepayFalg" jdbcType="VARCHAR" />
+    <result column="AHEAD_REPAY_HANDFEE" property="aheadRepayHandfee" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="PRODUCT_DESC" property="productDesc" jdbcType="LONGVARCHAR" />
+    <result column="SALE_NUM" property="saleNum" jdbcType="INTEGER" />
+    <result column="PRODUCT_COVERAGE" property="productCoverage" jdbcType="INTEGER" />
+    <result column="COVERAGE_TYPE" property="coverageType" jdbcType="VARCHAR" />
+    <result column="IS_RECOMMEND" property="isRecommend" jdbcType="INTEGER"/>
+    <result column="RATE_LOANABLE" property="rateLoanable" jdbcType="INTEGER" />
+    <result column="INSURED_NUM" property="insuredNum" jdbcType="INTEGER" />
+    <result column="HESITATE_TERM" property="hesitateTerm" jdbcType="INTEGER" />
+    
+   <result column="INSURANCE_CATEGORY" property="insurancecategory" jdbcType="VARCHAR" />
+   <result column="PERIODPRE_MIUM" property="periodpremium" jdbcType="VARCHAR" />
+   <result column="IS_PACKAGE" property="ispackage" jdbcType="VARCHAR" />
+   <result column="AFTERDAY_EFFECTIVE" property="afterdayeffective" jdbcType="VARCHAR" />
+   <result column="CALCULATION_RULE" property="calculationrule" jdbcType="VARCHAR" />
+   <result column="COVERPERIOD_TYPE" property="coverperiodtype" jdbcType="VARCHAR" />
+   <result column="EFFECTIVE_DATE" property="effectivedate" jdbcType="TIMESTAMP" />
+   <result column="INSURANCE_COVERAGE" property="insurancecoverage" jdbcType="VARCHAR" />
+   <result column="INSURANCE_NUM" property="insurancenum" jdbcType="VARCHAR" />
+   <result column="INSURANCE_PERIOD" property="insuranceperiod" jdbcType="VARCHAR" />
+	 <result column="PREMPERIOD_TYPE" property="premperiodType" jdbcType="VARCHAR" />	  
+	<!-- 	   INSURANCE_CATEGORY;
+     PERIODPRE_MIUM;
+     PRODUCT_CODE;
+     IS_PACKAGE;
+     AFTERDAY_EFFECTIVE;
+      CALCULATION_RULE;
+      COVERPERIOD_TYPE;
+		EFFECTIVE_DATE;
+	  INSURANCE_COVERAGE;
+	 INSURANCE_NUM;
+	  INSURANCE_PERIOD;
+	  PREMPERIOD_TYPE; -->
+  </resultMap>
+  
+  <resultMap id="ProductVoResultMap" type="com.douins.product.domain.vo.ProductVo" >
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="RISK_LEVEL" property="riskLevel" jdbcType="VARCHAR" />
+    <result column="PRODUCT_PERIOD" property="productPeriod" jdbcType="DECIMAL" />
+    <result column="PERIOD_TYPE" property="periodType" jdbcType="VARCHAR" />
+    <result column="EXPECT_RATE" property="expectRate" jdbcType="DECIMAL" />
+    <result column="STOCK" property="stock" jdbcType="DECIMAL" /> 
+    <result column="MIN_PREM" property="minPrem" jdbcType="DECIMAL" />  
+    <result column="SALE_NUM" property="saleNum" jdbcType="INTEGER" />  
+    <result column="IS_RECOMMEND" property="isRecommend" jdbcType="INTEGER"/>
+    <result column="SALE_BEGIN_TIME" property="saleBeginTime" jdbcType="TIMESTAMP"/>
+    <result column="SALE_END_TIME" property="saleEndTime" jdbcType="TIMESTAMP"/>
+    <result column="RATE_LOANABLE" property="rateLoanable" jdbcType="INTEGER" />
+    <result column="INSURED_NUM" property="insuredNum" jdbcType="INTEGER" />
+    <result column="HESITATE_TERM" property="hesitateTerm" jdbcType="INTEGER" />
+    <result column="saledAmount" property="saledAmount" jdbcType="DECIMAL" />
+    
+   <result column="INSURANCE_CATEGORY" property="insurancecategory" jdbcType="VARCHAR" />
+   <result column="PERIODPRE_MIUM" property="periodpremium" jdbcType="VARCHAR" />
+   <result column="IS_PACKAGE" property="ispackage" jdbcType="VARCHAR" />
+   <result column="AFTERDAY_EFFECTIVE" property="afterdayeffective" jdbcType="VARCHAR" />
+   <result column="CALCULATION_RULE" property="calculationrule" jdbcType="VARCHAR" />
+   <result column="COVERPERIOD_TYPE" property="coverperiodtype" jdbcType="VARCHAR" />
+   <result column="EFFECTIVE_DATE" property="effectivedate" jdbcType="TIMESTAMP" />
+   <result column="INSURANCE_COVERAGE" property="insurancecoverage" jdbcType="VARCHAR" />
+   <result column="INSURANCE_NUM" property="insurancenum" jdbcType="VARCHAR" />
+   <result column="INSURANCE_PERIOD" property="insuranceperiod" jdbcType="VARCHAR" />
+   <result column="PREMPERIOD_TYPE" property="premperiodType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+	  ID, PRODUCT_ID, INSURANCE_ID,PRODUCT_NAME, STATUS, PRODUCT_CODE, 
+      PARTNER_PRODUCT_CODE, PARTNER_CODE, PRODUCT_TYPE, PRODUCT_INCOME_DESC, PRODUCT_RISK_DESC, RISK_LEVEL, AGE_UPPER, AGE_FLOOR, AREA_LIMIT, 
+      PRODUCT_PERIOD, PERIOD_TYPE, EXPIRE_DATE, REPAY_DATE, INCOME_TYPE, EXPECT_RATE, 
+      MIN_RATE, STOCK, UNIT_PREM, MIN_PREM, MAX_PREM, MAX_PER_PREM, SALE_BEGIN_TIME, SALE_END_TIME, DEFAULT_RENEW_TYPE, RENEW_TYPE, AHEAD_REPAY_FALG, AHEAD_REPAY_HANDFEE, 
+      REMARK, ISVALID, CREATE_DATE, UPDATE_DATE, PRODUCT_DESC,SALE_NUM,PRODUCT_COVERAGE,COVERAGE_TYPE,RATE_LOANABLE,INSURED_NUM, HESITATE_TERM,   INSURANCE_CATEGORY,
+     PERIODPRE_MIUM,
+     IS_PACKAGE,
+     AFTERDAY_EFFECTIVE,
+      CALCULATION_RULE,
+      COVERPERIOD_TYPE,
+		EFFECTIVE_DATE,
+	  INSURANCE_COVERAGE,
+	 INSURANCE_NUM,
+	  INSURANCE_PERIOD,
+	  PREMPERIOD_TYPE
+  </sql>
+  
+  <sql id="Vo_Column_List">
+    PRODUCT_ID,PRODUCT_NAME,STATUS,PRODUCT_TYPE,RISK_LEVEL,PRODUCT_PERIOD,PERIOD_TYPE,EXPECT_RATE,
+    STOCK,MIN_PREM,SALE_NUM, IS_RECOMMEND, SALE_BEGIN_TIME, SALE_END_TIME,RATE_LOANABLE,INSURED_NUM, HESITATE_TERM,
+       INSURANCE_CATEGORY,
+     PERIODPRE_MIUM,
+     PRODUCT_CODE,
+     IS_PACKAGE,
+     AFTERDAY_EFFECTIVE,
+      CALCULATION_RULE,
+      COVERPERIOD_TYPE,
+		EFFECTIVE_DATE,
+	  INSURANCE_COVERAGE,
+	 INSURANCE_NUM,
+	  INSURANCE_PERIOD,
+	  PREMPERIOD_TYPE
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_PRODUCT
+    where PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.douins.product.domain.model.Product" >
+    insert into T_PRODUCT (PRODUCT_ID, INSURANCE_ID, 
+      PRODUCT_NAME, STATUS, PRODUCT_CODE, 
+      PARTNER_PRODUCT_CODE, PARTNER_CODE, PRODUCT_TYPE, 
+      PRODUCT_INCOME_DESC, PRODUCT_RISK_DESC, RISK_LEVEL, 
+      AGE_UPPER, AGE_FLOOR, AREA_LIMIT, 
+      PRODUCT_PERIOD, PERIOD_TYPE, EXPIRE_DATE, 
+      REPAY_DATE, INCOME_TYPE, EXPECT_RATE, 
+      MIN_RATE, STOCK, UNIT_PREM, 
+      MIN_PREM, MAX_PREM, MAX_PER_PREM, 
+      SALE_BEGIN_TIME, SALE_END_TIME, DEFAULT_RENEW_TYPE, 
+      RENEW_TYPE, AHEAD_REPAY_FALG, AHEAD_REPAY_HANDFEE, 
+      REMARK, ISVALID, CREATE_DATE, 
+      UPDATE_DATE, PRODUCT_DESC,PRODUCT_COVERAGE,COVERAGE_TYPE,
+      RATE_LOANABLE,INSURED_NUM, HESITATE_TERM,INSURANCE_CATEGORY,
+	     PERIODPRE_MIUM,
+	     PRODUCT_CODE,
+	     IS_PACKAGE,
+	     AFTERDAY_EFFECTIVE,
+	     CALCULATION_RULE,
+	     COVERPERIOD_TYPE,
+		 EFFECTIVE_DATE,
+		 INSURANCE_COVERAGE,
+		 INSURANCE_NUM,
+		 INSURANCE_PERIOD,
+		 PREMPERIOD_TYPE)
+      values (#{productId,jdbcType=VARCHAR}, #{insuranceId,jdbcType=VARCHAR}, 
+      #{productName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
+      #{partnerProductCode,jdbcType=VARCHAR}, #{partnerCode,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, 
+      #{productIncomeDesc,jdbcType=VARCHAR}, #{productRiskDesc,jdbcType=VARCHAR}, #{riskLevel,jdbcType=VARCHAR}, 
+      #{ageUpper,jdbcType=DECIMAL}, #{ageFloor,jdbcType=DECIMAL}, #{areaLimit,jdbcType=VARCHAR}, 
+      #{productPeriod,jdbcType=DECIMAL}, #{periodType,jdbcType=VARCHAR}, #{expireDate,jdbcType=TIMESTAMP}, 
+      #{repayDate,jdbcType=TIMESTAMP}, #{incomeType,jdbcType=VARCHAR}, #{expectRate,jdbcType=DECIMAL}, 
+      #{minRate,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, #{unitPrem,jdbcType=DECIMAL}, 
+      #{minPrem,jdbcType=DECIMAL}, #{maxPrem,jdbcType=DECIMAL}, #{maxPerPrem,jdbcType=DECIMAL}, 
+      #{saleBeginTime,jdbcType=TIMESTAMP}, #{saleEndTime,jdbcType=TIMESTAMP}, #{defaultRenewType,jdbcType=VARCHAR}, 
+      #{renewType,jdbcType=VARCHAR}, #{aheadRepayFalg,jdbcType=VARCHAR}, #{aheadRepayHandfee,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, '1', #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{productDesc,jdbcType=LONGVARCHAR},#{productCoverage,jdbcType=INTEGER}, #{coverageType,jdbcType=VARCHAR},
+      #{rateLoanable}, #{insuredNum}, #{hesitateTerm},
+      #{insurancecategory},
+      #{periodpremium},
+      #{ispackage},
+      #{afterdayeffective},
+      #{calculationrule},
+      #{coverperiodtype},
+      #{effectivedate},
+      #{insurancecoverage},
+      #{insurancenum},
+      #{insuranceperiod},
+      #{premperiodType}
+      )
+  </insert>
+   <!--  insurancecategory
+		  periodpremium
+		  ispackage
+		  afterdayeffective
+		  calculationrule
+		  coverperiodtype
+		  effectivedate
+		  insurancecoverage
+		  insurancenum
+		  insuranceperiod
+		  premperiodtype -->
+  <update id="updateByPrimaryKey" parameterType="com.douins.product.domain.model.Product" >
+    update T_PRODUCT
+    set 
+      INSURANCE_ID = #{insuranceId,jdbcType=VARCHAR},
+      PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      PARTNER_PRODUCT_CODE = #{partnerProductCode,jdbcType=VARCHAR},
+      PARTNER_CODE = #{partnerCode,jdbcType=VARCHAR},
+      PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      PRODUCT_INCOME_DESC = #{productIncomeDesc,jdbcType=VARCHAR},
+      PRODUCT_RISK_DESC = #{productRiskDesc,jdbcType=VARCHAR},
+      RISK_LEVEL = #{riskLevel,jdbcType=VARCHAR},
+      AGE_UPPER = #{ageUpper,jdbcType=DECIMAL},
+      AGE_FLOOR = #{ageFloor,jdbcType=DECIMAL},
+      AREA_LIMIT = #{areaLimit,jdbcType=VARCHAR},
+      PRODUCT_PERIOD = #{productPeriod,jdbcType=DECIMAL},
+      PERIOD_TYPE = #{periodType,jdbcType=VARCHAR},
+      EXPIRE_DATE = #{expireDate,jdbcType=TIMESTAMP},
+      REPAY_DATE = #{repayDate,jdbcType=TIMESTAMP},
+      INCOME_TYPE = #{incomeType,jdbcType=VARCHAR},
+      EXPECT_RATE = #{expectRate,jdbcType=DECIMAL},
+      MIN_RATE = #{minRate,jdbcType=DECIMAL},
+      STOCK = #{stock,jdbcType=INTEGER},
+      UNIT_PREM = #{unitPrem,jdbcType=DECIMAL},
+      MIN_PREM = #{minPrem,jdbcType=DECIMAL},
+      MAX_PREM = #{maxPrem,jdbcType=DECIMAL},
+      MAX_PER_PREM = #{maxPerPrem,jdbcType=DECIMAL},
+      SALE_BEGIN_TIME = #{saleBeginTime,jdbcType=TIMESTAMP},
+      SALE_END_TIME = #{saleEndTime,jdbcType=TIMESTAMP},
+      DEFAULT_RENEW_TYPE = #{defaultRenewType,jdbcType=VARCHAR},
+      RENEW_TYPE = #{renewType,jdbcType=VARCHAR},
+      AHEAD_REPAY_FALG = #{aheadRepayFalg,jdbcType=VARCHAR},
+      AHEAD_REPAY_HANDFEE = #{aheadRepayHandfee,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      PRODUCT_DESC = #{productDesc,jdbcType=LONGVARCHAR},
+      PRODUCT_COVERAGE = #{productCoverage,jdbcType=DECIMAL},
+      COVERAGE_TYPE = #{coverageType,jdbcType=VARCHAR},
+      RATE_LOANABLE = #{rateLoanable},
+      INSURED_NUM = #{insuredNum}, 
+      HESITATE_TERM = #{hesitateTerm},
+      INSURANCE_CATEGORY = #{insurancecategory},
+       PERIODPRE_MIUM=#{periodpremium},
+      IS_PACKAGE =#{ispackage},
+      AFTERDAY_EFFECTIVE =#{afterdayeffective},
+      CALCULATION_RULE= #{calculationrule},
+       COVERPERIOD_TYPE=#{coverperiodtype},
+     EFFECTIVE_DATE = #{effectivedate},
+     INSURANCE_COVERAGE = #{insurancecoverage},
+      INSURANCE_NUM =#{insurancenum},
+      INSURANCE_PERIOD= #{insuranceperiod},
+      PREMPERIOD_TYPE =#{premperiodType}
+    where PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />  from T_PRODUCT where PRODUCT_ID = #{productId,jdbcType=VARCHAR} AND ISVALID='1'
+  </select>
+  
+  
+  <select id="getList" parameterType="com.douins.product.domain.model.Product"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_PRODUCT a
+		<trim prefix="where" prefixOverrides="and |or">
+			1=1
+			<if test="insuranceId != null and insuranceId != ''"> and INSURANCE_ID = #{insuranceId,jdbcType=VARCHAR}</if>
+			<if test="productId != null and productId != ''"> and PRODUCT_ID = #{productId,jdbcType=VARCHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=VARCHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+		</trim>
+	</select>
+  
+  <select id="getVoList" parameterType="com.douins.product.domain.vo.ProductVo" resultMap="ProductVoResultMap">
+		select 
+			PRODUCT_ID,PRODUCT_NAME,STATUS,PRODUCT_TYPE,RISK_LEVEL,PRODUCT_PERIOD,PERIOD_TYPE,EXPECT_RATE,
+			SALE_BEGIN_TIME, SALE_END_TIME, STOCK,MIN_PREM,SALE_NUM,HESITATE_TERM,INSURANCE_CATEGORY,
+			PERIODPRE_MIUM,PRODUCT_CODE,IS_PACKAGE,AFTERDAY_EFFECTIVE,CALCULATION_RULE,COVERPERIOD_TYPE,EFFECTIVE_DATE,
+			INSURANCE_COVERAGE,INSURANCE_NUM,INSURANCE_PERIOD,PREMPERIOD_TYPE, SALE_NUM*MIN_PREM AS "saledAmount"
+     	from T_PRODUCT a
+
+		<trim prefix="where" prefixOverrides="and |or">
+			1=1
+			<if test="insuranceId != null and insuranceId != ''"> and INSURANCE_ID = #{insuranceId,jdbcType=VARCHAR}</if>
+			<if test="productId != null and productId != ''"> and PRODUCT_ID = #{productId,jdbcType=VARCHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=VARCHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+		</trim>
+	</select>
+	
+	<update id="updateAfterPaySuccess" parameterType="com.douins.product.domain.model.Product" >
+    update T_PRODUCT
+    set 
+      STOCK = #{stock,jdbcType=INTEGER},
+      SALE_NUM = #{saleNum,jdbcType=INTEGER}
+    where PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 用户下单时更新剩余的产品数 -->
+  <update id="updateWhileOrder" parameterType="com.douins.product.domain.model.Product">
+    update T_PRODUCT set STOCK = #{stock}, SALE_NUM = #{saleNum} where PRODUCT_ID = #{productId} and STOCK >= #{stock}
+  </update>
+	
+	<!-- 获取最新推荐的产品 -->
+	<select id="getRecommendProduct" resultMap="ProductVoResultMap">
+	   select <include refid="Vo_Column_List"/> from T_PRODUCT where IS_RECOMMEND = 1 order by UPDATE_DATE desc limit 1
+	</select>
+	
+	<select id="getProductVoById" parameterType="String" resultMap="ProductVoResultMap">
+	   select <include refid="Vo_Column_List"/> from T_PRODUCT where PRODUCT_ID=#{productId}
+	</select>
+	
+	<!-- 获取产品已售总额 -->
+	<select id="getSaledAmountById" resultType="DECIMAL" parameterType="String">
+		SELECT SUM(TOTAL_PREM) AS "saledAmount"  FROM T_POLICY_MASTER WHERE PRODUCT_ID = #{productId};
+	</select>	
+	
+</mapper>
