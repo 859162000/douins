@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.douins.agency</groupId>
+  <artifactId>agency</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>agency</name>
+  <url>http://maven.apache.org</url>
+
+  <modules>
+    <module>agency-service</module>
+    <module>agency-api</module>
+  </modules>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.12</junit.version>
+    <spring.version>4.2.4.RELEASE</spring.version>
+    <slf4j.version>1.7.13</slf4j.version>
+    <fastjson.version>1.2.7</fastjson.version>
+    <jackson-core.version>1.9.12</jackson-core.version>
+    <mybatis-spring.vaersion>1.2.3</mybatis-spring.vaersion>
+    <mybatis.version>3.3.0</mybatis.version>
+    <mysql-java.version>5.1.38</mysql-java.version>
+    <druid.version>1.0.16</druid.version>
+    <log4j.version>1.2.14</log4j.version>
+    <servlet.version>3.1.0</servlet.version>
+    <guava.version>17.0</guava.version>
+    <common-logging.version>1.1.3</common-logging.version>
+    <mockito.version>1.9.5</mockito.version>
+  </properties>
+  
+  <distributionManagement>  
+  <repository>  
+    <id>douins-releases</id>  
+      <name>douins-releases</name>  
+      <url>http://moz.douins.com:8081/content/repositories/douins-releases/</url>  
+  </repository>  
+  <snapshotRepository>  
+    <id>douins-snapshots</id>  
+    <name>douins-snapshots</name>  
+    <url>http://moz.douins.com:8081/content/repositories/douins-snapshots/</url>  
+  </snapshotRepository>  
+</distributionManagement>  
+  
+  
+   <!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
+	<!-- <repositories>
+		<repository>
+			<id>nexus</id>
+			<name>Team Nexus Repository</name>
+			<url>http://localhost:8081/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>offical</id>
+			<name>Maven Official Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		
+		
+		<repository>
+			<id>ibiblio</id>
+			<name>Mirrors ibiblio Repository</name>
+			<url>http://mirrors.ibiblio.org/maven2/</url>
+		</repository>
+		
+		    <repository>
+		        <id>jboss-public-repository-group</id>
+		        <url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
+		        <releases>
+		          <enabled>true</enabled>
+		        </releases>
+		        <snapshots>
+		          <enabled>false</enabled>
+		        </snapshots>
+		     </repository>
+
+		<repository>
+	        <id>alibaba-opensource</id>
+	        <name>alibaba-opensource</name>
+	        <url>http://code.alibabatech.com/mvn/releases/</url>
+	        <layout>default</layout>
+	    </repository>
+		
+		<repository>
+            <id>apache-repo</id>
+            <name>apache Repository</name>
+            <url>https://repository.apache.org/content/groups/public/</url>
+        </repository>
+         		
+        
+        <repository>
+            <id>springsource-repo</id>
+            <name>SpringSource Repository</name>
+            <url>http://repo.springsource.org/release/</url>
+        </repository>
+        
+        <repository>
+            <id>springsource-repo-snapshot</id>
+            <name>SpringSource Repository</name>
+            <url>http://repo.springsource.org/snapshot/</url>
+        </repository>
+        
+        <repository>
+            <id>cloudhopper</id>
+            <name>Repository for Cloudhopper</name>
+            <url>http://maven.cloudhopper.com/repos/third-party/</url>
+        </repository>
+        
+        <repository>
+            <id>jboss-repo-releases</id>
+            <name>Jboss Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+        
+		<repository>
+			<id>jboss</id>
+			<name>Jboss Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+		
+        <repository>
+            <id>sourceforge-releases</id>
+            <name>Sourceforge Releases</name>
+            <url>https://oss.sonatype.org/content/repositories/sourceforge-releases/</url>
+        </repository> 
+        
+        <repository>
+	      <snapshots>
+	        <enabled>true</enabled>
+	      </snapshots>
+	      <id>sonatype-snapshots</id>
+	      <name>Sonatype Jetty Snapshots</name>
+	      <url>http://oss.sonatype.org/content/groups/jetty</url>
+	    </repository>
+	    
+        <repository>
+	        <id>jsonrpc4j-webdav-maven-repo</id>
+	        <name>jsonrpc4j maven repository</name>
+	        <url>http://jsonrpc4j.googlecode.com/svn/maven/repo/</url>
+	        <layout>default</layout>
+	    </repository> -->
+	    
+	    <!-- simple captcha -->
+	    <!-- <repository>
+			<id>mvnrepository</id>
+			<name>mvnrepository</name>
+			<url>http://mvnrepository.com</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+        
+	</repositories>
+	
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<name>Team Nexus Repository</name>
+			<url>http://localhost:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+		
+        <pluginRepository>
+            <id>maven2-repo</id>
+            <name>maven2 Repository</name>
+            <url>http://repo1.maven.org/maven2/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>Codehaus repository</id>
+            <url>http://repository.codehaus.org/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven-db-plugin-repo</id>
+            <name>maven db plugin repository</name>
+            <url>https://maven-db-plugin.googlecode.com/svn/maven/repo</url>
+            <layout>default</layout>
+        </pluginRepository>
+    </pluginRepositories> -->
+    <!--以上指定加包方式（repository）-->
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+   
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>${mockito.version}</version>
+          <scope>test</scope>
+      </dependency>
+    <!-- spring 相关 -->
+    <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>${spring.version}</version>
+</dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+       <groupId>org.springframework</groupId>
+       <artifactId>spring-beans</artifactId>
+       <version>${spring.version}</version>
+        </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aspects</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+        <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <!-- spring-mvc -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${spring.version}</version>
+    </dependency>
+    <!-- 日志相关 -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>${common-logging.version}</version>
+    </dependency>
+    <!-- fast json -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>${fastjson.version}</version>
+    </dependency>
+    <dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>${jackson-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-jaxrs</artifactId>
+				<version>${jackson-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>${jackson-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-joda</artifactId>
+				<version>2.4.2</version>
+			</dependency>
+    <!-- mybatis -->
+   <dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+    <version>${mybatis-spring.vaersion}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>${mybatis.version}</version>
+  </dependency>
+  <!-- mysql 相关 -->
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>${mysql-java.version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid</artifactId>
+    <version>${druid.version}</version>
+  </dependency>
+  
+   <!-- servlet -->
+  <dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>${servlet.version}</version>
+  </dependency>
+  
+  <dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.2</version>
+  </dependency>
+  
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+    </dependency>
+  </dependencies>
+   
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+				<!-- jdk -->
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			
+			<!-- tomcat发布插件，server必须与settins.xml中server.id一致 -->
+			<plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                      <!-- tomcat的发布路径 -->
+                      <url>http://mos.douins.com:8099/manager/text</url>
+                      <update>true</update>
+                      <server>tomcat-liu</server>
+                      <username>tomcat</username>
+                      <password>s3cret</password>
+                      <path>/agencyapi</path>
+                </configuration>
+            </plugin>
+			
+			<!-- war打包插件, 设定war包名称不带版本号 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.3</version>
+					<configuration>
+						<warName>${project.artifactId}</warName>
+						<outputDirectory>${project.build.directory}</outputDirectory>
+						<tasks>  
+                            <echo message="make ..."/>  
+                            <exec dir="src/main/war" executable="make" failonerror="true" />  
+                        </tasks>  
+					</configuration>
+					<executions>
+                           <execution>
+                              <id>package</id>  
+                              <phase>package</phase>  
+                           </execution>
+					</executions>
+                    <goals>
+					     <goal>run</goal>
+					 </goals>
+				</plugin>
+		</plugins>
+	</build>
+</project>

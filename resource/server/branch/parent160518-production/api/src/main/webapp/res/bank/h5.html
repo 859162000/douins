@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>南粤银行h5页面测试</title>
+
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<form id="documentForm" method="post">
+
+<h2>银行H5网关测试页面</h2>
+
+<p>
+	ip地址：<input id="ip" value="14.23.114.92">
+</p>
+<p>
+	端口：<input id="port" value="81">
+</p>
+<p>
+	channlNo：<input id="channlNo" value="PTP0000005">
+</p>
+<p>
+	acctNoId：<input id="acctNoId" value="9b1803f4-badd-4f29-8f06-114abcf12090">
+</p>
+<p>
+	回调URL：<input id="url" value="http://www.douins.com">
+</p>
+<div>
+        <h3>用户信息</h3>
+        <ul>
+            <a href="moneymanager/H5/ptp_setTradePass.html?">重置密码</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_card.html?">卡管理</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_modPaypsw.html?">交易密码修改</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_resetPsw.html?">交易密码重置</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_recharge.html?chanlFlowNo=123&payAmount=100.00">电子账户充值</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_withdraw.html?chanlFlowNo=123&tranAmt=100.00">电子账户取现</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_buy.html?projCode=123&chanlFlowNo=123&tranAmt=100.00">申购</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_edSelfloan.html?projCode=123&chanlFlowNo=123&tranAmt=100.00&transIndex=123">还款</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/getOtp.do?phone=13312497399">查询短信验证码</a>
+        </ul>
+        <ul>
+            <a href="moneymanager/H5/ptp_singlePay.html?acctType=1&acctNo=123&projCode=123&chanlFlowNo=123&amt=100.00&tranTitle=pp&tranDesc=oo&rcvAcctTypeArray=1&rcvAcctNoIdArray=1&rcvAcctNoArray=99&rcvAmtArray=100.00">支付</a>
+        </ul>
+</div>
+
+<script src="http://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
+
+
+<script type="text/javascript">
+
+var ip = $('#ip').val();
+var port = $('#port').val();
+var channlNo = $('#channlNo').val();
+var acctNoId = $('#acctNoId').val();
+var _url_r = $('#url').val();
+var _url = encodeURIComponent(_url_r);
+
+$('input').change(function(){
+	ip = $('#ip').val();
+	port = $('#port').val();
+	channlNo = $('#channlNo').val();
+	acctNoId = $('#acctNoId').val();
+	_url_r = $('#url').val();
+	_url = encodeURIComponent(_url_r);
+});
+
+$('a').click(function(){
+	
+	var url = $(this).attr("href");
+	var content = sign(url);
+	console.dir(content);
+	url = "http://"+ip+":"+port+"/"+url+"&chanlNo="+channlNo+"&acctNoId="+acctNoId+"&url="+_url;
+	$.ajax({
+		url:"/api/test/h5/sign",
+		type:"post",
+		data:{
+			content:content
+		},
+		success:function(data){
+			url = url+ "&signMsg="+encodeURIComponent(data);
+			window.open(url);
+		}
+		
+	});
+	return false;
+});
+
+function sign(url) {
+	var content = "";
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(url.indexOf("?")+1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+    	  if(strs[i].indexOf("=") != -1){
+    	  	content += "|"+(strs[i].split("=")[1]);
+    	  }
+      }
+   }
+   
+   content = channlNo+"|"+acctNoId+content + "|"+ _url_r;
+   return content;
+}
+</script>
+</body>

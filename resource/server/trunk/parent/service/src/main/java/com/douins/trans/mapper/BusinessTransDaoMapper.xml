@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.trans.dao.BusinessTransDao" >
+  <resultMap id="BaseResultMap" type="com.douins.trans.domain.model.BusinessTrans" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TRANS_ID" property="transId" jdbcType="VARCHAR" />
+    <result column="BUSINESS_ID" property="businessId" jdbcType="VARCHAR" />
+    <result column="TRANS_NO" property="transNo" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="TRANS_CHANNEL" property="transChannel" jdbcType="VARCHAR" />
+    <result column="TRANS_TIME" property="transTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_MONEY" property="payMoney" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="RESULT_MSG" property="resultMsg" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,TRANS_ID, BUSINESS_ID, TRANS_NO, TRANS_TYPE, TRANS_CHANNEL, TRANS_TIME, PAY_MONEY, STATUS, RESULT_MSG, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.douins.trans.domain.model.BusinessTrans" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_BUSINESS_TRANS 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="transId != null and transId != ''"> and TRANS_ID = #{transId,jdbcType=VARCHAR}</if>
+			<if test="businessId != null and businessId != ''"> and BUSINESS_ID = #{businessId,jdbcType=VARCHAR}</if>
+			<if test="transNo != null and transNo != ''"> and TRANS_NO = #{transNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=VARCHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=DATE}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=DATE}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=VARCHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.douins.trans.domain.model.BusinessTrans" resultType="java.lang.Integer" >
+	   select count(*) from T_BUSINESS_TRANS 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="transId != null and transId != ''"> and TRANS_ID = #{transId,jdbcType=VARCHAR}</if>
+			<if test="businessId != null and businessId != ''"> and BUSINESS_ID = #{businessId,jdbcType=VARCHAR}</if>
+			<if test="transNo != null and transNo != ''"> and TRANS_NO = #{transNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=VARCHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=DATE}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=DATE}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=VARCHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>			
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_BUSINESS_TRANS SET ISVALID='0' where TRANS_ID = #{transId,jdbcType=VARCHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BUSINESS_TRANS where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.douins.trans.domain.model.BusinessTrans" >
+    insert into T_BUSINESS_TRANS (TRANS_ID, BUSINESS_ID, 
+      TRANS_NO, TRANS_TYPE, TRANS_CHANNEL, 
+      TRANS_TIME, PAY_MONEY, STATUS, 
+      RESULT_MSG, ISVALID, CREATE_DATE, 
+      UPDATE_DATE)
+    values (#{transId,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR}, 
+      #{transNo,jdbcType=VARCHAR}, #{transType,jdbcType=VARCHAR}, #{transChannel,jdbcType=VARCHAR}, 
+      #{transTime}, #{payMoney,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{resultMsg,jdbcType=VARCHAR}, '1', NOW(), NOW())
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.douins.trans.domain.model.BusinessTrans" >
+    update T_BUSINESS_TRANS
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="businessId != null and businessId != ''">BUSINESS_ID = #{businessId,jdbcType=VARCHAR},</if>
+      <if test="transNo != null and transNo != ''">TRANS_NO = #{transNo,jdbcType=VARCHAR},</if>
+      <if test="transType != null and transType != ''">TRANS_TYPE = #{transType,jdbcType=VARCHAR},</if>
+      <if test="transChannel != null and transChannel != ''">TRANS_CHANNEL = #{transChannel,jdbcType=VARCHAR},</if>
+      <if test="transTime != null and transTime != ''">TRANS_TIME = #{transTime,jdbcType=DATE},</if>
+      <if test="payMoney != null and payMoney != ''">PAY_MONEY = #{payMoney,jdbcType=DECIMAL},</if>
+      <if test="status != null and status != ''">STATUS = #{status,jdbcType=VARCHAR},</if>
+      <if test="resultMsg != null and resultMsg != ''">RESULT_MSG = #{resultMsg,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=VARCHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate},</if>
+    </trim>
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_BUSINESS_TRANS where TRANS_ID = #{transId,jdbcType=VARCHAR} AND ISVALID = '1'
+  </select> 
+</mapper>

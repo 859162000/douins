@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.user.model.ValidateCodeMapper">
+	<resultMap id="BaseResultMap" type="com.mango.fortune.user.model.ValidateCode">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="VALIDATE_CODE_ID" property="validateCodeId" jdbcType="CHAR" />
+		<result column="VALIDATE_TYPE" property="validateType" jdbcType="VARCHAR" />
+		<result column="VALIDATE_ACCOUNT" property="validateAccount" jdbcType="VARCHAR" />
+		<result column="VALIDATE_CODE" property="validateCode" jdbcType="VARCHAR" />
+		<result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="CODE_TYPE" property="codeType" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, VALIDATE_CODE_ID,VALIDATE_TYPE, VALIDATE_ACCOUNT, VALIDATE_CODE, SEND_TIME, ISVALID,CREATE_DATE, UPDATE_DATE,CODE_TYPE
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> from T_VALIDATECODE where VALIDATE_CODE_ID = #{validateCodeId,jdbcType=CHAR} AND ISVALID = '1'
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_VALIDATECODE where VALIDATE_CODE_ID = #{validateCodeId,jdbcType=CHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.mango.fortune.user.model.ValidateCode">
+		insert into T_VALIDATECODE (VALIDATE_CODE_ID, VALIDATE_ACCOUNT,
+		VALIDATE_CODE, SEND_TIME, ISVALID, CREATE_DATE, UPDATE_DATE,VALIDATE_TYPE,CODE_TYPE)
+		values (#{validateCodeId,jdbcType=CHAR}, #{validateAccount,jdbcType=VARCHAR},
+		#{validateCode,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, '1',
+		#{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},#{validateType,jdbcType=VARCHAR},#{codeType,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateByPrimaryKey" parameterType="com.mango.fortune.user.model.ValidateCode">
+		update T_VALIDATECODE
+		set
+		VALIDATE_ACCOUNT = #{validateAccount,jdbcType=VARCHAR},
+		VALIDATE_CODE = #{validateCode,jdbcType=VARCHAR},
+		SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+		UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		VALIDATE_TYPE = #{validateType,jdbcType=VARCHAR}
+		where VALIDATE_CODE_ID = #{validateCodeId,jdbcType=CHAR}
+	</update>
+	
+	<update id="softDeleteByAccount" parameterType="com.mango.fortune.user.model.ValidateCode">
+		update T_VALIDATECODE set ISVALID = '0',UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+		where VALIDATE_ACCOUNT = #{validateAccount,jdbcType=CHAR} and ISVALID = '1'
+	</update>
+	
+	<select id="findLatestValidateCode" resultMap="BaseResultMap" parameterType="com.mango.fortune.user.model.ValidateCode">
+		select fvc.*  from (select a.* from T_VALIDATECODE a where a.validate_account=#{validateAccount,jdbcType=VARCHAR} 
+			and a.validate_type = #{validateType,jdbcType=VARCHAR} and a.CODE_TYPE = #{codeType,jdbcType=VARCHAR} and a.isvalid='1' order by a.send_time desc,id desc) fvc
+		where rownum=1
+	</select>
+</mapper>

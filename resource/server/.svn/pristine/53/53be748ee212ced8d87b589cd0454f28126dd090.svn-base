@@ -1,0 +1,4 @@
+ws.url=http://10.139.111.147:8280/ws/
+com.mango.tunnel.sms.service.SmsWSService=smsWSService
+com.mango.tunnel.email.service.EmailWSService=emailWSService
+com.mango.tunnel.xml.service.XmlWSService=xmlWSService

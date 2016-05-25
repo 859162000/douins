@@ -1,0 +1,12 @@
+﻿insert into t_insurance (INSURANCE_ID, INSURANCE_NAME, INSURANCE_CODE, INSURANCE_ABBR_NAME, ISVALID, CREATE_DATE, UPDATE_DATE)
+values ('754cd44f583841348f4c6ad64e7a12a2', '珠江人寿', 'ZJ', '珠江人寿', '1', sysdate, sysdate);
+
+insert into t_product (PRODUCT_ID, INSURANCE_ID, PRODUCT_NAME, PRODUCT_DESC, STATUS, PRODUCT_CODE, PARTNER_PRODUCT_CODE, PARTNER_CODE, PRODUCT_TYPE, PRODUCT_INCOME_DESC, PRODUCT_RISK_DESC, RISK_LEVEL, AGE_UPPER, AGE_FLOOR, AREA_LIMIT, PRODUCT_PERIOD, PERIOD_TYPE, EXPIRE_DATE, REPAY_DATE, INCOME_TYPE, EXPECT_RATE, MIN_RATE, STOCK, UNIT_PREM, MIN_PREM, MAX_PREM, MAX_PER_PREM, SALE_BEGIN_TIME, SALE_END_TIME, DEFAULT_RENEW_TYPE, RENEW_TYPE, AHEAD_REPAY_FALG, AHEAD_REPAY_HANDFEE, REMARK, ISVALID, CREATE_DATE, UPDATE_DATE)
+values ('79aacb6b382143a8af9dcca0d88cbbe1', '754cd44f583841348f4c6ad64e7a12a2', '珠江人寿保险赢二号两全保险', '', '1', 'W001', 'W001', 'ZJ', '1', '', '', '1', 80, 18, '', 6, '2', null, null, '1', 6.0000, 6.0000, 0, 1000.00, 1000.00, 0.00, 0.00, null, null, '', '', '1', 0.0000, '', '1', sysdate, sysdate);
+
+insert into t_product_loan_cycle (LOAN_CYCLE_ID, PRODUCT_ID, UNIT, CYCLE, RATE, ISVALID, CREATE_DATE, UPDATE_DATE)
+values ('a1af9f3baf334914bedce62927b9d185', '79aacb6b382143a8af9dcca0d88cbbe1', '2', 6.00, 2.0000, '1', sysdate, sysdate);
+
+insert into t_product_detail(ID, PRODUCT_DETAIL_ID, PRODUCT_ID, PRODUCT_AMOUNT, RECEIVE_TIME_DESC, RECEIVE_TYPE, PRODUCT_DESC, BUY_DESC, PRODUCT_BUY_DESC, RISK_DESC, ISVALID, CREATE_DATE, UPDATE_DATE,PRODUCT_INSURE_NAME) 
+values(SEQ_T_PRODUCT_DETAIL.Nextval,'81543088b2af4dcd979764a10b3cd18f','79aacb6b382143a8af9dcca0d88cbbe1','500000000','','退保后一次性领取费用',' 本产品是由珠江人寿保险股份有限公司推出的具有保障功能与理财价值的万能型保险产品。','本产品历史年化结算利率是7.2%。最低保证年利率3%，超过最低保证年利率的部分是不确定的，实际以珠江人寿每月初在招财宝帮派及公司官网公布的结算利率为准。','本产品犹豫期为10个自然日，犹豫期内退保免退保费用。在犹豫期满后，2年内退保保险公司将收取一定比例的退保费用，第1个保单年度3%，第2个保单年度2%，2年后无退保费用。本产品不支持在线部分领取。购买前请认真阅读《产品合同》，当您 “确认付款”则表示您已确认并同意《产品合同》中的内容。','4.1 您知晓并同意，您通过招财宝平台所从事的交易可能面临如下风险，该些风险需由您自行承担：4.1.1 监管风险：有关法律、法规及相关政策、规则发生变化，导致无法实现您的投融资交易，您由此可能遭受损失；4.1.2 违约风险：因您的交易对手无力或无意愿按时足额履约，您由此可能遭受损失；4.1.3 预期收益风险：您所投资的交易因特定原因无法实现预期收益，您由此无法获得更多收益；4.1.4 成交风险：您所发布的投融资交易可能无法最终达成，您由此无法获得收益或融资。4.1.5 本协议约定的不可抗力因素导致的风险；4.1.6 因您的过错导致的任何损失，该过错包括但不限于：决策失误、操作不当、遗忘或泄露支付宝账户密码、密码被他人破解、您使用的计算机系统被第三方侵入、您委托他人代理交易时他人恶意或不当操作而造成的损失。4.2 本公司不对您及/或任何交易提供任何担保或条件，无论是明示、默示或法定的。招财宝平台向您提供的各种信息及资料仅为参考，您应依其独立判断做出决策。您据此进行交易的，产生的风险由您自行承担，您无权据此向本公司提出任何法律主张。在交易过程中，您与交易对手之间发生的纠纷，由纠纷各方自行解决，交易平台不承担任何责任。4.3以上并不能揭示您通过本公司进行交易的全部风险及市场的全部情形。您在做出交易决策前，应全面了解相关交易，谨慎决策，并自行承担全部风险。','1',sysdate,sysdate,'珠江人寿保险股份有限公司');
+

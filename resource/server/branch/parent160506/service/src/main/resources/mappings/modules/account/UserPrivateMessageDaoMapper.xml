@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.account.dao.UserPrivateMessageDao">
+    <sql id="base_column_list">
+        title, content, isRead, deleted, createTime
+    </sql>
+    
+    <insert id="add" parameterType="com.douins.account.domain.model.UserPrivateMessage">
+        insert into td_user_private_message (uid, title, content, isRead, deleted, createTime, updateTime)
+        values (#{uid}, #{title}, #{content}, #{isRead}, #{deleted}, NOW(), NOW())
+    </insert>
+    
+    <select id="findByUid" parameterType="Map" resultType="com.douins.account.domain.model.UserPrivateMessage">
+        select * from td_user_private_message where uid = #{uid} and deleted = 0
+        order by isRead asc, createTime desc limit #{start}, #{size}
+    </select>
+    
+    <update id="deleted" parameterType="long" >
+        update td_user_private_message set deleted = 1, updateTime = NOW() where msgId = #{msgId}
+    </update>
+    
+    <update id="updateReadStatus" parameterType="long">
+        update td_user_private_message set isRead = 1, updateTime = NOW() where msgId = #{msgId}
+    </update>
+    
+    <select id="listById" parameterType="com.douins.account.domain.vo.MessageRequest" resultType="com.douins.account.domain.model.UserPrivateMessage" >
+        select * from td_user_private_message where msgId >= #{notificationId} and uid = #{uid} and deleted = 0 order by createTime asc limit #{amount}
+    </select>
+    
+    <select id="getUnreadCount" parameterType="String" resultType="int">
+        select count(*) from td_user_private_message where uid = #{uid} and isRead = 0 and deleted = 0
+    </select>
+</mapper>

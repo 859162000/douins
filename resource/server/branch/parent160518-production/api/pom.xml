@@ -1,0 +1,291 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.douins</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>api</artifactId>
+  <packaging>war</packaging>
+  <name>api</name>
+  <url>http://maven.apache.org</url>
+  
+ <properties>
+        <package.environment>dev</package.environment>
+        <webapp>api</webapp>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 打包的配置 -->
+        <host>dev.douins.com</host>
+        <username>root</username>
+        <userpass>douins@1234</userpass>
+        <userhome>/data/douins/dev/war</userhome>
+        <tomcat.dir>/var/tomcat/default0</tomcat.dir>
+        <tomcat.filter>default0</tomcat.filter>
+        <local.war>${project.build.directory}/${webapp}.war</local.war>
+        
+        <!-- tools version setting -->
+        <jackson.version>2.4.4</jackson.version>
+		<jackson-jaxrs-json-provider.version>2.4.4</jackson-jaxrs-json-provider.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>qa</id>
+            <properties>
+                <package.environment>qa</package.environment>
+                <webapp>api</webapp>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>dev</id>
+            <properties>
+                <package.environment>dev</package.environment>
+                <webapp>api</webapp>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            </properties>
+        </profile>
+        
+         <profile>
+            <id>awsonline</id>
+            <properties>
+                <package.environment>awsonline</package.environment>
+                <webapp>api</webapp>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            </properties>
+        </profile>
+        
+         <profile>
+            <id>awstest</id>
+            <properties>
+                <package.environment>awstest</package.environment>
+                <webapp>api</webapp>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            </properties>
+        </profile>
+
+    </profiles>
+
+    <build>
+        <finalName>${webapp}</finalName>
+        <plugins>
+        <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+           <!--  <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warName>${webapp}</warName>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <webResources>
+                        <resource>
+                            this is relative to the pom.xml directory
+                            <directory>src/main/resources-${package.environment}</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin> -->
+            
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warName>${webapp}</warName>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <webResources>
+                    		<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/resources-${package.environment}</directory>
+							<include>**/*.properties</include>
+							<include>**/*.xml</include>
+							<targetPath>WEB-INF/classes</targetPath>
+							<filtering>true</filtering>
+						</resource>
+					
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                             <!-- add  includes 节点防止 打包过程，丢失属性文件-->
+                             <!-- <includes>
+		                      <include>**/*.properties</include>
+		                     </includes> -->
+                            <directory>src/main/resources</directory>
+                          <include>**/*.*</include> 
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+           
+            
+            <plugin>
+              <groupId>org.eclipse.jetty</groupId>
+              <artifactId>jetty-maven-plugin</artifactId>
+              <version>9.2.7.v20150116</version>
+              <configuration>
+                <scanIntervalSeconds>10</scanIntervalSeconds>
+                <webApp>
+                  <contextPath>/api</contextPath>
+                </webApp>
+              </configuration>
+            </plugin>
+            
+            <!-- 自动打包部署配置 
+                打包指令：mvn clean package antrun:run -DskipTests $*  -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <dependencies>
+                    <!-- Include Ant-Contrib tasks -->
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>20020829</version>
+                    </dependency>
+                    <!-- Include sshexec task -->
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-jsch</artifactId>
+                        <version>1.9.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.jcraft</groupId>
+                        <artifactId>jsch</artifactId>
+                        <version>0.1.50</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <phase>package</phase> <!-- -->
+                    <tasks>
+                        <!-- Add the sshexec and scp task -->
+                        <taskdef name="sshexec"
+                            classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec"
+                            classpathref="maven.plugin.classpath" />
+                        <taskdef name="scp"
+                            classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp"
+                            classpathref="maven.plugin.classpath" />
+
+                        <sshexec host="${host}" username="${username}" password="${userpass}"
+                            trust="true" failonerror="false" command="rm -rf ${userhome}/${webapp}.war" />
+                        <scp file="${local.war}" todir="${username}:${userpass}@${host}:${userhome}"
+                            trust="true" verbose="true" />
+
+                        <sshexec host="${host}" username="${username}" password="${userpass}"
+                            trust="true" failonerror="false"
+                            command="kill -9 $(ps -ef | grep -v grep | grep tomcat | grep ${tomcat.filter} | awk '{print $2}')" />
+
+                        <sshexec host="${host}" username="${username}" password="${userpass}"
+                            trust="true" failonerror="false"
+                            command="rm -rf ${userhome}/${webapp};unzip ${userhome}/${webapp}.war -d ${userhome}/${webapp}" />
+                        <sshexec host="${host}" username="${username}" password="${userpass}"
+                            trust="true" failonerror="false" command="${tomcat.dir}/bin/startup.sh;exit;" />
+                    </tasks>
+                </configuration>
+                <goals>
+                    <goal>run</goal>
+                </goals>
+            </plugin>
+       
+            <!-- 打包结束 -->
+        </plugins>
+    </build>
+
+    <dependencies>
+	 <dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.2.8</version>
+	</dependency>
+	      <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <artifactId>jackson-jaxrs-json-provider</artifactId>
+        <version>${jackson-jaxrs-json-provider.version}</version>
+      </dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+    	<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+			</dependency>
+			<!-- <dependency>
+				<groupId>im4java</groupId>
+				<artifactId>im4java</artifactId>
+			</dependency> -->
+        <dependency>
+            <groupId>com.douins</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
+        <!--  <dependency>
+            <groupId>com.douins</groupId>
+            <artifactId>douins-common</artifactId>
+        </dependency> -->
+        
+        <dependency>
+				<groupId>c3p0</groupId>
+				<artifactId>c3p0</artifactId>
+			</dependency>
+    </dependencies>
+</project>

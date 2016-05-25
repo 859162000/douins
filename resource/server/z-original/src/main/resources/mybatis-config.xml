@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<plugins>
+		<!-- 指定数据库分页方言Dialect -->
+		<plugin interceptor="com.mango.orm.mybatis.PagePluging">
+			<property name="dialectClass" value="com.mango.orm.OracleDialect" />
+		</plugin>
+	</plugins>
+	<mappers>
+		 <mapper resource="mapper/partner/InsuranceInterfaceConfigMapper.xml" />
+		 <mapper resource="mapper/partner/InsuranceMapper.xml" />
+	
+	     <mapper resource="mapper/trans/RequestTransMapper.xml" />
+	     <mapper resource="mapper/apply/ApplyInfoMapper.xml" />
+	     <mapper resource="mapper/apply/LoanApplyMapper.xml" />
+	     <mapper resource="mapper/apply/RepayApplyMapper.xml" />
+	     <mapper resource="mapper/apply/SurrenderApplyMapper.xml" />
+	     <mapper resource="mapper/product/ProductMapper.xml" />
+	     <mapper resource="mapper/product/ProductLoanCycleMapper.xml" />
+	     <mapper resource="mapper/product/ProductDetailMapper.xml" />
+	     
+	     <mapper resource="mapper/user/UserMapper.xml" />
+	     <mapper resource="mapper/user/ValidateCodeMapper.xml" />
+	     <mapper resource="mapper/sms/SmsSendMapper.xml" />
+	     <mapper resource="mapper/account/UserPayAccountMapper.xml" />
+	     <mapper resource="mapper/account/UserAccountMapper.xml" />
+	     <mapper resource="mapper/account/UserAccountOpenApplyMapper.xml" />
+	     <mapper resource="mapper/account/UserAccountDetailMapper.xml" />
+	     
+	     <mapper resource="mapper/trans/BusinessTransMapper.xml" />
+	     
+	     <mapper resource="mapper/policy/CustomerMapper.xml" />
+	     <mapper resource="mapper/policy/PolicyMasterMapper.xml" />
+	     
+	      <mapper resource="mapper/pay/PaymentApplyMapper.xml" />
+	</mappers>
+</configuration>

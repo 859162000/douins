@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.pay.dao.PaymentApplyDao" >
+  <resultMap id="BaseResultMap" type="com.douins.pay.domain.model.PaymentApply" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PAYMENT_APPLY_ID" property="paymentApplyId" jdbcType="CHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="USER_ACCOUNT_ID" property="userAccountId" jdbcType="CHAR" />
+    <result column="PAY_ORDER_NO" property="payOrderNo" jdbcType="VARCHAR" />
+    <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+    <result column="THIRDPAY_TYPE" property="thirdpayType" jdbcType="VARCHAR" />
+    <result column="FROM_ACCOUNT_NAME" property="fromAccountName" jdbcType="VARCHAR" />
+    <result column="FROM_ACCOUNT_NO" property="fromAccountNo" jdbcType="VARCHAR" />
+    <result column="FROM_BANK_CODE" property="fromBankCode" jdbcType="VARCHAR" />
+    <result column="FROM_BANK_NAME" property="fromBankName" jdbcType="VARCHAR" />
+    <result column="TO_ACCOUNT_NAME" property="toAccountName" jdbcType="VARCHAR" />
+    <result column="TO_ACCOUNT_NO" property="toAccountNo" jdbcType="VARCHAR" />
+    <result column="TO_BANK_CODE" property="toBankCode" jdbcType="VARCHAR" />
+    <result column="TO_BANK_NAME" property="toBankName" jdbcType="VARCHAR" />
+    <result column="PAY_APPLY_TIME" property="payApplyTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_MONEY" property="payMoney" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <sql id="Base_Column_List" >
+    ID,PAYMENT_APPLY_ID, POLICY_ID, USER_ACCOUNT_ID, PAY_ORDER_NO, PAY_TYPE, THIRDPAY_TYPE, FROM_ACCOUNT_NAME, FROM_ACCOUNT_NO, FROM_BANK_CODE, FROM_BANK_NAME, TO_ACCOUNT_NAME, 
+    TO_ACCOUNT_NO, TO_BANK_CODE, TO_BANK_NAME, PAY_APPLY_TIME, PAY_TIME, PAY_MONEY, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.douins.pay.domain.model.PaymentApply" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_PAYMENT_APPLY 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="paymentApplyId != null and paymentApplyId != ''"> and PAYMENT_APPLY_ID = #{paymentApplyId,jdbcType=CHAR}</if>
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}</if>
+			<if test="payOrderNo != null and payOrderNo != ''"> and PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.douins.pay.domain.model.PaymentApply" resultType="java.lang.Integer" >
+	   select count(*) from T_PAYMENT_APPLY 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="paymentApplyId != null and paymentApplyId != ''"> and PAYMENT_APPLY_ID = #{paymentApplyId,jdbcType=CHAR}</if>
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}</if>
+			<if test="payOrderNo != null and payOrderNo != ''"> and PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_PAYMENT_APPLY SET ISVALID='0' where PAYMENT_APPLY_ID = #{paymentApplyId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_PAYMENT_APPLY where PAYMENT_APPLY_ID = #{paymentApplyId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.douins.pay.domain.model.PaymentApply" >
+    insert into T_PAYMENT_APPLY (PAYMENT_APPLY_ID, POLICY_ID, 
+      USER_ACCOUNT_ID, PAY_ORDER_NO, PAY_TYPE, 
+      THIRDPAY_TYPE, FROM_ACCOUNT_NAME, FROM_ACCOUNT_NO, 
+      FROM_BANK_CODE, FROM_BANK_NAME, TO_ACCOUNT_NAME, 
+      TO_ACCOUNT_NO, TO_BANK_CODE, TO_BANK_NAME, 
+      PAY_APPLY_TIME, PAY_TIME, PAY_MONEY, 
+      STATUS, ISVALID, CREATE_DATE, 
+      UPDATE_DATE)
+    values (#{paymentApplyId,jdbcType=CHAR},  #{policyId,jdbcType=CHAR}, 
+      #{userAccountId,jdbcType=CHAR}, #{payOrderNo,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
+      #{thirdpayType,jdbcType=VARCHAR}, #{fromAccountName,jdbcType=VARCHAR}, #{fromAccountNo,jdbcType=VARCHAR}, 
+      #{fromBankCode,jdbcType=VARCHAR}, #{fromBankName,jdbcType=VARCHAR}, #{toAccountName,jdbcType=VARCHAR}, 
+      #{toAccountNo,jdbcType=VARCHAR}, #{toBankCode,jdbcType=VARCHAR}, #{toBankName,jdbcType=VARCHAR}, 
+      #{payApplyTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{payMoney,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, '1', #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.douins.pay.domain.model.PaymentApply" >
+    update T_PAYMENT_APPLY
+    <trim prefix="SET" suffixOverrides=",">	
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="policyId != null and policyId != ''">POLICY_ID = #{policyId,jdbcType=CHAR},</if>
+      <if test="userAccountId != null and userAccountId != ''">USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR},</if>
+      <if test="payOrderNo != null and payOrderNo != ''">PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR},</if>
+      <if test="payType != null and payType != ''">PAY_TYPE = #{payType,jdbcType=VARCHAR},</if>
+      <if test="thirdpayType != null and thirdpayType != ''">THIRDPAY_TYPE = #{thirdpayType,jdbcType=VARCHAR},</if>
+      <if test="fromAccountName != null and fromAccountName != ''">FROM_ACCOUNT_NAME = #{fromAccountName,jdbcType=VARCHAR},</if>
+      <if test="fromAccountNo != null and fromAccountNo != ''">FROM_ACCOUNT_NO = #{fromAccountNo,jdbcType=VARCHAR},</if>
+      <if test="fromBankCode != null and fromBankCode != ''">FROM_BANK_CODE = #{fromBankCode,jdbcType=VARCHAR},</if>
+      <if test="fromBankName != null and fromBankName != ''">FROM_BANK_NAME = #{fromBankName,jdbcType=VARCHAR},</if>
+      <if test="toAccountName != null and toAccountName != ''">TO_ACCOUNT_NAME = #{toAccountName,jdbcType=VARCHAR},</if>
+      <if test="toAccountNo != null and toAccountNo != ''">TO_ACCOUNT_NO = #{toAccountNo,jdbcType=VARCHAR},</if>
+      <if test="toBankCode != null and toBankCode != ''">TO_BANK_CODE = #{toBankCode,jdbcType=VARCHAR},</if>
+      <if test="toBankName != null and toBankName != ''">TO_BANK_NAME = #{toBankName,jdbcType=VARCHAR},</if>
+      <if test="payApplyTime != null and payApplyTime != ''">PAY_APPLY_TIME = #{payApplyTime,jdbcType=TIMESTAMP},</if>
+      <if test="payTime != null and payTime != ''">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
+      <if test="payMoney != null and payMoney != ''">PAY_MONEY = #{payMoney,jdbcType=DECIMAL},</if>
+      <if test="status != null and status != ''">STATUS = #{status,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=CHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},</if>
+    </trim>
+    where PAYMENT_APPLY_ID = #{paymentApplyId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_PAYMENT_APPLY where PAYMENT_APPLY_ID = #{paymentApplyId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+</mapper>

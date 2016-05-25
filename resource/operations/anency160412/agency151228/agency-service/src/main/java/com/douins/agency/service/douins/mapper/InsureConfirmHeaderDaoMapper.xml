@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.douins.agency.service.douins.dao.InsureConfirmHeaderDao">
+<resultMap type="com.douins.agency.service.douins.domain.model.InsureConfirmHeader" id="BaseResultMap">
+  <result column="func" property="function"  />
+  <result column="src"  property="from"/>
+  <result column="statu" property="status"/>
+</resultMap>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.douins.agency.service.douins.domain.model.InsureConfirmHeader">
+
+		INSERT IGNORE INTO dt_insurecfm_hd (
+		chnlNo,
+		tranCode,
+		documentId,
+		profileRequest,
+		func,
+		src,
+		target,
+		status,
+		createTime,
+		updateTime
+		) VALUES(
+		#{chnlNo},
+		#{tranCode},
+		#{documentId},
+		#{profileRequest},
+		#{function},
+		#{from},
+		#{to},
+		#{status},
+		NOW(),
+		NOW())
+	</insert>
+	
+	<update id="updateByOrder" parameterType="com.douins.agency.service.douins.domain.model.InsureConfirmHeader">
+	    UPDATE dt_insurecfm_hd
+	       SET status = #{status},
+	           updateTime = NOW()
+	     WHERE orderNo = #{orderNo}
+	</update>
+
+</mapper>

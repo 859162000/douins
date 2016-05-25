@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.agency.service.douins.dao.InsureRequestFeedbackDao">
+<insert id="insert" parameterType="com.douins.agency.service.douins.domain.model.InsureRequestFeedback">
+	INSERT INTO dt_insurereq_fb(
+	tradeNo,
+	applySeq,
+	responseCode,
+	responseMessage,
+	productCode,
+	proposalNo,
+	printNo,
+	startDate,
+	endDate,
+	amount,
+	premium,
+	createTime
+	)VALUE(
+	#{tradeNo},
+	#{applySeq},
+	#{responseCode},
+	#{responseMessage},
+	#{productCode},
+	#{proposalNo},
+	#{printNo},
+	#{startDate},
+	#{endDate},
+	#{amount},
+	#{premium},
+	 NOW()
+	)
+</insert>
+<select id="getIsReqFeedbackByTradeNo" parameterType="java.lang.String" resultType="com.douins.agency.service.douins.domain.model.InsureRequestFeedback">
+	SELECT * FROM dt_insurereq_fb WHERE tradeNo = #{tradeNo}
+</select>
+
+<select id="getIsReqFeedbackByOrderNo" parameterType="java.lang.String" resultType="com.douins.agency.service.douins.domain.model.InsureRequestFeedback">
+		SELECT b.printNo,
+			   b.proposalNo
+		  FROM dt_insurereq_itm a
+	INNER JOIN dt_insurereq_fb b
+			ON a.tradeNo = b.tradeNo
+		 WHERE a.orderNo = #{orderNo}
+		   AND a.cfmFlag = '1'
+</select>
+</mapper>

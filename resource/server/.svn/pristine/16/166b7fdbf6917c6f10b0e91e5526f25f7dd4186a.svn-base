@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.account.dao.UserAccountDetailDao" >
+  <resultMap id="BaseResultMap" type="com.douins.account.domain.model.UserAccountDetail" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USER_ACCOUNT_DETAIL_ID" property="userAccountDetailId" jdbcType="CHAR" />
+    <result column="USER_ACCOUNT_ID" property="userAccountId" jdbcType="CHAR" />
+    <result column="BUSINESS_ID" property="businessId" jdbcType="CHAR" />
+    <result column="BUSINESS_NO" property="businessNo" jdbcType="VARCHAR" />
+    <result column="DETAIL_TYPE" property="detailType" jdbcType="VARCHAR" />
+    <result column="DETAIL_IO" property="detailIo" jdbcType="VARCHAR" />
+    <result column="FROM_ACCOUNT_NAME" property="fromAccountName" jdbcType="VARCHAR" />
+    <result column="FROM_ACCOUNT_NO" property="fromAccountNo" jdbcType="VARCHAR" />
+    <result column="FROM_BANK_CODE" property="fromBankCode" jdbcType="VARCHAR" />
+    <result column="FROM_BANK_NAME" property="fromBankName" jdbcType="VARCHAR" />
+    <result column="TO_ACCOUNT_NAME" property="toAccountName" jdbcType="VARCHAR" />
+    <result column="TO_ACCOUNT_NO" property="toAccountNo" jdbcType="VARCHAR" />
+    <result column="TO_BANK_CODE" property="toBankCode" jdbcType="VARCHAR" />
+    <result column="TO_BANK_NAME" property="toBankName" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,USER_ACCOUNT_DETAIL_ID, USER_ACCOUNT_ID, BUSINESS_ID, BUSINESS_NO, DETAIL_TYPE, DETAIL_IO, FROM_ACCOUNT_NAME, FROM_ACCOUNT_NO, FROM_BANK_CODE, FROM_BANK_NAME, TO_ACCOUNT_NAME, TO_ACCOUNT_NO, 
+    TO_BANK_CODE, TO_BANK_NAME, APPLY_TIME, END_TIME, APPLY_AMOUNT, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  <select id="getList" parameterType="com.douins.account.domain.model.UserAccountDetail" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_USER_ACCOUNT_DETAIL 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="userAccountDetailId != null and userAccountDetailId != ''"> and USER_ACCOUNT_DETAIL_ID = #{userAccountDetailId,jdbcType=CHAR}</if>
+			<if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}</if>
+			<if test="businessId != null and businessId != ''"> and BUSINESS_ID = #{businessId,jdbcType=CHAR}</if>	
+			<if test="businessNo != null and businessNo != ''"> and BUSINESS_NO = #{businessNo,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<if test="beginDate != null and beginDate != ''"><![CDATA[ and APPLY_TIME >= #{beginDate,jdbcType=TIMESTAMP} ]]></if>
+			<if test="endDate != null and endDate != ''"><![CDATA[ and APPLY_TIME < #{endDate,jdbcType=TIMESTAMP} ]]></if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.douins.account.domain.model.UserAccountDetail" resultType="java.lang.Integer" >
+	   select count(*) from T_USER_ACCOUNT_DETAIL 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="userAccountDetailId != null and userAccountDetailId != ''"> and USER_ACCOUNT_DETAIL_ID = #{userAccountDetailId,jdbcType=CHAR}</if>
+			<if test="userAccountId != null and userAccountId != ''"> and USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR}</if>
+			<if test="businessId != null and businessId != ''"> and BUSINESS_ID = #{businessId,jdbcType=CHAR}</if>	
+			<if test="businessNo != null and businessNo != ''"> and BUSINESS_NO = #{businessNo,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<if test="beginDate != null and beginDate != ''"><![CDATA[ and APPLY_TIME >= #{beginDate,jdbcType=TIMESTAMP} ]]></if>
+			<if test="endDate != null and endDate != ''"><![CDATA[ and APPLY_TIME < #{endDate,jdbcType=TIMESTAMP} ]]></if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+    <!-- softDeleteByPrimaryKey -->
+   <update id="delete" parameterType="java.lang.String" >
+   	update T_USER_ACCOUNT_DETAIL SET ISVALID='0' where USER_ACCOUNT_DETAIL_ID = #{userAccountDetailId,jdbcType=CHAR}
+   </update>  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_USER_ACCOUNT_DETAIL where USER_ACCOUNT_DETAIL_ID = #{userAccountDetailId,jdbcType=CHAR}
+  </delete>
+  
+  <!-- insert -->
+  <insert id="add" parameterType="com.douins.account.domain.model.UserAccountDetail" >
+    insert into T_USER_ACCOUNT_DETAIL (USER_ACCOUNT_DETAIL_ID,  USER_ACCOUNT_ID, 
+      BUSINESS_ID, BUSINESS_NO, DETAIL_TYPE, DETAIL_IO, 
+      FROM_ACCOUNT_NAME, FROM_ACCOUNT_NO, FROM_BANK_CODE, 
+      FROM_BANK_NAME, TO_ACCOUNT_NAME, TO_ACCOUNT_NO, 
+      TO_BANK_CODE, TO_BANK_NAME, APPLY_TIME, 
+      END_TIME, APPLY_AMOUNT, STATUS, 
+      ISVALID, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{userAccountDetailId,jdbcType=CHAR},  #{userAccountId,jdbcType=CHAR}, 
+      #{businessId,jdbcType=CHAR}, #{businessNo,jdbcType=VARCHAR}, #{detailType,jdbcType=VARCHAR}, #{detailIo,jdbcType=VARCHAR}, 
+      #{fromAccountName,jdbcType=VARCHAR}, #{fromAccountNo,jdbcType=VARCHAR}, #{fromBankCode,jdbcType=VARCHAR}, 
+      #{fromBankName,jdbcType=VARCHAR}, #{toAccountName,jdbcType=VARCHAR}, #{toAccountNo,jdbcType=VARCHAR}, 
+      #{toBankCode,jdbcType=VARCHAR}, #{toBankName,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{applyAmount,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      '1', #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <!-- updateByPrimaryKey -->
+  <update id="update" parameterType="com.douins.account.domain.model.UserAccountDetail" >
+    update T_USER_ACCOUNT_DETAIL
+    <trim prefix="SET" suffixOverrides=",">	
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="userAccountId != null and userAccountId != ''">USER_ACCOUNT_ID = #{userAccountId,jdbcType=CHAR},</if>
+      <if test="businessId != null and businessId != ''">BUSINESS_ID = #{businessId,jdbcType=CHAR},</if>
+      <if test="businessNo != null and businessNo != ''">BUSINESS_NO = #{businessNo,jdbcType=VARCHAR},</if>
+      <if test="detailType != null and detailType != ''">DETAIL_TYPE = #{detailType,jdbcType=VARCHAR},</if>
+      <if test="detailIo != null and detailIo != ''">DETAIL_IO = #{detailIo,jdbcType=VARCHAR},</if>
+      <if test="fromAccountName != null and fromAccountName != ''">FROM_ACCOUNT_NAME = #{fromAccountName,jdbcType=VARCHAR},</if>
+      <if test="fromAccountNo != null and fromAccountNo != ''">FROM_ACCOUNT_NO = #{fromAccountNo,jdbcType=VARCHAR},</if>
+      <if test="fromBankCode != null and fromBankCode != ''">FROM_BANK_CODE = #{fromBankCode,jdbcType=VARCHAR},</if>
+      <if test="fromBankName != null and fromBankName != ''">FROM_BANK_NAME = #{fromBankName,jdbcType=VARCHAR},</if>
+      <if test="toAccountName != null and toAccountName != ''">TO_ACCOUNT_NAME = #{toAccountName,jdbcType=VARCHAR},</if>
+      <if test="toAccountNo != null and toAccountNo != ''">TO_ACCOUNT_NO = #{toAccountNo,jdbcType=VARCHAR},</if>
+      <if test="toBankCode != null and toBankCode != ''">TO_BANK_CODE = #{toBankCode,jdbcType=VARCHAR},</if>
+      <if test="toBankName != null and toBankName != ''">TO_BANK_NAME = #{toBankName,jdbcType=VARCHAR},</if>
+      <if test="applyTime != null and applyTime != ''">APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},</if>
+      <if test="endTime != null and endTime != ''">END_TIME = #{endTime,jdbcType=TIMESTAMP},</if>
+      <if test="applyAmount != null and applyAmount != ''">APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},</if>
+      <if test="status != null and status != ''">STATUS = #{status,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=CHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},</if>
+    </trim>
+    where USER_ACCOUNT_DETAIL_ID = #{userAccountDetailId,jdbcType=CHAR}
+  </update>
+  
+  <!-- selectByPrimaryKey -->
+  <select id="findByDetailId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  <include refid="Base_Column_List" />  from T_USER_ACCOUNT_DETAIL where USER_ACCOUNT_DETAIL_ID = #{userAccountDetailId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+</mapper>

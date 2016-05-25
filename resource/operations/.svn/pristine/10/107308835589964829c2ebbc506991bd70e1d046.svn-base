@@ -1,0 +1,54 @@
+jenkins-plugins:
+  scale: 1
+  metadata:
+    plugins: |+
+      credentials
+      greenballs
+      git
+      junit
+      git-client
+      github-api
+      github-oauth
+      github
+      plain-credentials
+      scm-api
+      ssh-credentials
+      ssh-slaves
+      swarm
+
+jenkins-datavolume:
+  scale: 1
+  metadata:
+    plugins: |+
+      credentials
+      greenballs
+      git
+      junit
+      git-client
+      github-api
+      github-oauth
+      github
+      plain-credentials
+      scm-api
+      ssh-credentials
+      ssh-slaves
+      swarm
+
+jenkins-primary:
+  scale: 1
+  metadata:
+    plugins: |+
+      credentials
+      greenballs
+      git
+      junit
+      git-client
+      github-api
+      github-oauth
+      github
+      plain-credentials
+      scm-api
+      ssh-credentials
+      ssh-slaves
+      swarm
+

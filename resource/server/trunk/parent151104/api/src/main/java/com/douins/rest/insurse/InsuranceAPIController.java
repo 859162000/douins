@@ -1,0 +1,247 @@
+package com.douins.rest.insurse;
+
+import java.math.BigDecimal;
+import java.util.Random;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.douins.account.domain.model.UserAccount;
+import com.douins.account.service.UserAccountService;
+import com.douins.bank.service.BankServiceIFC;
+import com.douins.common.Api;
+import com.douins.common.util.JsonOnlineUtils;
+import com.douins.policy.domain.model.PolicyMaster;
+import com.douins.policy.domain.vo.PolicyRequest;
+import com.douins.policy.domain.vo.PolicyRequestVo;
+import com.douins.policy.domain.vo.PolicyResponse;
+import com.douins.policy.domain.vo.PolicyResult;
+import com.douins.policy2.service.PolicyManageService;
+import com.douins.policy2.service.Policyservice;
+import com.douins.trans.domain.enums.ResponseCode;
+import com.douins.trans.domain.model.ResponseTrans;
+import com.douins.trans.domain.vo.CanclePolicyRequest;
+import com.douins.trans.domain.vo.CanclePolicyResponse;
+import com.mango.core.logger.SimpleLogger;
+
+@Controller
+@Scope("prototype")
+@RequestMapping("/insurance/la")
+@Transactional
+
+public class InsuranceAPIController {
+	/**
+	 * 点立即购买---走核保
+	 * @param request
+	 */
+	private static SimpleLogger logger =SimpleLogger.getLogger(InsuranceAPIController.class);
+	
+	@Autowired
+	private PolicyManageService policyManageService;
+	
+	@Autowired
+	private UserAccountService userAccountService;
+	@Autowired
+	private Policyservice<PolicyMaster> policyservice;
+	@Resource(name = "nyBankService")
+	private BankServiceIFC service;
+	
+	@RequestMapping(value ="doUW",method = RequestMethod.POST)
+	@ResponseBody
+	@Transactional
+	@Api(token = true)
+	public String doUW(HttpServletRequest request) {
+		PolicyResponse policyResponse =  new PolicyResponse();
+
+		ResponseCode responseCode=ResponseCode.FAILED;
+		ResponseTrans responseParams = new ResponseTrans();
+
+	  try {
+			String data = request.getParameter("data");
+			PolicyRequest policyRequest = JsonOnlineUtils.readJson2Entity(data,PolicyRequest.class);
+			
+			logger.info("参数data-----:"+data);
+			//1.核保
+			String chanalFlowNo = System.currentTimeMillis()+""+ramdom4Digate()+""+ramdom4Digate();
+			PolicyRequestVo policyVo = policyRequest.getPolicyVo();
+			policyVo.setChanlFlowNo(chanalFlowNo);
+			policyRequest.setPolicyVo(policyVo);
+			policyResponse = policyManageService.processUnderwrite(policyRequest);
+			ResponseTrans responseParams1 = (ResponseTrans)policyResponse.getResponseTrans();
+			if(ResponseCode.SUCCESS.getValue().equals(responseParams1.getResponseCode())){
+				UserAccount userAccount = userAccountService.findOneByUserId(policyRequest.getPolicyVo().getUserId());
+				String virtualAccountId = userAccount.getVirtualAccountId();
+				BigDecimal totalPrem = policyRequest.getPolicyVo().getTotalPrem();
+				String mAmt = totalPrem==null||"".equals(totalPrem)?"0.00":totalPrem+"";
+				String url ="http://dev.douins.com/bank/ny/callback/payinfo";
+				String mRcvAcctTypeArray = "3";
+				String mRcvAcctNoArray = "96000127005010006";
+				String mRcvAmtArray = mAmt;
+				String mRcvAbsArray = "胡乱写的";
+				String chanlNo = "PTP0000005" ;
+			    String acctType = "1" ; // 支付类型
+	            String projCode = "DY00000000001" ;// 项目编号 暂时写死
+				
+				String signMsg = chanlNo+"|"+virtualAccountId+"|"+acctType+"|"+projCode+"|"+ chanalFlowNo+"|"+mAmt+"|"+url;
+				
+				String sign = service.signForRequest(signMsg);
+				
+				String h5Url = "http://14.23.114.92:81/moneymanager/H5/ptp_single_pay.html"+"?" +"chanlNo="+chanlNo + "&"
+	                    + "acctNoId="+virtualAccountId+"&"
+	                    + "acctType="+acctType +"&"
+	                    + "projCode="+projCode +"&"
+	                    + "chanlFlowNo="+chanalFlowNo +"&"
+	                    + "amt=" + mAmt +"&"
+	                    + "url=" + url+"&"
+	                    + "rcvAcctTypeArray=" + mRcvAcctTypeArray +"&"
+	                    + "rcvAcctNoArray=" + mRcvAcctNoArray +"&"
+	                    + "rcvAmtArray=" + mRcvAmtArray +"&"
+	                    + "rcvAbsArray=" + mRcvAbsArray +"&"
+	                    + "signMsg=" +sign;
+			   	policyResponse.setNyCallBackUrl(h5Url);
+				 responseCode=ResponseCode.SUCCESS;
+				 responseParams  = new ResponseTrans(responseCode.getValue(), responseCode.getName(), chanalFlowNo);
+				
+			}else{
+				 responseParams  = new ResponseTrans(responseCode.getValue(), responseCode.getName(), chanalFlowNo);
+			}
+			policyResponse.setResponseTrans(responseParams);
+
+			logger.info("响应信息-----:"+data);
+
+			String str = JsonOnlineUtils.object2json(policyResponse);
+			logger.info(str);
+			return str;
+	  }catch (Exception e) {
+			logger.error("核保失败！", e);
+			return JsonOnlineUtils.object2json(policyResponse);
+		}
+		
+	}
+
+	public  String ramdom4Digate() {
+		Random  random = new Random();
+		int nextInt = random.nextInt(1000);
+		if(nextInt<10){
+			return "000"+nextInt;
+		}else if(nextInt<100){
+			return "00"+nextInt;
+		}else if(nextInt<1000){
+			return "0"+nextInt;
+		}else{
+			return ""+nextInt;
+		}
+	}
+	
+	/**
+	 * 承保并保存单承保
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+	@Api(token = true)
+	@ResponseBody
+	@RequestMapping("sure/pay")
+	@Transactional
+	public String pay(HttpServletRequest request){
+		PolicyResponse policyResponse = new PolicyResponse();
+		try{
+			String data = request.getParameter("data");
+			PolicyRequest policyRequest = JsonOnlineUtils.readJson2Entity(data,PolicyRequest.class);
+			policyResponse =policyManageService.processInsuredAndPay(policyRequest);
+			String response =JsonOnlineUtils.object2json(policyResponse);
+			logger.info(response);
+			return response;
+		} catch (Exception e) {
+			logger.error("承保失败！", e);
+			return JsonOnlineUtils.object2json(policyResponse);
+		}
+		
+		
+	}
+	
+
+	/**
+	 * 退保
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+	@Api(token = true)
+	@ResponseBody
+	@RequestMapping("cancel/policy")
+	@Transactional
+	public String cancelPolicy(HttpServletRequest request){
+		String response="";
+		try {
+			String data = request.getParameter("data");
+			CanclePolicyRequest canclePolicyRequest = JsonOnlineUtils.readJson2Entity(data,CanclePolicyRequest.class);
+			PolicyResult policyResult =policyManageService.canclePolicy(canclePolicyRequest);
+			CanclePolicyResponse policyResponse = new CanclePolicyResponse();
+			ResponseTrans responseTrans= new ResponseTrans();
+			ResponseCode responseCode=ResponseCode.FAILED;
+			if(policyResult.isSuccess()){
+			    responseCode=ResponseCode.SUCCESS;
+				responseTrans  = new ResponseTrans(responseCode.getValue(), responseCode.getName(), canclePolicyRequest.getRequestTrans().getTransId());
+			}else{
+				responseTrans  = new ResponseTrans(responseCode.getValue(), responseCode.getName(),  canclePolicyRequest.getRequestTrans().getTransId());
+			}
+			policyResponse.setResponseTrans(responseTrans);
+			policyResponse.setPolicyResult(policyResult);
+			response =JsonOnlineUtils.object2json(policyResponse);
+			logger.info(response);
+			
+		} catch (Exception e) {
+			logger.error("退保失败",e);
+		}
+		
+		return response;
+	}
+
+	
+	/**
+	 * 保单查询接口
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+//	@Api(token = true)
+//	@ResponseBody
+//	@RequestMapping("query/policy")
+//	@Transactional
+//	public String query(HttpServletRequest request){
+//		String response="";
+//		try {
+//			String data = request.getParameter("data");
+//			QueryPolicyRequest queryPolicyRequest = JsonOnlineUtils.readJson2Entity(data,QueryPolicyRequest.class);
+//			PolicyResult policyResult =policyManageService.queryPolicy(queryPolicyRequest);
+//			QueryPolicyResponse policyResponse = new QueryPolicyResponse();
+//			ResponseTrans responseTrans= new ResponseTrans();
+//			ResponseCode responseCode=ResponseCode.FAILED;
+//			if(policyResult.isSuccess()){
+//			    responseCode=ResponseCode.SUCCESS;
+//				responseTrans  = new ResponseTrans(responseCode.getValue(), responseCode.getName(), canclePolicyRequest.getRequestTrans().getTransId());
+//			}else{
+//				responseTrans  = new ResponseTrans(responseCode.getValue(), responseCode.getName(),  canclePolicyRequest.getRequestTrans().getTransId());
+//			}
+//			policyResponse.setResponseTrans(responseTrans);
+//			policyResponse.setPolicyResult(policyResult);
+//			response =JsonOnlineUtils.object2json(policyResponse);
+//			logger.info(response);
+//			
+//		} catch (Exception e) {
+//			logger.error("保单查询失败",e);
+//		}
+//		
+//		return response;
+//	}
+
+}

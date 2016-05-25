@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.agency.service.douins.dao.PolicyReservationRequestDao">
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.douins.agency.service.douins.domain.model.PolicyReservationRequest">
+    insert ignore into policy_reservation_request (id, request_time, asyn, 
+      asyn_return_url, partner_identifier, partner_serial, 
+      trade_code, uUID, payment_id, 
+      bank_serial, pay_time, pay_money, 
+      account_date, pay_bank_code, pay_bank_acount, 
+      pay_bank_user_id, pay_bank_userName, recive_bank_code, 
+      recive_bank_acount, recive_bank_user_id, recive_bank_userName, 
+      channel_type, channel_num, channel_regin_num, 
+      agent_num, apply_type, apply_date, 
+      policy_effective_date, total_premium, product_code, 
+      insurance_num, insurance_period, insurance_class, 
+      after_day_effective, period_premium, insurance_category, 
+      product_effective_date, frequency, calculation_rule, 
+      payment_installments, cover_period_type, premperiod_type, 
+      is_package, certificate_type_id, certificate_id, 
+      user_name, sex, birthday, 
+      applicant_cellphone_number, address, applicant_telephone, 
+      email, is_applicant, order_id, 
+      apply_no,
+      insurant_applicant_relation,refund_time, create_time, 
+      properties,
+      insurance_coverage,Insurant_cellPhone_number,Insurant_email,
+      Insurant_id,Insurant_idType,Insurant_name,Insurant_sex,pay_type,
+      policy_no)
+    values (#{id,jdbcType=BIGINT}, #{requestTime,jdbcType=VARCHAR}, #{asyn,jdbcType=VARCHAR}, 
+      #{asynReturnUrl,jdbcType=VARCHAR}, #{partnerIdentifier,jdbcType=VARCHAR}, #{partnerSerial,jdbcType=VARCHAR}, 
+      #{tradeCode,jdbcType=VARCHAR}, #{uuid,jdbcType=VARCHAR}, #{paymentId,jdbcType=VARCHAR}, 
+      #{bankSerial,jdbcType=VARCHAR}, #{payTime,jdbcType=VARCHAR}, #{payMoney,jdbcType=VARCHAR}, 
+      #{accountDate,jdbcType=VARCHAR}, #{payBankCode,jdbcType=VARCHAR}, #{payBankAcount,jdbcType=VARCHAR}, 
+      #{payBankUserId,jdbcType=VARCHAR}, #{payBankUsername,jdbcType=VARCHAR}, #{reciveBankCode,jdbcType=VARCHAR}, 
+      #{reciveBankAcount,jdbcType=VARCHAR}, #{reciveBankUserId,jdbcType=VARCHAR}, #{reciveBankUsername,jdbcType=VARCHAR}, 
+      #{channelType,jdbcType=VARCHAR}, #{channelNum,jdbcType=VARCHAR}, #{channelReginNum,jdbcType=VARCHAR}, 
+      #{agentNum,jdbcType=VARCHAR}, #{applyType,jdbcType=VARCHAR}, #{applyDate,jdbcType=VARCHAR}, 
+      #{policyEffectiveDate,jdbcType=VARCHAR}, #{totalPremium,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
+      #{insuranceNum,jdbcType=VARCHAR}, #{insurancePeriod,jdbcType=VARCHAR}, #{insuranceClass,jdbcType=VARCHAR}, 
+      #{afterDayEffective,jdbcType=VARCHAR}, #{periodPremium,jdbcType=VARCHAR}, #{insuranceCategory,jdbcType=VARCHAR}, 
+      #{productEffectiveDate,jdbcType=VARCHAR}, #{frequency,jdbcType=VARCHAR}, #{calculationRule,jdbcType=VARCHAR}, 
+      #{paymentInstallments,jdbcType=VARCHAR}, #{coverPeriodType,jdbcType=VARCHAR}, #{premperiodType,jdbcType=VARCHAR}, 
+      #{isPackage,jdbcType=VARCHAR}, #{certificateTypeId,jdbcType=VARCHAR}, #{certificateId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
+      #{applicantCellphoneNumber,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{applicantTelephone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{isApplicant,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{applyNo,jdbcType=VARCHAR},
+      #{insurantApplicantRelation,jdbcType=VARCHAR},#{refundTime,jdbcType=VARCHAR},NOW(), 
+      #{properties,jdbcType=LONGVARCHAR},
+      #{InsuranceCoverage,jdbcType=VARCHAR},#{InsurantCellPhoneNumber,jdbcType=VARCHAR},#{InsurantEmail,jdbcType=VARCHAR},
+      #{InsurantID,jdbcType=VARCHAR},#{InsurantIDType,jdbcType=VARCHAR},#{InsurantName,jdbcType=VARCHAR},
+      #{InsurantSex,jdbcType=VARCHAR},#{payType,jdbcType=VARCHAR},#{policyNo,jdbcType=VARCHAR})
+  </insert>
+ 
+</mapper>

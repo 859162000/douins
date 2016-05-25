@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.apply.model.LoanApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.apply.model.LoanApply" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="LOAN_APPLY_ID" property="loanApplyId" jdbcType="CHAR" />
+    <result column="APPLY_INFO_ID" property="applyInfoId" jdbcType="CHAR" />
+    <result column="LOAN_NO" property="loanNo" jdbcType="VARCHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="LOAN_TYPE" property="loanType" jdbcType="VARCHAR" />
+    <result column="APPLY_CUSTOMER_ID" property="applyCustomerId" jdbcType="CHAR" />
+    <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="POLICY_VALUE" property="policyValue" jdbcType="DECIMAL" />
+    <result column="HANDFEE" property="handfee" jdbcType="DECIMAL" />
+    <result column="ACTUAL_LOAN_AMOUNT" property="actualLoanAmount" jdbcType="DECIMAL" />
+    <result column="LOAN_BEGIN_DATE" property="loanBeginDate" jdbcType="TIMESTAMP" />
+    <result column="LOAN_END_DATE" property="loanEndDate" jdbcType="TIMESTAMP" />
+    <result column="INSURANCE_COMPANY" property="insuranceCompany" jdbcType="CHAR" />
+    <result column="LOAN_COMPANY" property="loanCompany" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="PAYMENT_TIME" property="paymentTime" jdbcType="TIMESTAMP" />
+    <result column="CYCLE" property="cycle" jdbcType="DECIMAL" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="LOAN_INTEREST" property="loanInterest" jdbcType="DECIMAL" />
+    <result column="TOTAL_REPAY_AMOUNT" property="totalRepayAmount" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="LoanApplyVoResultMap" type="com.mango.api.applyAPI.vo.LoanApplyVo" >
+    <result column="LOAN_APPLY_ID" property="loanApplyId" jdbcType="CHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="LOAN_RATE" property="loanRate" jdbcType="DECIMAL" />
+    <result column="LOAN_END_DATE" property="loanEndDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TOTAL_REPAY_AMOUNT" property="totalRepayAmount" jdbcType="DECIMAL" />
+    <result column="ACCOUNT_BALANCE" property="accountBalance" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,LOAN_APPLY_ID, APPLY_INFO_ID, LOAN_NO, POLICY_ID, POLICY_CODE, LOAN_TYPE, APPLY_CUSTOMER_ID, APPLY_AMOUNT, POLICY_VALUE, LOAN_RATE, HANDFEE, 
+    ACTUAL_LOAN_AMOUNT, LOAN_BEGIN_DATE, LOAN_END_DATE, INSURANCE_COMPANY, LOAN_COMPANY, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE, PAYMENT_TIME,CYCLE,UNIT,LOAN_INTEREST,TOTAL_REPAY_AMOUNT
+  </sql>
+  
+  <select id="getList" parameterType="com.mango.fortune.apply.model.LoanApply" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_LOAN_APPLY a
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="loanApplyId != null and loanApplyId != ''"> and LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}</if>
+			<if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+			<if test="loanNo != null and loanNo != ''"> and LOAN_NO = #{loanNo,jdbcType=VARCHAR}</if>	
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>
+			<if test="applyCustomerId != null and applyCustomerId != ''"> and applyCustomerId = #{applyCustomerId,jdbcType=CHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.mango.fortune.apply.model.LoanApply" resultType="java.lang.Integer" >
+	   select count(*) from T_LOAN_APPLY 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="loanApplyId != null and loanApplyId != ''"> and LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}</if>
+			<if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+			<if test="loanNo != null and loanNo != ''"> and LOAN_NO = #{loanNo,jdbcType=VARCHAR}</if>	
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="applyCustomerId != null and applyCustomerId != ''"> and applyCustomerId = #{applyCustomerId,jdbcType=CHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>		
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_LOAN_APPLY SET ISVALID='0' where LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}
+   </update>
+  
+  <insert id="insert" parameterType="com.mango.fortune.apply.model.LoanApply" >
+    insert into T_LOAN_APPLY (LOAN_APPLY_ID, APPLY_INFO_ID, LOAN_NO, POLICY_ID, POLICY_CODE, LOAN_TYPE, APPLY_CUSTOMER_ID, APPLY_AMOUNT, POLICY_VALUE, 
+      LOAN_RATE, HANDFEE, ACTUAL_LOAN_AMOUNT, LOAN_BEGIN_DATE, LOAN_END_DATE, INSURANCE_COMPANY, 
+      LOAN_COMPANY, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE, PAYMENT_TIME,CYCLE,UNIT,LOAN_INTEREST,TOTAL_REPAY_AMOUNT)
+    values (#{loanApplyId,jdbcType=CHAR}, #{applyInfoId,jdbcType=CHAR}, 
+      #{loanNo,jdbcType=VARCHAR}, #{policyId,jdbcType=CHAR},
+      #{policyCode,jdbcType=VARCHAR}, #{loanType,jdbcType=VARCHAR},
+      #{applyCustomerId,jdbcType=CHAR}, #{applyAmount,jdbcType=DECIMAL}, #{policyValue,jdbcType=DECIMAL}, 
+      #{loanRate,jdbcType=DECIMAL}, #{handfee,jdbcType=DECIMAL}, #{actualLoanAmount,jdbcType=DECIMAL}, 
+      #{loanBeginDate,jdbcType=TIMESTAMP}, #{loanEndDate,jdbcType=TIMESTAMP}, #{insuranceCompany,jdbcType=CHAR}, 
+      #{loanCompany,jdbcType=CHAR}, #{status,jdbcType=VARCHAR}, '1', 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},#{paymentTime,jdbcType=TIMESTAMP},#{cycle,jdbcType=DECIMAL},#{unit,jdbcType=VARCHAR},
+      #{loanInterest,jdbcType=DECIMAL},#{totalRepayAmount,jdbcType=DECIMAL})
+      
+     
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.apply.model.LoanApply" >
+    update T_LOAN_APPLY
+    set ID = #{id,jdbcType=DECIMAL},
+      APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR},
+      LOAN_NO = #{loanNo,jdbcType=VARCHAR},
+      POLICY_ID = #{policyId,jdbcType=CHAR},
+      POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      LOAN_TYPE = #{loanType,jdbcType=VARCHAR},
+      APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR},
+      APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      POLICY_VALUE = #{policyValue,jdbcType=DECIMAL},
+      LOAN_RATE = #{loanRate,jdbcType=DECIMAL},
+      HANDFEE = #{handfee,jdbcType=DECIMAL},
+      ACTUAL_LOAN_AMOUNT = #{actualLoanAmount,jdbcType=DECIMAL},
+      LOAN_BEGIN_DATE = #{loanBeginDate,jdbcType=TIMESTAMP},
+      LOAN_END_DATE = #{loanEndDate,jdbcType=TIMESTAMP},
+      INSURANCE_COMPANY = #{insuranceCompany,jdbcType=CHAR},
+      LOAN_COMPANY = #{loanCompany,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ISVALID = #{isvalid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      PAYMENT_TIME = #{paymentTime,jdbcType=TIMESTAMP}
+    where LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_LOAN_APPLY where LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+  
+  <update id="updateAfter" parameterType="com.mango.fortune.apply.model.LoanApply" >
+    update T_LOAN_APPLY
+    set 
+      LOAN_BEGIN_DATE = #{loanBeginDate,jdbcType=TIMESTAMP},
+      LOAN_END_DATE = #{loanEndDate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ACTUAL_LOAN_AMOUNT = #{actualLoanAmount,jdbcType=DECIMAL},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      PAYMENT_TIME = #{paymentTime,jdbcType=TIMESTAMP}
+    where LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}
+  </update>
+  
+  <select id="getVoList" parameterType="com.mango.fortune.apply.model.LoanApply" resultMap="LoanApplyVoResultMap">
+	    select a.LOAN_APPLY_ID,POLICY_ID,POLICY_CODE,APPLY_AMOUNT,LOAN_RATE,LOAN_END_DATE,a.STATUS,TOTAL_REPAY_AMOUNT from T_LOAN_APPLY a ,T_USER_ACCOUNT b
+	   <trim prefix="where" prefixOverrides="and |or">1=1 and a.APPLY_CUSTOMER_ID = b.USER_ID and b.ISVALID='1'		    	
+			<if test="policyId != null and policyId != ''"> and a.POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="loanApplyId != null and loanApplyId != ''"> and a.LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}</if>
+			<if test="applyCustomerId != null and applyCustomerId != ''"> and a.APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR}</if>
+			<if test="status != null and status != ''">
+				<choose>
+					<when test="status == '5L'">
+						AND a.STATUS = '4' AND trunc(a.LOAN_END_DATE,'DD') - trunc(sysdate,'DD') &lt;= 5
+					</when>
+					<otherwise>
+						AND a.STATUS = #{status, jdbcType=CHAR}
+					</otherwise>
+				</choose>
+			</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+	 </trim>
+ 	 </select>
+  
+  
+</mapper>

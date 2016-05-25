@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.apply.model.ApplyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.apply.model.ApplyInfo" >
+   	<id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="APPLY_INFO_ID" property="applyInfoId" jdbcType="CHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="APPLY_CUSTOMER_ID" property="applyCustomerId" jdbcType="CHAR" />
+    <result column="VALIDATE_TIME" property="validateTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,APPLY_INFO_ID,POLICY_ID,APPLY_TYPE,APPLY_TIME,APPLY_CUSTOMER_ID,VALIDATE_TIME,STATUS,ISVALID,CREATE_DATE,UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.mango.fortune.apply.model.ApplyInfo" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_APPLY_INFO a
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="applyCustomerId != null and applyCustomerId != ''"> and APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.mango.fortune.apply.model.ApplyInfo" resultType="java.lang.Integer" >
+	   select count(*) from T_APPLY_INFO a
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="applyCustomerId != null and applyCustomerId != ''"> and APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_APPLY_INFO SET ISVALID='0' where APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_APPLY_INFO where APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mango.fortune.apply.model.ApplyInfo" >
+    insert into T_APPLY_INFO (APPLY_INFO_ID, POLICY_ID, 
+      APPLY_TYPE, APPLY_TIME, APPLY_CUSTOMER_ID, 
+      VALIDATE_TIME, STATUS, ISVALID, 
+      CREATE_DATE, UPDATE_DATE)
+    values (#{applyInfoId,jdbcType=CHAR}, #{policyId,jdbcType=CHAR}, 
+      #{applyType,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{applyCustomerId,jdbcType=CHAR}, 
+      #{validateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, '1', 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.apply.model.ApplyInfo" >
+    update T_APPLY_INFO
+    set ID = #{id,jdbcType=DECIMAL},
+      POLICY_ID = #{policyId,jdbcType=CHAR},
+      APPLY_TYPE = #{applyType,jdbcType=VARCHAR},
+      APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+      APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR},
+      VALIDATE_TIME = #{validateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ISVALID = #{isvalid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_APPLY_INFO where APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR} AND ISVALID='1'
+  </select>
+ 
+ <update id="updateAfter" parameterType="com.mango.fortune.apply.model.ApplyInfo" >
+    update T_APPLY_INFO
+    set 
+      VALIDATE_TIME = #{validateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}
+  </update>
+ 
+</mapper>

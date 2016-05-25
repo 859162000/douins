@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.apply.dao.RepayApplyDao" >
+  <resultMap id="BaseResultMap" type="com.douins.apply.domain.model.RepayApply" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="REPAY_APPLY_ID" property="repayApplyId" jdbcType="CHAR" />
+    <result column="APPLY_INFO_ID" property="applyInfoId" jdbcType="CHAR" />
+    <result column="REPAY_NO" property="repayNo" jdbcType="VARCHAR" />
+    <result column="LOAN_APPLY_ID" property="loanApplyId" jdbcType="CHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="REPAY_TYPE" property="repayType" jdbcType="VARCHAR" />
+    <result column="APPLY_CUSTOMER_ID" property="applyCustomerId" jdbcType="CHAR" />
+    <result column="APPLY_AMOUNT" property="applyAmount" jdbcType="DECIMAL" />
+    <result column="REPAY_VALUE" property="repayValue" jdbcType="DECIMAL" />
+    <result column="REPAY_RATE" property="repayRate" jdbcType="DECIMAL" />
+    <result column="HANDFEE" property="handfee" jdbcType="DECIMAL" />
+    <result column="ACTUAL_REPAY_AMOUNT" property="actualRepayAmount" jdbcType="DECIMAL" />
+    <result column="REPAY_TIME" property="repayTime" jdbcType="TIMESTAMP" />
+    <result column="INSURANCE_COMPANY" property="insuranceCompany" jdbcType="CHAR" />
+    <result column="LOAN_COMPANY" property="loanCompany" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+   ID, REPAY_APPLY_ID,  APPLY_INFO_ID, REPAY_NO, LOAN_APPLY_ID, POLICY_ID, POLICY_CODE, REPAY_TYPE, APPLY_CUSTOMER_ID, APPLY_AMOUNT, REPAY_VALUE, REPAY_RATE, 
+      HANDFEE, ACTUAL_REPAY_AMOUNT, REPAY_TIME, INSURANCE_COMPANY, LOAN_COMPANY, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.douins.apply.domain.model.RepayApply" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from T_REPAY_APPLY 
+       <trim prefix="where" prefixOverrides="and |or">1=1               
+            <if test="repayApplyId != null and repayApplyId != ''"> and REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR}</if>
+            <if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+            <if test="repayNo != null and repayNo != ''"> and REPAY_NO = #{repayNo,jdbcType=VARCHAR}</if>
+            <if test="loanApplyId != null and loanApplyId != ''"> and LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}</if>
+            <if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+            <if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>
+            <if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>   
+            <if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+            <if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+            <choose>
+                <when test="isvalid != null and isvalid != ''">
+                    AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+                </when>
+                <otherwise>
+                    AND a.ISVALID = '1'
+                </otherwise>
+            </choose>
+     </trim>
+     </select>
+     <select id="getList_Count" parameterType="com.douins.apply.domain.model.RepayApply" resultType="java.lang.Integer" >
+       select count(*) from T_REPAY_APPLY 
+       <trim prefix="where" prefixOverrides="and |or">1=1
+            <if test="repayApplyId != null and repayApplyId != ''"> and REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR}</if>
+            <if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+            <if test="repayNo != null and repayNo != ''"> and REPAY_NO = #{repayNo,jdbcType=VARCHAR}</if>
+            <if test="loanApplyId != null and loanApplyId != ''"> and LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR}</if>
+            <if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+            <if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>
+            <if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>   
+            <if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+            <if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+            <choose>
+                <when test="isvalid != null and isvalid != ''">
+                    AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+                </when>
+                <otherwise>
+                    AND a.ISVALID = '1'
+                </otherwise>
+            </choose>
+        </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+    <!-- softDeleteByPrimaryKey -->
+   <update id="delete" parameterType="java.lang.String" >
+    update T_REPAY_APPLY SET ISVALID='0' where REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_REPAY_APPLY
+    where REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR}
+  </delete>
+  
+  <!-- insert -->
+  <insert id="add" parameterType="com.douins.apply.domain.model.RepayApply" >
+    insert into T_REPAY_APPLY (REPAY_APPLY_ID, APPLY_INFO_ID, 
+      REPAY_NO, LOAN_APPLY_ID, POLICY_ID, POLICY_CODE, REPAY_TYPE, APPLY_CUSTOMER_ID, APPLY_AMOUNT, 
+      REPAY_VALUE, REPAY_RATE, HANDFEE, 
+      ACTUAL_REPAY_AMOUNT, REPAY_TIME, 
+      INSURANCE_COMPANY, LOAN_COMPANY, STATUS, 
+      ISVALID, CREATE_DATE, UPDATE_DATE
+      )
+    values (#{repayApplyId,jdbcType=CHAR}, #{applyInfoId,jdbcType=CHAR}, 
+      #{repayNo,jdbcType=VARCHAR}, #{loanApplyId,jdbcType=CHAR}, #{policyId,jdbcType=CHAR}, 
+      #{policyCode,jdbcType=VARCHAR}, #{repayType,jdbcType=VARCHAR}, #{applyCustomerId,jdbcType=CHAR}, #{applyAmount,jdbcType=DECIMAL}, 
+      #{repayValue,jdbcType=DECIMAL}, #{repayRate,jdbcType=DECIMAL}, #{handfee,jdbcType=DECIMAL}, 
+      #{actualRepayAmount,jdbcType=DECIMAL}, #{repayTime,jdbcType=TIMESTAMP}, 
+      #{insuranceCompany,jdbcType=CHAR}, #{loanCompany,jdbcType=CHAR}, #{status,jdbcType=VARCHAR}, 
+      '1', #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <!-- updateByPrimaryKey -->
+  <update id="update" parameterType="com.douins.apply.domain.model.RepayApply" >
+    update T_REPAY_APPLY
+    set ID = #{id,jdbcType=DECIMAL},
+      APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR},
+      REPAY_NO = #{repayNo,jdbcType=VARCHAR},
+      LOAN_APPLY_ID = #{loanApplyId,jdbcType=CHAR},
+      POLICY_ID = #{policyId,jdbcType=CHAR},
+      POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      REPAY_TYPE = #{repayType,jdbcType=VARCHAR},
+      APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR},
+      APPLY_AMOUNT = #{applyAmount,jdbcType=DECIMAL},
+      REPAY_VALUE = #{repayValue,jdbcType=DECIMAL},
+      REPAY_RATE = #{repayRate,jdbcType=DECIMAL},
+      HANDFEE = #{handfee,jdbcType=DECIMAL},
+      ACTUAL_REPAY_AMOUNT = #{actualRepayAmount,jdbcType=DECIMAL},
+      REPAY_TIME = #{repayTime,jdbcType=TIMESTAMP},
+      INSURANCE_COMPANY = #{insuranceCompany,jdbcType=CHAR},
+      LOAN_COMPANY = #{loanCompany,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR}
+  </update>
+  
+  <!-- selectByPrimaryKey -->
+  <select id="findByApplyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />  from T_REPAY_APPLY where REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+  
+  <update id="updateAfter" parameterType="com.douins.apply.domain.model.RepayApply" >
+    update T_REPAY_APPLY
+    set 
+      REPAY_TIME = #{repayTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where REPAY_APPLY_ID = #{repayApplyId,jdbcType=CHAR}
+  </update>
+  
+</mapper>

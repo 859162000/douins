@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.douins.agency.service.douins.dao.QunarLiAnBankCodeMappingDao">
+
+	<select id="selectLiAnCodeByBankName" parameterType="String" resultType="String">
+		  SELECT lian_bank_code from quna_lian_bankcode_mapping  
+		  WHERE bank_short_name= #{bankName} OR bank_full_name= #{bankName} LIMIT 1
+	</select>
+
+</mapper>

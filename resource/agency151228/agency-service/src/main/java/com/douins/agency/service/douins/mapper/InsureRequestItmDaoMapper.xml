@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.agency.service.douins.dao.InsureRequestItmDao">
+<resultMap type="com.douins.agency.service.douins.domain.model.InsureRequestItem" id="IsReqItmResultMap">
+
+</resultMap>
+
+<select id="getIsReqItmByTradeno" parameterType="java.lang.String" resultType="com.douins.agency.service.douins.domain.model.InsureRequestItem">
+        SELECT * FROM dt_insurereq_itm WHERE tradeNo = #{tradeNo}
+</select>
+
+<insert id="insert" parameterType = "com.douins.agency.service.douins.domain.model.InsureRequestItem">
+       INSERT  IGNORE INTO dt_insurereq_itm(
+       headId,
+       tradeNo,
+       orderNo,
+       applySeq,
+       exopenId,
+       insurerName,
+       insurerGender,
+       insurerBirthday,
+       insurerIdType,
+       insurerIdNo,
+       idActiveDate,
+       idDisabledDate,
+       insurerEmail,
+       insurerMobile,
+       insurantRelationship,
+       englishName,
+       phoneticizeLastname,
+       phoneticizeFirstname,
+       insurantName,
+       insurantGender,
+       insurantBirthday,
+       insurantIdType,
+       insurantIdNo,
+       instidActiveDate,
+       instidDisabledDate,
+       instMobile,
+       insurerRelationship,
+       insurantEnglishName,
+       instPhoneticizeLastname,
+       instPhoneticizeFirstname,
+       linkManName,
+       linkManMobile,
+       linkManEmail,
+       productNo,
+       unit,
+       effDate,
+       matuDate,
+       sumIns,
+       cfmFlag,
+       createTime,
+	   updateTime
+       )VALUES(
+       #{headId},
+       #{tradeNo},
+       #{orderNo},
+       #{applySeq},
+       #{exopenId},
+       #{insurerName},
+       #{insurerGender},
+       #{insurerBirthday},
+       #{insurerIdType},
+       #{insurerIdNo},
+       #{idActiveDate},
+       #{idDisabledDate},
+       #{insurerEmail},
+       #{insurerMobile},
+       #{insurantRelationship},
+       #{englishName},
+       #{phoneticizeLastname},
+       #{phoneticizeFirstname},
+       #{insurantName},
+       #{insurantGender},
+       #{insurantBirthday},
+       #{insurantIdType},
+       #{insurantIdNo},
+       #{instidActiveDate},
+       #{instidDisabledDate},
+       #{instMobile},
+       #{insurerRelationship},
+       #{insurantEnglishName},
+       #{instPhoneticizeLastname},
+       #{instPhoneticizeFirstname},
+       #{linkManName},
+       #{linkManMobile},
+       #{linkManEmail},
+       #{productNo},
+       #{unit},
+       #{effDate},
+       #{matuDate},
+       #{sumIns},
+       #{cfmFlag},
+      	NOW(),
+      	NOW()
+       )
+</insert>
+
+<update id="updateCfmflagByTradeNo" parameterType="com.douins.agency.service.douins.domain.model.InsureRequestItem">
+	UPDATE dt_insurereq_itm
+	   SET cfmFlag = #{cfmFlag},
+	   		updateTime = NOW()
+	 WHERE tradeNo = #{tradeNo}
+</update>
+
+<update id="updateCfmflagByApplyseq" parameterType="com.douins.agency.service.douins.domain.model.InsureRequestItem">
+	UPDATE dt_insurereq_itm
+	   SET cfmFlag = #{cfmFlag},
+	   		updateTime=NOW()
+	 WHERE orderNo = #{orderNo}
+	   AND applySeq IN #{applySeqList}
+</update>
+
+<select id="getQunarReqReturn" parameterType="String" resultType="com.douins.agency.service.douins.domain.model.QunarReqReturn">
+  SELECT a.applySeq,
+		 b.proposalNo,
+		 b.premium
+	FROM dt_insurereq_itm a
+	INNER JOIN dt_insurereq_fb b
+		  ON a.tradeNo = b.tradeNo
+	WHERE a.orderNo = #{orderNo}
+	  AND a.applySeq IN #{applySeqList}
+</select>
+
+<update id="updateStatu" parameterType = "com.douins.agency.service.douins.domain.model.InsureRequestItem">
+	UPDATE dt_insurereq_itm
+	   SET status = #{statu},
+	   		updateTime=NOW()
+	 WHERE tradeNo = #{tradeNo}
+</update>
+
+<select id="getCfmedReqItmByOrderNo" parameterType="String" resultType="com.douins.agency.service.douins.domain.model.InsureRequestFeedback">
+  SELECT b.*
+    FROM dt_insurereq_itm a
+   INNER JOIN dt_insurereq_fb b
+   ON a.tradeNo = b.tradeNo
+   WHERE a.orderNo = #{orderNo}
+     AND a.status= '1'
+</select>
+
+<select id="getReqItmByOrderNo" parameterType="String" resultType="com.douins.agency.service.douins.domain.model.InsureRequestFeedback">
+  SELECT b.*
+    FROM dt_insurereq_itm a
+   INNER JOIN dt_insurereq_fb b
+   ON a.tradeNo = b.tradeNo
+   WHERE a.orderNo = #{orderNo}
+</select>
+
+<update id="updateCfmFlagByOrderNoAndSeq" parameterType="Map">
+    update dt_insurereq_itm set cfmFlag = #{cfmFlag}
+    where orderNo = #{orderNo} and applySeq in
+    <foreach collection="list" item="seq" open="(" separator="," close=")">
+        #{seq}
+    </foreach>
+</update>
+</mapper>

@@ -1,0 +1,266 @@
+<?xml version="1.0"?>
+<<<<<<< .mine
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.douins.agency</groupId>
+    <artifactId>agency</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>agencyapi</artifactId>
+  <packaging>war</packaging>
+  <name>agencyapi</name>
+  <url>http://maven.apache.org</url>
+  
+   <properties>
+        <package.environment>dev</package.environment>
+        <webapp>agencyapi</webapp>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 打包的配置 -->
+        <host>mos.douins.com</host>
+        <username>root</username>
+        <userpass>P8Qtv77RZuqs</userpass>
+        <userhome>/data/douins/dev/agency/war</userhome>
+        <tomcat.dir>/usr/local/apache-tomcat-7.0.68</tomcat.dir>
+        <tomcat.filter>tomcat</tomcat.filter>
+        <local.war>${project.build.directory}/${webapp}.war</local.war>
+    </properties>
+||||||| .r551
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.douins.agency</groupId>
+    <artifactId>agency</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>agencyapi</artifactId>
+  <packaging>war</packaging>
+  <name>agencyapi</name>
+  <url>http://maven.apache.org</url>
+  
+   <properties>
+        <package.environment>dev</package.environment>
+        <webapp>agencyapi</webapp>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 打包的配置 -->
+        <host>dev.douins.com</host>
+        <username>root</username>
+        <userpass>Douins081015</userpass>
+        <userhome>/data/douins/dev/agency/war</userhome>
+        <tomcat.dir>/var/tomcat/default2</tomcat.dir>
+        <tomcat.filter>default2</tomcat.filter>
+        <local.war>${project.build.directory}/${webapp}.war</local.war>
+    </properties>
+=======
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.douins.agency</groupId>
+		<artifactId>agency</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>agencyapi</artifactId>
+	<packaging>war</packaging>
+	<name>agencyapi</name>
+	<url>http://maven.apache.org</url>
+>>>>>>> .r1092
+
+	<properties>
+		<package.environment>resources</package.environment>
+		<webapp>agencyapi</webapp>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- 打包的配置 -->
+		<host>dev.douins.com</host>
+		<username>root</username>
+		<userpass>Douins081015</userpass>
+		<userhome>/data/douins/dev/agency/war</userhome>
+		<tomcat.dir>/var/tomcat/default2</tomcat.dir>
+		<tomcat.filter>default2</tomcat.filter>
+		<local.war>${project.build.directory}/${webapp}.war</local.war>
+	</properties>
+
+
+
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<package.environment>dev</package.environment>
+				<webapp>agencyapi</webapp>
+				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>online</id>
+			<properties>
+				<package.environment>resources-online</package.environment>
+				<webapp>agencyapi</webapp>
+				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>alionline</id>
+			<properties>
+				<package.environment>resources-alionline</package.environment>
+				<webapp>agencyapi</webapp>
+				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>alitest</id>
+			<properties>
+				<package.environment>resources-alitest</package.environment>
+				<webapp>agencyapi</webapp>
+				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			</properties>
+
+
+		</profile>
+
+
+	</profiles>
+
+	<build>
+		
+		<finalName>${webapp}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<warName>${webapp}</warName>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/${package.environment}</directory>
+							<targetPath>WEB-INF/classes</targetPath>
+							<filtering>true</filtering>
+						</resource>
+						<!-- 引入src/main/resources 路径下 xml 和 properties -->
+						<resource>
+							<directory>src/main/resources</directory>
+							<include>**/*.properties</include>
+							<include>**/*.xml</include>
+							<targetPath>WEB-INF/classes</targetPath>
+							<filtering>true</filtering>
+						</resource>
+						<!-- 引入src/main/resources/keystore 路径下 xml 和 properties -->
+						<resource>
+							<directory>src/main/resources/keystore</directory>
+							<include>**/*.jks</include>
+							<targetPath>WEB-INF/classes/keystore</targetPath>
+							<filtering>true</filtering>
+						</resource>
+						<!-- 引入src/main/resources/truststore 路径下 xml 和 properties -->
+						<resource>
+							<directory>src/main/resources/truststore</directory>
+							<include>**/*.jks</include>
+							<targetPath>WEB-INF/classes/truststore</targetPath>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.7.v20150116</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/api</contextPath>
+					</webApp>
+				</configuration>
+			</plugin>
+
+			<!-- 自动打包部署配置 打包指令：mvn clean package antrun:run -DskipTests $* -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<dependencies>
+					<!-- Include Ant-Contrib tasks -->
+					<dependency>
+						<groupId>ant-contrib</groupId>
+						<artifactId>ant-contrib</artifactId>
+						<version>20020829</version>
+					</dependency>
+					<!-- Include sshexec task -->
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.9.2</version>
+					</dependency>
+					<dependency>
+						<groupId>com.jcraft</groupId>
+						<artifactId>jsch</artifactId>
+						<version>0.1.50</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<phase>package</phase>
+					<tasks>
+						<!-- Add the sshexec and scp task -->
+						<taskdef name="sshexec"
+							classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec"
+							classpathref="maven.plugin.classpath" />
+						<taskdef name="scp"
+							classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp"
+							classpathref="maven.plugin.classpath" />
+
+						<sshexec host="${host}" username="${username}" password="${userpass}"
+							trust="true" failonerror="false" command="rm -rf ${userhome}/${webapp}.war" />
+						<scp file="${local.war}" todir="${username}:${userpass}@${host}:${userhome}"
+							trust="true" verbose="true" />
+
+						<sshexec host="${host}" username="${username}" password="${userpass}"
+							trust="true" failonerror="false"
+							command="kill -9 $(ps -ef | grep -v grep | grep tomcat | grep ${tomcat.filter} | awk '{print $2}')" />
+
+						<sshexec host="${host}" username="${username}" password="${userpass}"
+							trust="true" failonerror="false"
+							command="rm -rf ${userhome}/${webapp};unzip ${userhome}/${webapp}.war -d ${userhome}/${webapp}" />
+						<sshexec host="${host}" username="${username}" password="${userpass}"
+							trust="true" failonerror="false" command="${tomcat.dir}/bin/startup.sh;exit;" />
+					</tasks>
+				</configuration>
+				<goals>
+					<goal>run</goal>
+				</goals>
+			</plugin>
+			<!-- 打包结束 -->
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.douins.agency</groupId>
+			<artifactId>agency-service</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

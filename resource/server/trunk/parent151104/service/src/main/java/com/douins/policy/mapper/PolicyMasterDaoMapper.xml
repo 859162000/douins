@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.policy.dao.PolicyMasterDao" >
+  <resultMap id="BaseResultMap" type="com.douins.policy.domain.model.PolicyMaster" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="CHAR" />
+    <result column="INSURANCE_ID" property="insuranceId" jdbcType="CHAR" />
+    <result column="USER_ID" property="userId" jdbcType="CHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="PAY_ORDER_NO" property="payOrderNo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="UNDERWRITIND_TIME" property="underwritindTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="VALIDATE_DATE" property="validateDate" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="APPLICANT_ID" property="applicantId" jdbcType="CHAR" />
+    <result column="INSURED_ID" property="insuredId" jdbcType="CHAR" />
+    <result column="APPLY_NUM" property="applyNum" jdbcType="INTEGER" />
+    <result column="TOTAL_PREM" property="totalPrem" jdbcType="DECIMAL" />
+    <result column="TOTAL_REVENUE" property="totalRevenue" jdbcType="DECIMAL" />
+    <result column="PREM" property="prem" jdbcType="DECIMAL" />
+    <result column="REPAY_AMOUNT" property="repayAmount" jdbcType="DECIMAL" />
+    <result column="SEND_CODE" property="sendCode" jdbcType="VARCHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="PROPOSAL_NO" property="proposalNo" jdbcType="VARCHAR" />
+    <result column="COMMENTS" property="comments" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="POLICY_URL" property="policyUrl" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="RELATION" property="relation" jdbcType="VARCHAR" />
+    <result column="ACCUMULATED_INCOME" property="accuIncome" jdbcType="DECIMAL" />
+     <result column="YESDAY_INCOME" property="yesDayIncome" jdbcType="DECIMAL" />
+    <result column="LOANABLE_AMOUNT" property="loanableAmount" jdbcType="DECIMAL" />
+    <result column="CHANL_FLOW_NO" property="chanlFlowNo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultVoMap" type="com.douins.policy.domain.vo.PolicyResponseVo">
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="VALIDATE_DATE" property="validateDate" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="TOTAL_PREM" property="totalPrem" jdbcType="DECIMAL" /><!-- 总保费 -->
+    <result column="TOTAL_REVENUE" property="totalRevenue" jdbcType="DECIMAL" /><!-- 预期总收益 -->
+    <result column="SEND_CODE" property="sendCode" jdbcType="VARCHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="PROPOSAL_NO" property="proposalNo" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="CHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" />
+    <result column="PRODUCT_PERIOD" property="productPeriod" jdbcType="DECIMAL" />
+    <result column="PERIOD_TYPE" property="periodType" jdbcType="VARCHAR" />
+    <result column="EXPECT_RATE" property="expectRate" jdbcType="DECIMAL" />
+    <result column="APPLICANT_ID" property="applicantId" jdbcType="VARCHAR" />
+    <result column="INSURED_ID" property="insuredId" jdbcType="VARCHAR" />
+    <result column="ACCUMULATED_INCOME" property="accuIncome" jdbcType="DECIMAL" /><!-- 累计收益 -->
+    <result column="YESDAY_INCOME" property="yesDayIncome" jdbcType="DECIMAL" /><!-- 昨日收益 -->
+    <result column="LOANABLE_AMOUNT" property="loanableAmount" jdbcType="DECIMAL" />
+    <result column="HESITATE_TERM" property="hesitateTerm" jdbcType="INTEGER" />
+    <result column="POLICY_URL" property="policyUrl" jdbcType="VARCHAR" />
+     <result column="CHANL_FLOW_NO" property="chanlFlowNo" jdbcType="VARCHAR" /><!--   渠道 交易流水号 -->
+
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,POLICY_ID, PRODUCT_ID, INSURANCE_ID, USER_ID, ORDER_NO, PAY_ORDER_NO, STATUS, APPLY_TIME, UNDERWRITIND_TIME, PAY_TIME, VALIDATE_DATE, EXPIRE_DATE, END_TIME, APPLICANT_ID, 
+    INSURED_ID, APPLY_NUM, TOTAL_PREM, TOTAL_REVENUE, PREM, REPAY_AMOUNT, SEND_CODE, POLICY_CODE, PROPOSAL_NO, COMMENTS, ISVALID, CREATE_DATE, POLICY_URL, UPDATE_DATE, RELATION,
+    ACCUMULATED_INCOME, YESDAY_INCOME,LOANABLE_AMOUNT,CHANL_FLOW_NO
+  </sql>
+  
+  <select id="getList" parameterType="com.douins.policy.domain.model.PolicyMaster" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from T_POLICY_MASTER 
+       <trim prefix="where" prefixOverrides="and |or">1=1               
+            <if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+            <if test="productId != null and productId != ''"> and PRODUCT_ID = #{productId,jdbcType=CHAR}</if>
+            <if test="insuranceId != null and insuranceId != ''"> and INSURANCE_ID = #{insuranceId,jdbcType=CHAR}</if>
+            <if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=CHAR}</if>
+            <if test="orderNo != null and orderNo != ''"> and ORDER_NO = #{orderNo,jdbcType=VARCHAR}</if>   
+            <if test="payOrderNo != null and payOrderNo != ''"> and PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR}</if>  
+            <if test="applicantId != null and applicantId != ''"> and APPLICANT_ID = #{applicantId,jdbcType=CHAR}</if>
+            <if test="insuredId != null and insuredId != ''"> and INSURED_ID = #{insuredId,jdbcType=CHAR}</if>
+            <if test="sendCode != null and sendCode != ''"> and SEND_CODE = #{sendCode,jdbcType=VARCHAR}</if>   
+            <if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if> 
+           <if test="proposalNo != null and proposalNo != ''">and PROPOSAL_NO = #{proposalNo}</if>      
+            <if test="status != null and status != ''"> and STATUS = #{status}</if>   
+            <if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+            <if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+            <if test="beginDate != null and beginDate != ''"><![CDATA[ and APPLY_TIME >= #{beginDate,jdbcType=TIMESTAMP} ]]></if>
+            <if test="endDate != null and endDate != ''"><![CDATA[ and APPLY_TIME < #{endDate,jdbcType=TIMESTAMP} ]]></if>
+            <if test="policyUrl != null and policyUrl != ''"><![CDATA[ and POLICY_URL < #{policyUrl,jdbcType=VARCHAR} ]]></if>
+            <choose>
+                <when test="isvalid != null and isvalid != ''">
+                    AND ISVALID = #{isvalid,jdbcType=CHAR}
+                </when>
+                <otherwise>
+                    AND ISVALID = '1'
+                </otherwise>
+            </choose>       
+     </trim>
+     </select>
+     <select id="getList_Count" parameterType="com.douins.policy.domain.model.PolicyMaster" resultType="java.lang.Integer" >
+       select count(*) from T_POLICY_MASTER 
+       <trim prefix="where" prefixOverrides="and |or">1=1
+            <if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+            <if test="productId != null and productId != ''"> and PRODUCT_ID = #{productId,jdbcType=CHAR}</if>
+            <if test="insuranceId != null and insuranceId != ''"> and INSURANCE_ID = #{insuranceId,jdbcType=CHAR}</if>
+            <if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=CHAR}</if>
+            <if test="orderNo != null and orderNo != ''"> and ORDER_NO = #{orderNo,jdbcType=VARCHAR}</if>   
+            <if test="payOrderNo != null and payOrderNo != ''"> and PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR}</if>  
+            <if test="applicantId != null and applicantId != ''"> and APPLICANT_ID = #{applicantId,jdbcType=CHAR}</if>
+            <if test="insuredId != null and insuredId != ''"> and INSURED_ID = #{insuredId,jdbcType=CHAR}</if>
+            <if test="sendCode != null and sendCode != ''"> and SEND_CODE = #{sendCode,jdbcType=VARCHAR}</if>   
+            <if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>  
+            <if test="proposalNo != null and proposalNo != ''">and PROPOSAL_NO = #{proposalNo}</if>     
+            <if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>   
+            <if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+            <if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+            <if test="beginDate != null and beginDate != ''"><![CDATA[ and APPLY_TIME >= #{beginDate,jdbcType=TIMESTAMP} ]]></if>
+            <if test="endDate != null and endDate != ''"><![CDATA[ and APPLY_TIME < #{endDate,jdbcType=TIMESTAMP} ]]></if>
+            <choose>
+                <when test="isvalid != null and isvalid != ''">
+                    AND ISVALID = #{isvalid,jdbcType=CHAR}
+                </when>
+                <otherwise>
+                    AND ISVALID = '1'
+                </otherwise>
+            </choose>
+        </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+    update T_POLICY_MASTER SET ISVALID='0' where POLICY_ID = #{policyId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_POLICY_MASTER where POLICY_ID = #{policyId,jdbcType=CHAR}
+  </delete>
+	<insert id="insert" parameterType="com.douins.policy.domain.model.PolicyMaster">
+		insert into T_POLICY_MASTER (POLICY_ID, PRODUCT_ID,
+		INSURANCE_ID, USER_ID, ORDER_NO,
+		PAY_ORDER_NO, STATUS, APPLY_TIME,
+		UNDERWRITIND_TIME, PAY_TIME, VALIDATE_DATE,
+		EXPIRE_DATE, END_TIME, APPLICANT_ID,
+		INSURED_ID, APPLY_NUM, TOTAL_PREM,
+		TOTAL_REVENUE, PREM, REPAY_AMOUNT,
+		SEND_CODE, POLICY_CODE, PROPOSAL_NO, COMMENTS,
+		ISVALID, CREATE_DATE, POLICY_URL,
+		UPDATE_DATE, RELATION,
+		ACCUMULATED_INCOME, YESDAY_INCOME,LOANABLE_AMOUNT,CHANL_FLOW_NO)
+		values (#{policyId,jdbcType=CHAR}, #{productId,jdbcType=CHAR},
+		#{insuranceId,jdbcType=CHAR}, #{userId,jdbcType=CHAR},
+		#{orderNo,jdbcType=VARCHAR},
+		#{payOrderNo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP},
+		#{underwritindTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP},
+		#{validateDate,jdbcType=TIMESTAMP},
+		#{expireDate,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{applicantId,jdbcType=CHAR},
+		#{insuredId,jdbcType=CHAR}, #{applyNum,jdbcType=INTEGER},
+		#{totalPrem,jdbcType=DECIMAL},
+		#{totalRevenue,jdbcType=DECIMAL}, #{prem,jdbcType=DECIMAL}, #{repayAmount,jdbcType=DECIMAL},
+		#{sendCode,jdbcType=VARCHAR}, #{policyCode,jdbcType=VARCHAR},
+		#{proposalNo}, #{comments,jdbcType=VARCHAR},
+		'1', NOW(), #{policyUrl,jdbcType=VARCHAR}, NOW(),
+		#{relation,jdbcType=VARCHAR},
+		#{accuIncome}, #{yesDayIncome}, #{loanableAmount},#{chanlFlowNo})
+	</insert>
+  <update id="updateByPrimaryKey" parameterType="com.douins.policy.domain.model.PolicyMaster" >
+    update T_POLICY_MASTER
+    <trim prefix="SET" suffixOverrides=","> 
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="productId != null and productId != ''">PRODUCT_ID = #{productId,jdbcType=CHAR},</if>
+      <if test="insuranceId != null and insuranceId != ''">INSURANCE_ID = #{insuranceId,jdbcType=CHAR},</if>
+      <if test="userId != null and userId != ''">USER_ID = #{userId,jdbcType=CHAR},</if>
+      <if test="orderNo != null and orderNo != ''">ORDER_NO = #{orderNo,jdbcType=VARCHAR},</if>
+      <if test="payOrderNo != null and payOrderNo != ''">PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR},</if>
+      <if test="status != null and status != ''">STATUS = #{status,jdbcType=VARCHAR},</if>
+      <if test="applyTime != null and applyTime != ''">APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},</if>
+      <if test="underwritindTime != null and underwritindTime != ''">UNDERWRITIND_TIME = #{underwritindTime,jdbcType=TIMESTAMP},</if>
+      <if test="payTime != null and payTime != ''">PAY_TIME = #{payTime,jdbcType=TIMESTAMP},</if>
+      <if test="validateDate != null and validateDate != ''">VALIDATE_DATE = #{validateDate,jdbcType=TIMESTAMP},</if>
+      <if test="expireDate != null and expireDate != ''">EXPIRE_DATE = #{expireDate,jdbcType=TIMESTAMP},</if>
+      <if test="endTime != null and endTime != ''">END_TIME = #{endTime,jdbcType=TIMESTAMP},</if>
+      <if test="applicantId != null and applicantId != ''">APPLICANT_ID = #{applicantId,jdbcType=CHAR},</if>
+      <if test="insuredId != null and insuredId != ''">INSURED_ID = #{insuredId,jdbcType=CHAR},</if>
+      <if test="applyNum != null and applyNum != ''">APPLY_NUM = #{applyNum,jdbcType=INTEGER},</if>
+      <if test="totalPrem != null and totalPrem != ''">TOTAL_PREM = #{totalPrem,jdbcType=DECIMAL},</if>
+      <if test="totalRevenue != null and totalRevenue != ''">TOTAL_REVENUE = #{totalRevenue,jdbcType=DECIMAL},</if>
+      <if test="prem != null and prem != ''">PREM = #{prem,jdbcType=DECIMAL},</if>
+      <if test="repayAmount != null and repayAmount != ''">REPAY_AMOUNT = #{repayAmount,jdbcType=DECIMAL},</if>
+      <if test="sendCode != null and sendCode != ''">SEND_CODE = #{sendCode,jdbcType=VARCHAR},</if>
+      <if test="policyCode != null and policyCode != ''">POLICY_CODE = #{policyCode,jdbcType=VARCHAR},</if>
+      <if test="proposalNo != null and proposalNo != ''">PROPOSAL_NO = #{proposalNo},</if>
+      <if test="comments != null and comments != ''">COMMENTS = #{comments,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=CHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate},</if>
+      <if test="policyUrl != null and policyUrl != ''">POLICY_URL = #{policyUrl,jdbcType=VARCHAR},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate},</if>
+      <if test="relation != null and relation != ''">RELATION = #{relation,jdbcType=VARCHAR},</if>
+      <if test="chanlFlowNo != null and chanlFlowNo != ''">CHANL_FLOW_NO = #{chanlFlowNo,jdbcType=VARCHAR},</if>
+      
+    </trim>
+    where POLICY_ID = #{policyId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />  from T_POLICY_MASTER where POLICY_ID = #{policyId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+   <select id="findByChanlFlowNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />  from T_POLICY_MASTER where CHANL_FLOW_NO = #{chanlFlowNo,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+  <select id="getVoList" parameterType="com.douins.policy.domain.vo.PolicyRequestVo" resultMap="BaseResultVoMap">
+        select a.POLICY_ID,a.APPLY_TIME,a.PAY_TIME,a.VALIDATE_DATE,a.EXPIRE_DATE,a.STATUS,a.POLICY_CODE,a.SEND_CODE,a.TOTAL_PREM,a.TOTAL_REVENUE,a.CHANL_FLOW_NO,
+               b.PRODUCT_ID,b.PRODUCT_NAME,b.PRODUCT_PERIOD,b.PERIOD_TYPE,b.PRODUCT_TYPE,b.EXPECT_RATE ,a.APPLICANT_ID,a.INSURED_ID, a.ORDER_NO,b.HESITATE_TERM
+        from T_POLICY_MASTER as a left join  T_PRODUCT as b on a.PRODUCT_ID=b.PRODUCT_ID
+       <trim prefix="where" prefixOverrides="and |or"> 
+            <if test="policyId != null and policyId != ''"> a.POLICY_ID = #{policyId,jdbcType=VARCHAR}</if>
+            <if test="productId != null and productId != ''"> and a.PRODUCT_ID = #{productId,jdbcType=VARCHAR}</if>
+            <if test="insuranceId != null and insuranceId != ''"> and a.INSURANCE_ID = #{insuranceId,jdbcType=VARCHAR}</if>
+            <if test="userId != null and userId != ''"> and a.USER_ID = #{userId,jdbcType=CHAR}</if>
+            <if test="orderNo != null and orderNo != ''"> and a.ORDER_NO = #{orderNo,jdbcType=VARCHAR}</if> 
+            <if test="payOrderNo != null and payOrderNo != ''"> and a.PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR}</if>    
+            <if test="applicantId != null and applicantId != ''"> and a.APPLICANT_ID = #{applicantId,jdbcType=CHAR}</if>
+            <if test="insuredId != null and insuredId != ''"> and a.INSURED_ID = #{insuredId,jdbcType=CHAR}</if>
+            <if test="sendCode != null and sendCode != ''"> and a.SEND_CODE = #{sendCode,jdbcType=VARCHAR}</if> 
+            <if test="policyCode != null and policyCode != ''"> and a.POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>
+            <if test="status != null and status != ''"> and a.STATUS = #{status}</if> 
+            <if test="createDate != null and createDate != ''"> and a.CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+            <if test="updateDate != null and updateDate != ''"> and a.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+            <if test="beginDate != null and beginDate != ''"><![CDATA[ and a.APPLY_TIME >= #{beginDate,jdbcType=TIMESTAMP} ]]></if>
+            <if test="endDate != null and endDate != ''"><![CDATA[ and a.APPLY_TIME < #{endDate,jdbcType=TIMESTAMP} ]]></if>
+            <choose>
+                <when test="isvalid != null and isvalid != ''">
+                    AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+                </when>
+                <otherwise>
+                    AND a.ISVALID = '1'
+                </otherwise>
+            </choose>   
+     </trim>
+     </select>
+
+    <select id="getVoListByUid" parameterType="com.douins.policy.domain.vo.PolicyRequestVo" resultMap="BaseResultVoMap">
+        select a.POLICY_ID,a.APPLY_TIME,a.PAY_TIME,a.VALIDATE_DATE,a.EXPIRE_DATE,a.CHANL_FLOW_NO,
+        		a.STATUS,a.POLICY_CODE,a.SEND_CODE,a.TOTAL_PREM,a.TOTAL_REVENUE,
+        		a.APPLICANT_ID,a.INSURED_ID,b.HESITATE_TERM,a.ACCUMULATED_INCOME,a.YESDAY_INCOME,
+               b.PRODUCT_ID,b.PRODUCT_NAME,b.PRODUCT_PERIOD,b.PERIOD_TYPE,b.PRODUCT_TYPE,b.EXPECT_RATE 
+               
+        from T_POLICY_MASTER as a left join  T_PRODUCT as b on a.PRODUCT_ID=b.PRODUCT_ID
+        where  a.ISVALID = '1' AND a.USER_ID = #{userId} and a.STATUS >= #{status}  order by a.CREATE_DATE desc
+    </select>
+    
+    <select id="getSuccessPolicyVoList" parameterType="com.douins.policy.domain.vo.PolicyRequestVo" resultMap="BaseResultVoMap">
+        select a.POLICY_ID,a.APPLY_TIME,a.PAY_TIME,a.VALIDATE_DATE,a.EXPIRE_DATE,a.STATUS,a.POLICY_CODE,a.SEND_CODE,a.TOTAL_PREM,a.TOTAL_REVENUE,a.POLICY_URL,a.CHANL_FLOW_NO,
+               b.PRODUCT_ID,b.PRODUCT_NAME,b.PRODUCT_PERIOD,b.PERIOD_TYPE,b.PRODUCT_TYPE,b.EXPECT_RATE ,a.APPLICANT_ID,a.INSURED_ID, a.ORDER_NO,b.HESITATE_TERM
+        from T_POLICY_MASTER as a left join  T_PRODUCT as b on a.PRODUCT_ID=b.PRODUCT_ID
+       <trim prefix="where" prefixOverrides="and |or"> 
+            <if test="policyId != null and policyId != ''"> a.POLICY_ID = #{policyId,jdbcType=VARCHAR}</if>
+            <if test="productId != null and productId != ''"> and a.PRODUCT_ID = #{productId,jdbcType=VARCHAR}</if>
+            <if test="insuranceId != null and insuranceId != ''"> and a.INSURANCE_ID = #{insuranceId,jdbcType=VARCHAR}</if>
+            <if test="userId != null and userId != ''"> and a.USER_ID = #{userId,jdbcType=CHAR}</if>
+            <if test="orderNo != null and orderNo != ''"> and a.ORDER_NO = #{orderNo,jdbcType=VARCHAR}</if> 
+            <if test="payOrderNo != null and payOrderNo != ''"> and a.PAY_ORDER_NO = #{payOrderNo,jdbcType=VARCHAR}</if>    
+            <if test="applicantId != null and applicantId != ''"> and a.APPLICANT_ID = #{applicantId,jdbcType=CHAR}</if>
+            <if test="insuredId != null and insuredId != ''"> and a.INSURED_ID = #{insuredId,jdbcType=CHAR}</if>
+            <if test="sendCode != null and sendCode != ''"> and a.SEND_CODE = #{sendCode,jdbcType=VARCHAR}</if> 
+            <if test="policyCode != null and policyCode != ''"> and a.POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>
+            <if test="status != null and status != ''"> and a.STATUS = #{status}</if> 
+            <if test="createDate != null and createDate != ''"> and a.CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+            <if test="updateDate != null and updateDate != ''"> and a.UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+            <if test="beginDate != null and beginDate != ''"><![CDATA[ and a.APPLY_TIME >= #{beginDate,jdbcType=TIMESTAMP} ]]></if>
+            <if test="endDate != null and endDate != ''"><![CDATA[ and a.APPLY_TIME < #{endDate,jdbcType=TIMESTAMP} ]]></if>
+            <choose>
+                <when test="isvalid != null and isvalid != ''">
+                    AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+                </when>
+                <when test="userId != null and userId != ''">
+                    and a.STATUS in ('8', '9', '10', '20') 
+                    AND a.ISVALID = '1'
+                </when>
+                <otherwise>
+                    AND a.ISVALID = '1'
+                </otherwise>
+            </choose>   
+     </trim>
+     </select>
+</mapper>

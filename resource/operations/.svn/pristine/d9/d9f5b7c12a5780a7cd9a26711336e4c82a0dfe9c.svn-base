@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口-利安</title>
+
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<form id="documentForm" method="post">
+
+<h2>lianlife 接口测试页面</h2>
+
+<p>1、请求参数</p>
+
+<p>
+    <textarea rows="20" cols="100">
+    
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PackageList>
+	<Package>
+		<Header>
+			<Asyn>0</Asyn>
+			<Code>10002</Code>
+			<PartnerIdentifier>renrenbx</PartnerIdentifier>
+			<Time>2015-06-03 16:44:07</Time>
+			<UUID>e35b7906-2ee5-4f56-a52b-2c1599226467</UUID>
+		</Header>
+		<Request>
+			<UnderwirtingList>
+				<UnderwirtingItem>
+					<ApplyInfo>
+						<AgentNum>8632W08001</AgentNum>
+						<Applicant>
+							<CellPhoneNumber>13764805953</CellPhoneNumber>
+							<Email>aa@qq.com</Email>
+							<ID>362202198606262020</ID>
+							<IDType>0</IDType>
+							<Name>丁魏</Name>
+							<Sex>0</Sex>
+						</Applicant>
+						<ApplyDate>2015-06-03 16:44:07</ApplyDate>
+						<ApplyType>1</ApplyType>
+						<ChannelNum>1608</ChannelNum>
+						<ChannelReginNum>RENRENBX</ChannelReginNum>
+						<ChannelType>16</ChannelType>
+						<EffectiveDate>2015-06-04 00:00:00</EffectiveDate>
+						<InsuredInfo>
+							<InsurantList>
+								<Insurant>
+									<CellPhoneNumber>13764805953</CellPhoneNumber>
+									<Email>dd@qq.com</Email>
+									<ID>362202201102120856</ID>
+									<IDType>0</IDType>
+									<InsurantApplicantRelation>32</InsurantApplicantRelation>
+									<Name>等我回</Name>
+									<Sex>0</Sex>
+								</Insurant>
+							</InsurantList>
+							<IsApplicant>1</IsApplicant>
+						</InsuredInfo>
+						<ProductList>
+							<ProductInfo>
+								<AfterDayEffective>1</AfterDayEffective>
+								<CalculationRule>0</CalculationRule>
+								<CoverPeriodType>Y</CoverPeriodType>
+								<EffectiveDate>2015-06-04 00:00:00</EffectiveDate>
+								<InsuranceCategory>Y</InsuranceCategory>
+								<InsuranceCoverage>10000</InsuranceCoverage>
+								<InsuranceNum>20</InsuranceNum>
+								<InsurancePeriod>1</InsurancePeriod>
+								<IsPackage>1</IsPackage>
+								<PeriodPremium>5.3</PeriodPremium>
+								<PremPeriodType>Y</PremPeriodType>
+								<ProductCode>3208010002</ProductCode>
+							</ProductInfo>
+						</ProductList>
+						<TotalPremium>106</TotalPremium>
+					</ApplyInfo>
+					<OrderInfo>
+						<OrderId>120150603164408</OrderId>
+					</OrderInfo>
+					<OtherInfo>
+						<ConIndProxyNO>renrenbx001</ConIndProxyNO>
+						<InsureNO>1</InsureNO>
+						<Plat>ZFB</Plat>
+					</OtherInfo>
+				</UnderwirtingItem>
+			</UnderwirtingList>
+		</Request>
+	</Package>
+</PackageList>
+    </textarea>
+</p>
+
+<p>2、接口地址 <input type="text" value="1"> <button>提交</button></p>
+    
+</form>
+
+<hr>
+
+<p>返回参数</p>
+<textarea id="response" rows="20" cols="100">
+</textarea>
+
+<script src="http://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
+ <script type="text/javascript">
+    timestamp=new Date().getTime();
+</script>
+
+<script type="text/javascript">
+$('button').on('click', function() {
+    
+       var title = $('input[type=text]').val(),
+           content = $('textarea').val();
+
+       $('form').ajaxSubmit({
+           type: 'post', // 提交方式 get/post
+           url: '/agencyapi/uw', // 需要提交的 url
+           data: {
+               'title': title,
+               'content': content
+           },
+           success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+               $("#response").val(data);
+           }
+       });
+       return false; // 阻止表单自动提交事件
+});
+</script>
+</body>

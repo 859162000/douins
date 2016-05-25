@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.account.dao.UserAuthorityDao">
+    <insert id="add" parameterType="com.douins.account.domain.model.UserAuthority">
+        insert into td_user_authority (uid, token, expiredTime, createTime, updateTime)
+        values (#{uid}, #{token}, #{expiredTime}, NOW(), NOW())
+        on duplicate key update token = #{token}, expiredTime = #{expiredTime}, updateTime = NOW()
+    </insert>
+    
+    <select id="find" parameterType="String" resultType="com.douins.account.domain.model.UserAuthority">
+        select *  from td_user_authority where uid = #{uid}
+    </select>
+    
+    <update id="updateToken" parameterType="com.douins.account.domain.model.UserAuthority">
+        update td_user_authority set token = #{token}, expiredTime = #{expiredTime}, updateTime = NOW()
+        where uid = #{uid}
+    </update>
+    
+    <select id="findUserByToken" parameterType="String" resultType="com.douins.account.domain.model.UserAuthority">
+        select *  from td_user_authority where token = #{token}
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口</title>
+
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<form id="documentForm" method="post">
+
+<h2>南粤支付通知接口测试页面</h2>
+
+<p>1、南粤通知参数</p>
+
+<p>
+    <textarea rows="20" cols="100">
+<?xml version="1.0" encoding="UTF-8"?>
+<SDOROOT>
+	<SYS_HEAD>
+	<SIGN_MSG>qqlLzExAFg8L/Fxla/2BxHy3LERDZA12NULE7/64iYKp5PTm7jrCuTPS/lq0TJBczBg93nRZ/sFednI/ObzMAFi0UZkH6Qj9WUeHRrlPIqDa1LjC73AEkRlkVg5ut9ckJMSobbjBrjrAGajTgZa4p+VT8PHGXtK5/1jgleXfToc=</SIGN_MSG>
+	</SYS_HEAD>
+	<BODY>
+		<FLOW_NO>0101062016020625637900</FLOW_NO>
+		<CUST_NO>EC10000285592</CUST_NO>
+		<CHANL_NO>PTP100000000001</CHANL_NO>
+		<TRAN_DATE>20160206</TRAN_DATE>
+		<TRAN_TIME>094152</TRAN_TIME>
+		<STATUS>03</STATUS>
+		<RET_CODE>0000</RET_CODE>
+		<RET_MSG>交易成功</RET_MSG>
+		<PROJ_CODE>PTP00224</PROJ_CODE>
+		<PAY_ACCT>663300990000</PAY_ACCT>
+		<PAY_OPENBRAN>1234</PAY_OPENBRAN>
+		<PAY_ACCTNAME>324324132</PAY_ACCTNAME>
+		<RCV_ACCT>3432</RCV_ACCT>
+		<RCV_ACCTNAME>41</RCV_ACCTNAME>
+		<RCV_BANK>14</RCV_BANK>
+		<TRAN_TYPE>14</TRAN_TYPE>
+		<CURR>CNY</CURR>
+		<AMT>234</AMT>
+		<FEE>234</FEE>
+		<USAGE>324</USAGE>
+		<PAY_TYPE>4231</PAY_TYPE>
+		<FREEZE_NO>324</FREEZE_NO>
+		<PROJ_NAME>324</PROJ_NAME>
+		<TRAN_TITLE>1</TRAN_TITLE>
+		<TRAN_DESC>23</TRAN_DESC>
+		<CHANL_FLOW_NO>43242314</CHANL_FLOW_NO>
+	</BODY>
+</SDOROOT>
+
+
+    </textarea>
+</p>
+
+<p>2、接口地址 <input type="text" value="2"> <button>提交</button></p>
+    
+</form>
+
+<hr>
+
+<p>返回参数</p>
+<textarea id="response" rows="20" cols="100">
+</textarea>
+
+<script src="http://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
+
+
+<script type="text/javascript">
+$('button').on('click', function() {
+
+       var title = $('input[type=text]').val(),
+           content = $('textarea').val();
+
+       $('form').ajaxSubmit({
+           type: 'post', // 提交方式 get/post
+           url: '/api/bank/ny/callback/payinfo', // 需要提交的 url
+           data: {
+               'title': title,
+               'content': content
+           },
+           success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+               $("#response").val(data);
+           }
+       });
+       return false; // 阻止表单自动提交事件
+});
+</script>
+</body>

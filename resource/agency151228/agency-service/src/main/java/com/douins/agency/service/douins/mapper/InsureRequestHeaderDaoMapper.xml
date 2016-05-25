@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "com.douins.agency.service.douins.dao.InsureRequestHeaderDao">
+<resultMap type="com.douins.agency.service.douins.dao.InsureRequestHeaderDao" id="BaseResultMap">
+  <result column="func" property="function"  />
+  <result column="src"  property="from"/>
+  <result column="statu" property="status"/>
+</resultMap>
+<insert  id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.douins.agency.service.douins.domain.model.InsureRequestHeader">
+     INSERT IGNORE INTO dt_insurereq_hd(
+		chnlNo,
+		tranCode,
+		documentId,
+		profileRequest,
+		func,
+		src,
+		target,
+		orderNo,
+		businessId,
+		agencyNo,
+		statu,
+		createTime,
+		updateTime
+		) VALUES(
+		#{chnlNo},
+		#{tranCode},
+		#{documentId},
+		#{profileRequest},
+		#{function},
+		#{from},
+		#{to},
+		#{orderNo},
+		#{businessId},
+		#{agencyNo},
+		#{status},
+		NOW(),
+		NOW()) 
+		
+	
+</insert>
+
+<update id="updateByOrder" parameterType="com.douins.agency.service.douins.domain.model.InsureRequestHeader">
+		UPDATE dt_insurereq_hd
+		   SET status = #{status},
+		       updateTime = NOW()
+		 WHERE orderNo = #{orderNo}
+</update>
+
+<select id="getQnOrderStatu" parameterType="String" resultType="com.douins.agency.service.douins.domain.model.QunarOrderStatu">
+ SELECT a.orderNo,
+		a.statu,
+		b.applySeq,
+		c.proposalNo,
+		c.premium
+		FROM dt_insurereq_hd a
+		INNER JOIN dt_insurereq_itm b
+		ON a.Id = b.headId
+		INNER JOIN dt_insurereq_fb c
+		ON b.tradeNo = c.tradeNo
+		WHERE a.orderNo = #{orderNo}
+</select>
+</mapper>

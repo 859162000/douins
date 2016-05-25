@@ -1,0 +1,21 @@
+sftp-datavolume:
+  entrypoint:
+  - chown
+  - -R
+  - 1000:1000
+  - /data/ftp_home
+  image: busybox
+  volumes:
+  - /data/ftp_home:/data/ftp_home
+ftpd_server:
+  ports:
+  - "21:21"
+  - "30000-30009:30000-30009"
+  environment:
+    TZ: Asia/Shanghai
+    PUBLICHOST: 43.241.212.235
+  image: stilliard/pure-ftpd:hardened
+  volumes_from: 
+  - sftp-datavolume
+  volumes:
+  - /data/ftp_home:/home/ftpusers

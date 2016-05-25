@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.product.model.ProductLoanCycleMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.product.model.ProductLoanCycle" >
+  	<id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="LOAN_CYCLE_ID" property="loanCycleId" jdbcType="CHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="CHAR" />
+    <result column="UNIT" property="unit" jdbcType="VARCHAR" />
+    <result column="CYCLE" property="cycle" jdbcType="DECIMAL" />
+    <result column="RATE" property="rate" jdbcType="DECIMAL" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+		ID, LOAN_CYCLE_ID, PRODUCT_ID, UNIT, CYCLE, RATE, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_PRODUCT_LOAN_CYCLE where LOAN_CYCLE_ID = #{loanCycleId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mango.fortune.product.model.ProductLoanCycle" >
+    insert into T_PRODUCT_LOAN_CYCLE (LOAN_CYCLE_ID, PRODUCT_ID, UNIT, CYCLE, RATE, ISVALID, CREATE_DATE, UPDATE_DATE)
+    values (#{loanCycleId,jdbcType=CHAR}, #{productId,jdbcType=CHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{cycle,jdbcType=DECIMAL}, #{rate,jdbcType=DECIMAL}, 
+      '1', #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.product.model.ProductLoanCycle" >
+    update T_PRODUCT_LOAN_CYCLE
+    set ID = #{id,jdbcType=DECIMAL},
+      PRODUCT_ID = #{productId,jdbcType=CHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      CYCLE = #{cycle,jdbcType=DECIMAL},
+      RATE = #{rate,jdbcType=DECIMAL},
+      ISVALID = #{isvalid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where LOAN_CYCLE_ID = #{loanCycleId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from T_PRODUCT_LOAN_CYCLE
+    where LOAN_CYCLE_ID = #{loanCycleId,jdbcType=CHAR} AND ISVALID='1'
+  </select>
+
+	<select id="getList" parameterType="com.mango.fortune.product.model.ProductLoanCycle"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_PRODUCT_LOAN_CYCLE a
+		<trim prefix="where" prefixOverrides="and |or">
+			1=1
+			<if test="productId != null and productId != ''"> and PRODUCT_ID = #{productId,jdbcType=CHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+		</trim>
+	</select>
+ 	
+</mapper>

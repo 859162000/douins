@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.apply.model.SurrenderApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.apply.model.SurrenderApply" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="SURREND_APPLY_ID" property="surrendApplyId" jdbcType="CHAR" />
+    <result column="APPLY_INFO_ID" property="applyInfoId" jdbcType="CHAR" />
+    <result column="SURREND_NO" property="surrendNo" jdbcType="VARCHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="CHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="SURREND_TYPE" property="surrendType" jdbcType="VARCHAR" />
+    <result column="APPLY_CUSTOMER_ID" property="applyCustomerId" jdbcType="CHAR" />
+    <result column="REPAY_AMOUNT" property="repayAmount" jdbcType="DECIMAL" />
+    <result column="PRINCIPAL" property="principal" jdbcType="DECIMAL" />
+    <result column="TOTAL_REVENUE" property="totalRevenue" jdbcType="DECIMAL" />
+    <result column="HANDFEE" property="handfee" jdbcType="DECIMAL" />
+    <result column="REPAY_TIME" property="repayTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, SURREND_APPLY_ID, APPLY_INFO_ID, SURREND_NO, POLICY_ID, POLICY_CODE, SURREND_TYPE, APPLY_CUSTOMER_ID, REPAY_AMOUNT, PRINCIPAL, 
+    TOTAL_REVENUE, HANDFEE, REPAY_TIME, STATUS, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.mango.fortune.apply.model.SurrenderApply" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_SURREND_APPLY 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="surrendApplyId != null and surrendApplyId != ''"> and SURREND_APPLY_ID = #{surrendApplyId,jdbcType=CHAR}</if>
+			<if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+			<if test="surrendNo != null and surrendNo != ''"> and SURREND_NO = #{surrendNo,jdbcType=VARCHAR}</if>	
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.mango.fortune.apply.model.SurrenderApply" resultType="java.lang.Integer" >
+	   select count(*) from T_SURREND_APPLY 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="surrendApplyId != null and surrendApplyId != ''"> and SURREND_APPLY_ID = #{surrendApplyId,jdbcType=CHAR}</if>
+			<if test="applyInfoId != null and applyInfoId != ''"> and APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR}</if>
+			<if test="surrendNo != null and surrendNo != ''"> and SURREND_NO = #{surrendNo,jdbcType=VARCHAR}</if>	
+			<if test="policyId != null and policyId != ''"> and POLICY_ID = #{policyId,jdbcType=CHAR}</if>
+			<if test="policyCode != null and policyCode != ''"> and POLICY_CODE = #{policyCode,jdbcType=VARCHAR}</if>	
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>	
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND a.ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND a.ISVALID = '1'
+				</otherwise>
+			</choose>
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_SURREND_APPLY SET ISVALID='0' where SURREND_APPLY_ID = #{surrendApplyId,jdbcType=CHAR}
+   </update>
+  
+  <insert id="insert" parameterType="com.mango.fortune.apply.model.SurrenderApply" >
+    insert into T_SURREND_APPLY (SURREND_APPLY_ID, APPLY_INFO_ID, 
+      SURREND_NO, POLICY_ID, 
+      POLICY_CODE, SURREND_TYPE, 
+      APPLY_CUSTOMER_ID, REPAY_AMOUNT, PRINCIPAL, 
+      TOTAL_REVENUE, HANDFEE,
+      REPAY_TIME, STATUS, ISVALID, 
+      CREATE_DATE, UPDATE_DATE)
+    values (#{surrendApplyId,jdbcType=CHAR}, #{applyInfoId,jdbcType=CHAR}, 
+      #{surrendNo,jdbcType=VARCHAR}, #{policyId,jdbcType=CHAR},
+      #{policyCode,jdbcType=VARCHAR}, #{surrendType,jdbcType=VARCHAR},
+      #{applyCustomerId,jdbcType=CHAR}, #{repayAmount,jdbcType=DECIMAL}, #{principal,jdbcType=DECIMAL}, 
+      #{totalRevenue,jdbcType=DECIMAL}, #{handfee,jdbcType=DECIMAL}, 
+      #{repayTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, '1', 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.apply.model.SurrenderApply" >
+    update T_SURREND_APPLY
+    set ID = #{id,jdbcType=DECIMAL},
+      APPLY_INFO_ID = #{applyInfoId,jdbcType=CHAR},
+      SURREND_NO = #{surrendNo,jdbcType=VARCHAR},
+      POLICY_ID = #{policyId,jdbcType=CHAR},
+      POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      SURREND_TYPE = #{surrendType,jdbcType=VARCHAR},
+      APPLY_CUSTOMER_ID = #{applyCustomerId,jdbcType=CHAR},
+      REPAY_AMOUNT = #{repayAmount,jdbcType=DECIMAL},
+      PRINCIPAL = #{principal,jdbcType=DECIMAL},
+      TOTAL_REVENUE = #{totalRevenue,jdbcType=DECIMAL},
+      HANDFEE = #{handfee,jdbcType=DECIMAL},
+      REPAY_TIME = #{repayTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ISVALID = #{isvalid,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where SURREND_APPLY_ID = #{surrendApplyId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_SURREND_APPLY where SURREND_APPLY_ID = #{surrendApplyId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  
+  <update id="updateAfter" parameterType="com.mango.fortune.apply.model.SurrenderApply" >
+    update T_SURREND_APPLY
+    set 
+      REPAY_TIME = #{repayTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where SURREND_APPLY_ID = #{surrendApplyId,jdbcType=CHAR}
+  </update>
+  
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.partner.dao.InsuranceInterfaceConfigDao" >
+  <resultMap id="BaseResultMap" type="com.douins.partner.domain.model.InsuranceInterfaceConfig" >
+  	<id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CONFIG_ID" property="configId" jdbcType="CHAR" />
+    <result column="INSURANCE_ID" property="insuranceId" jdbcType="CHAR" />
+    <result column="CONFIG_TYPE" property="configType" jdbcType="VARCHAR" />
+    <result column="CONFIG_SERVICE" property="configService" jdbcType="VARCHAR" />
+    <result column="INTERFACE_URL" property="interfaceUrl" jdbcType="VARCHAR" />
+    <result column="TRANS_TYPE" property="transType" jdbcType="VARCHAR" />
+    <result column="ASYN" property="asyn" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID,CONFIG_ID, INSURANCE_ID, CONFIG_TYPE, CONFIG_SERVICE, INTERFACE_URL, TRANS_TYPE, ASYN, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql> 
+  
+  <insert id="insert" parameterType="com.douins.partner.domain.model.InsuranceInterfaceConfig" >
+    insert into T_INSURANCE_INTERFACE_CONFIG (CONFIG_ID, INSURANCE_ID, 
+      CONFIG_TYPE, CONFIG_SERVICE, INTERFACE_URL, 
+      TRANS_TYPE, ASYN, ISVALID, 
+      CREATE_DATE, UPDATE_DATE)
+    values (#{configId,jdbcType=CHAR}, #{insuranceId,jdbcType=CHAR}, 
+      #{configType,jdbcType=VARCHAR}, #{configService,jdbcType=VARCHAR}, #{interfaceUrl,jdbcType=VARCHAR}, 
+      #{transType,jdbcType=VARCHAR}, #{asyn,jdbcType=VARCHAR}, #{isvalid,jdbcType=CHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.douins.partner.domain.model.InsuranceInterfaceConfig" >
+    update T_INSURANCE_INTERFACE_CONFIG
+    set 
+      INSURANCE_ID = #{insuranceId,jdbcType=CHAR},
+      CONFIG_TYPE = #{configType,jdbcType=VARCHAR},
+      CONFIG_SERVICE = #{configService,jdbcType=VARCHAR},
+      INTERFACE_URL = #{interfaceUrl,jdbcType=VARCHAR},
+      TRANS_TYPE = #{transType,jdbcType=VARCHAR},
+      ASYN = #{asyn,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+    where CONFIG_ID = #{configId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from T_INSURANCE_INTERFACE_CONFIG
+    where CONFIG_ID = #{configId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" /> from T_INSURANCE_INTERFACE_CONFIG  where ISVALID = '1'
+  </select>
+</mapper>

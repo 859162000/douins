@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.account.dao.UserDao">
+	<resultMap id="BaseResultMap" type="com.douins.account.domain.model.User">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="USER_ID" property="userId" jdbcType="CHAR" />
+		<result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR" />
+		<result column="ACCOUNT_TYPE" property="accountType" jdbcType="CHAR" />
+		<result column="LOGIN_PASSWORD" property="loginPassword" jdbcType="CHAR" />
+		<result column="USER_MOBILEPHONE" property="userMobile" jdbcType="VARCHAR" />
+		<result column="USER_EMAIL" property="userEmail" jdbcType="VARCHAR" />
+		<result column="REGISTER_TYPE" property="registerType" jdbcType="CHAR" />
+		<result column="REGISTER_TIME" property="registerTime" jdbcType="TIMESTAMP" />
+		<result column="USER_NICKNAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="CHAR" />
+		<result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+		<result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
+		<result column="NOVICE" property="novice" jdbcType="CHAR" />
+		<result column="USER_GRADE" property="grade" jdbcType="CHAR" />
+		<result column="PAY_PASSWORD" property="payPassword" jdbcType="VARCHAR" />
+		<result column="GESTURE_PASSWORD" property="gesturePassword" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USER_SEX" property="userSex" jdbcType="CHAR" />
+		<result column="USER_BIRTHDAY" property="userBirthDay" jdbcType="TIMESTAMP" />
+		<result column="CERTI_TYPE" property="certiType" jdbcType="CHAR" />
+		<result column="CERTI_CODE" property="certiCode" jdbcType="VARCHAR" />
+		<result column="FETCH_TYPE" property="fetchType" jdbcType="VARCHAR" />
+		<result column="FETCH_TIME" property="fetchTime" jdbcType="TIMESTAMP" />
+		<result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+		<result column="OPUSER" property="opUser" jdbcType="CHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="SWITCH_PAYPASSWORD" property="switchPayPassword" jdbcType="CHAR" />
+		<result column="SWITCH_GESTUREPASSWORD" property="switchGesturePassword" jdbcType="CHAR" />
+		<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+		<result column="CITY" property="city" jdbcType="VARCHAR" />
+		<result column="DISTRICT" property="district" jdbcType="VARCHAR" />
+		<result column="DETAILED_ADRESS" property="detailedAdress" jdbcType="VARCHAR" />
+		<result column="ZIPCODE" property="zipcode" jdbcType="VARCHAR" />
+		<result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+		<result column="CERTI_VALID_DATE" property="certiValidDate" jdbcType="TIMESTAMP" />
+		<result column="CERTI_IS_VALID" property="certiIsValid" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,USER_ID,USER_ACCOUNT,ACCOUNT_TYPE,LOGIN_PASSWORD,USER_MOBILEPHONE,USER_EMAIL,REGISTER_TYPE,REGISTER_TIME,USER_NICKNAME,STATUS,LAST_LOGIN_TIME,IP_ADDRESS,
+		NOVICE,USER_GRADE,PAY_PASSWORD,GESTURE_PASSWORD,USER_NAME,USER_SEX,USER_BIRTHDAY,CERTI_TYPE,CERTI_CODE,FETCH_TYPE,FETCH_TIME,ISVALID,OPUSER,CREATE_DATE,UPDATE_DATE,SWITCH_PAYPASSWORD,
+		SWITCH_GESTUREPASSWORD,PROVINCE,CITY,DISTRICT,DETAILED_ADRESS,ZIPCODE,OPEN_ID,CERTI_VALID_DATE, CERTI_IS_VALID
+	</sql>
+	
+	<!-- selectByPrimaryKey -->
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select <include refid="Base_Column_List" /> from T_USER where USER_ID = #{userId,jdbcType=CHAR} AND ISVALID = '1'
+	</select>
+	
+	<select id="getUserByAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	    select <include refid="Base_Column_List" /> from T_USER where USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR} and ISVALID = '1' union
+	    select <include refid="Base_Column_List" /> from T_USER where USER_EMAIL = #{userAccount,jdbcType=VARCHAR} and ISVALID = '1' union
+	    select <include refid="Base_Column_List" /> from T_USER where USER_MOBILEPHONE = #{userAccount,jdbcType=VARCHAR} and ISVALID = '1' union
+	    select <include refid="Base_Column_List" /> from T_USER where OPEN_ID = #{userAccount,jdbcType=VARCHAR} and ISVALID = '1'
+  	</select>
+  	
+	<select id="getList" parameterType="com.douins.account.domain.model.User" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_USER 
+	   <trim prefix="where" prefixOverrides="and |or">
+		    	1=1
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=VARCHAR}</if>
+			<if test="userAccount != null and id != ''"> and USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}</if>
+			<if test="accountType != null and userAccount != ''"> and ACCOUNT_TYPE = #{accountType,jdbcType=CHAR}</if>
+			<if test="loginPassword != null and loginPassword != ''"> and LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR}</if>
+			<if test="userMobile != null and userMobile != ''"> and USER_MOBILEPHONE = #{userMobile,jdbcType=VARCHAR}</if>
+			<if test="userEmail != null and userEmail != ''"> and USER_EMAIL = #{userEmail,jdbcType=VARCHAR}</if>
+			<if test="registerType != null and registerType != ''"> and REGISTER_TYPE = #{registerType,jdbcType=CHAR}</if>
+			<if test="registerTime != null and registerTime != ''"> and REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP}</if>
+			<if test="nickName != null and nickName != ''"> and USER_NICKNAME = #{nickName,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>
+			<if test="lastLoginTime != null and lastLoginTime != ''"> and LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP}</if>			
+			<if test="ipAddress != null and ipAddress != ''"> and IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR}</if>
+			<if test="novice != null and novice != ''"> and NOVICE = #{novice,jdbcType=VARCHAR}</if>
+			<if test="grade != null and grade != ''"> and USER_GRADE = #{grade,jdbcType=VARCHAR}</if>
+			<if test="payPassword != null and payPassword != ''"> and PAY_PASSWORD = #{payPassword,jdbcType=VARCHAR}</if>
+			<if test="gesturePassword != null and gesturePassword != ''"> and GESTURE_PASSWORD = #{gesturePassword,jdbcType=VARCHAR}</if>
+			<if test="userName != null and userName != ''"> and USER_NAME = #{userName,jdbcType=VARCHAR}</if>
+			<if test="userSex != null and userSex != ''"> and USER_SEX = #{userSex,jdbcType=CHAR}</if>
+			<if test="userBirthDay != null and userBirthDay != ''"> and USER_BIRTHDAY = #{userBirthDay,jdbcType=TIMESTAMP}</if>
+			<if test="certiType != null and certiType != ''"> and CERTI_TYPE = #{certiType,jdbcType=CHAR}</if>
+			<if test="certiCode != null and certiCode != ''"> and CERTI_CODE = #{certiCode,jdbcType=VARCHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>
+			<if test="opUser != null and opUser != ''"> and OPUSER = #{opUser,jdbcType=VARCHAR}</if>
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_TIME = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<if test="switchPayPassword != null and switchPayPassword != ''"> and SWITCH_PAYPASSWORD = #{switchPayPassword,jdbcType=CHAR}</if>		
+	    	<if test="switchGesturePassword != null and switchGesturePassword != ''"> and SWITCH_GESTUREPASSWORD = #{switchGesturePassword,jdbcType=CHAR}</if>	
+	    	<if test="openId != null and openId != ''"> and OPEN_ID = #{openId,jdbcType=VARCHAR}</if>			
+	    </trim>
+ 	 </select>
+ 	 
+	 <select id="getList_Count" parameterType="com.douins.account.domain.model.User" resultType="java.lang.Integer" >
+	   select count(*) from T_USER 
+	   <trim prefix="where" prefixOverrides="and |or">
+		    	1=1
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=VARCHAR}</if>
+			<if test="userAccount != null and id != ''"> and USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}</if>
+			<if test="accountType != null and userAccount != ''"> andACCOUNT_TYPE = #{accountType,jdbcType=CHAR}</if>
+			<if test="loginPassword != null and loginPassword != ''"> and LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR}</if>
+			<if test="userMobile != null and userMobile != ''"> and USER_MOBILEPHONE = #{userMobile,jdbcType=VARCHAR}</if>
+			<if test="userEmail != null and userEmail != ''"> and USER_EMAIL = #{userEmail,jdbcType=VARCHAR}</if>
+			<if test="registerType != null and registerType != ''"> and REGISTER_TYPE = #{registerType,jdbcType=CHAR}</if>
+			<if test="registerTime != null and registerTime != ''"> and REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP}</if>
+			<if test="nickName != null and nickName != ''"> and USER_NICKNAME = #{nickName,jdbcType=VARCHAR}</if>
+			<if test="status != null and status != ''"> and STATUS = #{status,jdbcType=CHAR}</if>
+			<if test="lastLoginTime != null and lastLoginTime != ''"> and LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP}</if>			
+			<if test="ipAddress != null and ipAddress != ''"> and IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR}</if>
+			<if test="novice != null and novice != ''"> and NOVICE = #{novice,jdbcType=VARCHAR}</if>
+			<if test="grade != null and grade != ''"> and USER_GRADE = #{grade,jdbcType=VARCHAR}</if>
+			<if test="payPassword != null and payPassword != ''"> and PAY_PASSWORD = #{payPassword,jdbcType=VARCHAR}</if>
+			<if test="gesturePassword != null and gesturePassword != ''"> and GESTURE_PASSWORD = #{gesturePassword,jdbcType=VARCHAR}</if>
+			<if test="userName != null and userName != ''"> and USER_NAME = #{userName,jdbcType=VARCHAR}</if>
+			<if test="userSex != null and userSex != ''"> and USER_SEX = #{userSex,jdbcType=CHAR}</if>
+			<if test="userBirthDay != null and userBirthDay != ''"> and USER_BIRTHDAY = #{userBirthDay,jdbcType=TIMESTAMP}</if>
+			<if test="certiType != null and certiType != ''"> and CERTI_TYPE = #{certiType,jdbcType=CHAR}</if>
+			<if test="certiCode != null and certiCode != ''"> and CERTI_CODE = #{certiCode,jdbcType=VARCHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>	
+			<if test="opUser != null and opUser != ''"> and OPUSER = #{opUser,jdbcType=VARCHAR}</if>
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_TIME = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<if test="switchPayPassword != null and switchPayPassword != ''"> and SWITCH_PAYPASSWORD = #{switchPayPassword,jdbcType=CHAR}</if>		
+	    	<if test="switchGesturePassword != null and switchGesturePassword != ''"> and SWITCH_GESTUREPASSWORD = #{switchGesturePassword,jdbcType=CHAR}</if>		
+	    	<if test="openId != null and openId != ''"> and OPEN_ID = #{openId,jdbcType=VARCHAR}</if>	
+	    </trim>
+    </select>
+    
+    <!-- insert -->
+	<insert id="add" parameterType="com.douins.account.domain.model.User">
+		insert into T_USER		
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<!--  <if test="id != null">ID,</if> -->
+			<if test="userId != null">USER_ID,</if>
+			<if test="userAccount != null">USER_ACCOUNT,</if>
+			<if test="accountType != null">ACCOUNT_TYPE,</if>
+			<if test="loginPassword != null">LOGIN_PASSWORD,</if>
+			<if test="userMobile != null">USER_MOBILEPHONE,</if>
+			<if test="userEmail != null">USER_EMAIL,</if>
+			<if test="registerType != null">REGISTER_TYPE,</if>
+			<if test="registerTime != null">REGISTER_TIME,</if>
+			<if test="nickName != null">USER_NICKNAME,</if>
+			<if test="status != null">STATUS,</if>
+			<if test="lastLoginTime != null">LAST_LOGIN_TIME,</if>			
+			<if test="ipAddress != null">IP_ADDRESS,</if>
+			<if test="novice != null">NOVICE,</if>
+			<if test="grade != null">USER_GRADE,</if>
+			<if test="payPassword != null">PAY_PASSWORD,</if>
+			<if test="gesturePassword != null">GESTURE_PASSWORD,</if>
+			<if test="userName != null">USER_NAME,</if>
+			<if test="userSex != null">USER_SEX,</if>
+			<if test="userBirthDay != null">USER_BIRTHDAY,</if>
+			<if test="certiType != null">CERTI_TYPE,</if>
+			<if test="certiCode != null">CERTI_CODE,</if>
+			ISVALID,
+			<if test="opUser != null">OPUSER,</if>
+			<if test="createDate != null">CREATE_DATE,</if>
+			<if test="updateDate != null">UPDATE_DATE,</if>				
+	    	<if test="switchGesturePassword != null "> SWITCH_GESTUREPASSWORD,</if>		
+	    	SWITCH_PAYPASSWORD,
+	    	<if test="openId != null "> OPEN_ID,</if>
+	    	<if test="fetchType != null "> FETCH_TYPE,</if>
+	    	<if test="fetchTime != null "> FETCH_TIME,</if>
+	    	<if test="province != null "> PROVINCE,</if>
+	    	<if test="city != null "> CITY,</if>
+	    	<if test="district != null "> DISTRICT,</if>
+	    	<if test="detailedAdress != null "> DETAILED_ADRESS,</if>
+	    	<if test="zipcode != null "> ZIPCODE,</if>
+	    	<if test="certiValidDate != null "> CERTI_VALID_DATE,</if>
+	    	<if test="certiIsValid != null "> CERTI_IS_VALID,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">		
+			<!-- <if test="id != null">#{id,jdbcType=INTEGER},</if> -->
+			<if test="userId != null">#{userId,jdbcType=VARCHAR},</if>
+			<if test="userAccount != null">#{userAccount,jdbcType=VARCHAR},</if>
+			<if test="accountType != null">#{accountType,jdbcType=CHAR},</if>
+			<if test="loginPassword != null">#{loginPassword,jdbcType=VARCHAR},</if>
+			<if test="userMobile != null">#{userMobile,jdbcType=VARCHAR},</if>
+			<if test="userEmail != null">#{userEmail,jdbcType=VARCHAR},</if>
+			<if test="registerType != null">#{registerType,jdbcType=CHAR},</if>
+			<if test="registerTime != null">#{registerTime,jdbcType=TIMESTAMP},</if>
+			<if test="nickName != null">#{nickName,jdbcType=VARCHAR},</if>
+			<if test="status != null">#{status,jdbcType=CHAR},</if>
+			<if test="lastLoginTime != null">#{lastLoginTime,jdbcType=TIMESTAMP},</if>			
+			<if test="ipAddress != null">#{ipAddress,jdbcType=VARCHAR},</if>
+			<if test="novice != null">#{novice,jdbcType=VARCHAR},</if>
+			<if test="grade != null">#{grade,jdbcType=VARCHAR},</if>
+			<if test="payPassword != null">#{payPassword,jdbcType=VARCHAR},</if>
+			<if test="gesturePassword != null">#{gesturePassword,jdbcType=VARCHAR},</if>
+			<if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+			<if test="userSex != null">#{userSex,jdbcType=CHAR},</if>
+			<if test="userBirthDay != null">#{userBirthDay,jdbcType=TIMESTAMP},</if>
+			<if test="certiType != null">#{certiType,jdbcType=CHAR},</if>
+			<if test="certiCode != null">#{certiCode,jdbcType=VARCHAR},</if>
+			'1',
+			<if test="opUser != null">#{opUser,jdbcType=VARCHAR},</if>
+			<if test="createDate != null">#{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateDate != null">#{updateDate,jdbcType=TIMESTAMP},</if>				
+	    	<if test="switchGesturePassword != null "> #{switchGesturePassword,jdbcType=CHAR},</if>		
+	    	'1',	
+	    	<if test="openId != null ">#{openId,jdbcType=VARCHAR},</if>
+	    	<if test="fetchType != null ">#{fetchType,jdbcType=VARCHAR},</if>
+	    	<if test="fetchTime != null ">#{fetchTime,jdbcType=TIMESTAMP},</if>
+	    	<if test="province != null "> #{province,jdbcType=VARCHAR},</if>
+	    	<if test="city != null "> #{city,jdbcType=VARCHAR},</if>
+	    	<if test="district != null "> #{district,jdbcType=VARCHAR},</if>
+	    	<if test="detailedAdress != null ">  #{detailedAdress,jdbcType=VARCHAR},</if>
+	    	<if test="zipcode != null ">  #{zipcode,jdbcType=VARCHAR},</if>
+	    	<if test="certiValidDate != null "> #{certiValidDate,jdbcType=TIMESTAMP},</if>
+	    	<if test="certiIsValid != null ">  #{certiIsValid,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+
+    <!-- updateByPrimaryKey -->
+	<update id="update" parameterType="com.douins.account.domain.model.User">
+		update T_USER 
+		 <trim prefix="SET" suffixOverrides=",">	
+			<if test="userId != null and userId != ''">USER_ID = #{userId,jdbcType=VARCHAR},</if>
+			<if test="userAccount != null and userAccount != ''">USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},</if>
+			<if test="accountType != null and accountType != ''">ACCOUNT_TYPE = #{accountType,jdbcType=CHAR},</if>
+			<if test="loginPassword != null and loginPassword != ''">LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},</if>
+			<if test="userMobile != null and userMobile != ''">USER_MOBILEPHONE = #{userMobile,jdbcType=VARCHAR},</if>
+			<if test="userEmail != null and userEmail != ''">USER_EMAIL = #{userEmail,jdbcType=VARCHAR},</if>
+			<if test="registerType != null and registerType != ''">REGISTER_TYPE = #{registerType,jdbcType=CHAR},</if>
+			<if test="registerTime != null and registerTime != ''">REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP},</if>
+			<if test="nickName != null and nickName != ''">USER_NICKNAME = #{nickName,jdbcType=VARCHAR},</if>
+			<if test="status != null and status != ''">STATUS = #{status,jdbcType=CHAR},</if>
+			<if test="lastLoginTime != null and lastLoginTime != ''">LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},</if>			
+			<if test="ipAddress != null and ipAddress != ''">IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},</if>
+			<if test="novice != null and novice != ''">NOVICE = #{novice,jdbcType=VARCHAR},</if>
+			<if test="grade != null and grade != ''">USER_GRADE = #{grade,jdbcType=VARCHAR},</if>
+			<if test="payPassword != null and payPassword != ''">PAY_PASSWORD = #{payPassword,jdbcType=VARCHAR},</if>
+			<if test="gesturePassword != null and gesturePassword != ''">GESTURE_PASSWORD = #{gesturePassword,jdbcType=VARCHAR},</if>
+			<if test="userName != null and userName != ''">USER_NAME = #{userName,jdbcType=VARCHAR},</if>
+			<if test="userSex != null and userSex != ''">USER_SEX = #{userSex,jdbcType=CHAR},</if>
+			<if test="userBirthDay != null and userBirthDay != ''">USER_BIRTHDAY = #{userBirthDay},</if>
+			<if test="certiType != null and certiType != ''">CERTI_TYPE = #{certiType,jdbcType=CHAR},</if>
+			<if test="certiCode != null and certiCode != ''">CERTI_CODE = #{certiCode,jdbcType=VARCHAR},</if>
+			<if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=CHAR},</if>
+			<if test="opUser != null and opUser != ''">OPUSER = #{opUser,jdbcType=VARCHAR},</if>
+			<if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},</if>			
+			<if test="switchPayPassword != null and switchPayPassword != ''"> SWITCH_PAYPASSWORD = #{switchPayPassword,jdbcType=CHAR},</if>		
+	    	<if test="switchGesturePassword != null and switchGesturePassword != ''"> SWITCH_GESTUREPASSWORD = #{switchGesturePassword,jdbcType=CHAR},</if>
+	    	<if test="openId != null and openId != ''"> OPEN_ID = #{openId,jdbcType=VARCHAR},</if>
+	    	<if test="fetchType != null and fetchType != ''"> FETCH_TYPE = #{fetchType,jdbcType=VARCHAR},</if>
+	    	<if test="fetchTime != null and fetchTime != ''"> FETCH_TIME = #{fetchTime,jdbcType=TIMESTAMP},</if>
+	    	<if test="province != null and province != ''"> PROVINCE = #{province,jdbcType=VARCHAR},</if>
+	    	<if test="city != null and city != ''"> CITY = #{city,jdbcType=VARCHAR},</if>
+	    	<if test="district != null and district != ''"> DISTRICT = #{district,jdbcType=VARCHAR},</if>
+	    	<if test="detailedAdress != null and detailedAdress != ''"> DETAILED_ADRESS = #{detailedAdress,jdbcType=VARCHAR},</if>
+	    	<if test="zipcode != null and zipcode != ''"> ZIPCODE = #{zipcode,jdbcType=VARCHAR},</if>
+	    	<if test="certiValidDate != null and certiValidDate != ''"> CERTI_VALID_DATE = #{certiValidDate,jdbcType=TIMESTAMP},</if>
+	    	<if test="certiIsValid != null and certiIsValid != ''">CERTI_IS_VALID = #{certiIsValid,jdbcType=VARCHAR},</if>
+		</trim>
+		 where USER_ID = #{userId,jdbcType=CHAR}
+	</update>
+	
+	<!-- deleteByPrimaryKey -->
+ 	<delete id="delete" parameterType="java.lang.String" >
+ 		delete from T_USER where USER_ID = #{userId,jdbcType=CHAR}
+	</delete>
+	 <!--使用软删除 将ISVALID设置为0，失效状态 -->
+    <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+    	update T_USER SET ISVALID='0' where USER_ID = #{userId,jdbcType=CHAR}
+    </update>
+    
+    <!-- 强制更新 -->
+    <!-- forceUpdateByPrimaryKey -->
+    <update id="forceUpdateByUid" parameterType="com.douins.account.domain.model.User">
+		update T_USER SET		
+			USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+			USER_NICKNAME = #{nickName,jdbcType=VARCHAR},
+			NOVICE = #{novice,jdbcType=VARCHAR},
+			PAY_PASSWORD = #{payPassword,jdbcType=VARCHAR},
+			GESTURE_PASSWORD = #{gesturePassword,jdbcType=VARCHAR},
+			USER_NAME = #{userName,jdbcType=VARCHAR},
+			USER_SEX = #{userSex,jdbcType=CHAR},
+			USER_BIRTHDAY = #{userBirthDay,jdbcType=TIMESTAMP},
+			CERTI_TYPE = #{certiType,jdbcType=CHAR},
+			CERTI_CODE = #{certiCode,jdbcType=VARCHAR},
+			OPUSER = #{opUser,jdbcType=VARCHAR},
+			UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}	
+		 where USER_ID = #{userId,jdbcType=CHAR} and ISVALID = 	#{isvalid,jdbcType=CHAR}
+	</update>
+	
+	<select id="findUniqueByCondition" resultMap="BaseResultMap" parameterType="com.douins.account.domain.model.User">
+		select <include refid="Base_Column_List" />  from T_USER 		
+		   <trim prefix="where" prefixOverrides="and |or">
+		    	1=1
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=VARCHAR}</if>
+			<if test="userAccount != null and id != ''"> and USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}</if>
+			<if test="accountType != null and userAccount != ''"> and ACCOUNT_TYPE = #{accountType,jdbcType=CHAR}</if>
+			<if test="userMobile != null and userMobile != ''"> and USER_MOBILEPHONE = #{userMobile,jdbcType=VARCHAR}</if>
+			<if test="userEmail != null and userEmail != ''"> and USER_EMAIL = #{userEmail,jdbcType=VARCHAR}</if>
+			<if test="certiCode != null and certiCode != ''"> and CERTI_CODE = #{certiCode,jdbcType=VARCHAR}</if>
+			<if test="openId != null and openId != ''"> and OPEN_ID = #{openId,jdbcType=VARCHAR}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>
+	    </trim>
+	</select>
+	
+	<!-- updateOpenIdByPrimaryKey -->
+    <update id="updateOpenIdByUid" parameterType="com.douins.account.domain.model.User" >
+    	update T_USER SET OPEN_ID = #{openId,jdbcType=VARCHAR} where USER_ID = #{userId,jdbcType=CHAR}
+    </update>
+	
+</mapper>

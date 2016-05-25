@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:tx="http://www.springframework.org/schema/tx"   
+    xmlns:aop="http://www.springframework.org/schema/aop"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+    http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+">  
+<!-- 
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+        <property name="driverClass" value="${jdbc.driver}"></property>
+        <property name="jdbcUrl" value="${jdbc.url}"></property>
+        <property name="user" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="minPoolSize" value="1"></property>
+        <property name="maxPoolSize" value="3"></property>
+        <property name="maxIdleTime" value="30"></property>
+        <property name="maxStatements" value="20"></property>
+        <property name="acquireIncrement" value="5"></property>
+        <property name="checkoutTimeout" value="60000"></property>
+        <property name="idleConnectionTestPeriod" value="60"></property>
+        <property name="preferredTestQuery" value="select 1 from DUAL"></property>
+    </bean>
+    -->
+
+<bean name="abstractDataSource" abstract="true" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" >
+        <property name="initialSize" value="1" />  
+        <property name="maxActive" value="20" />  
+        <property name="minIdle" value="1" />  
+        <property name="maxWait" value="60000" />  
+        <property name="testOnBorrow" value="false" />  
+        <property name="testOnReturn" value="false" />  
+        <property name="testWhileIdle" value="true" />  
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />  
+        <property name="minEvictableIdleTimeMillis" value="25200000" />  
+        <property name="removeAbandoned" value="true" />  
+        <property name="removeAbandonedTimeout" value="1800" />  
+        <property name="logAbandoned" value="true" />  
+        <property name="filters" value="mergeStat" /> 
+    </bean>
+    
+    <!-- 主数据源 -->
+    <bean name="dataSource" parent="abstractDataSource">  
+        <property name="url" value="${jdbc.url}" />  
+        <property name="username" value="${jdbc.username}" />  
+        <property name="password" value="${jdbc.password}" />  
+        <property name="validationQuery" value="${jdbc.validationQuery}" />  
+    </bean>
+    
+    <!-- myBatis文件 -->  
+    <bean id="writeSqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg>
+             <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+                <property name="dataSource" ref="dataSource" />  
+                <property name="mapperLocations" value="classpath*:com/douins/agency/**/*Mapper.xml" /> 
+            </bean> 
+        </constructor-arg>
+    </bean>  
+      
+      <!-- 配置事务管理器 -->  
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>  
+  
+    <!-- 注解方式配置事物 -->  
+    <tx:annotation-driven transaction-manager="transactionManager" />
+    
+  <!-- 配置druid监控spring jdbc -->  
+    <bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">  
+    </bean>  
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">  
+        <property name="patterns">  
+            <list>  
+                <value>com.douins.agency.*.service.*</value>
+                <value>com.douins.agency.*.dao.*</value>    
+            </list>  
+        </property>  
+    </bean>  
+    <aop:config>  
+        <aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />  
+    </aop:config>  
+ </beans>

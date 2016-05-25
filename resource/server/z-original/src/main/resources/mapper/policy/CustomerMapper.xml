@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mango.fortune.policy.model.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.mango.fortune.policy.model.Customer" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="CHAR" />
+    <result column="USER_ID" property="userId" jdbcType="CHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+    <result column="CARD_NO" property="cardNo" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="CHAR" />
+    <result column="CARD_VALID_DATE" property="cardValidDate" jdbcType="TIMESTAMP" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="POSTCODE" property="postcode" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="LIVE_REGION" property="liveRegion" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, CUSTOMER_ID, USER_ID, NAME, CARD_TYPE, CARD_NO, SEX, CARD_VALID_DATE, BIRTHDAY, EMAIL, PHONE, MOBILEPHONE, POSTCODE, ADDRESS, LIVE_REGION, JOB, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <select id="getList" parameterType="com.mango.fortune.policy.model.Customer" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List" /> from T_CUSTOMER 
+	   <trim prefix="where" prefixOverrides="and |or">1=1		    	
+		    <if test="customerId != null and customerId != ''"> and CUSTOMER_ID = #{customerId,jdbcType=CHAR}</if>
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=CHAR}</if>
+			<if test="name != null and name != ''"> and NAME = #{name,jdbcType=VARCHAR}</if>
+			<if test="cardType != null and cardType != ''"> and CARD_TYPE = #{cardType,jdbcType=VARCHAR}</if>
+			<if test="cardNo != null and cardNo != ''"> and CARD_NO = #{cardNo,jdbcType=VARCHAR}</if>
+			<if test="sex != null and sex != ''"> and SEX = #{sex,jdbcType=VARCHAR}</if>	
+			<if test="birthday != null and birthday != ''"> and BIRTHDAY = #{birthday,jdbcType=TIMESTAMP}</if>
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>		
+	 </trim>
+ 	 </select>
+	 <select id="getList_Count" parameterType="com.mango.fortune.policy.model.Customer" resultType="java.lang.Integer" >
+	   select count(*) from T_CUSTOMER 
+	   <trim prefix="where" prefixOverrides="and |or">1=1
+			<if test="customerId != null and customerId != ''"> and CUSTOMER_ID = #{customerId,jdbcType=CHAR}</if>
+			<if test="userId != null and userId != ''"> and USER_ID = #{userId,jdbcType=CHAR}</if>
+			<if test="name != null and name != ''"> and NAME = #{name,jdbcType=VARCHAR}</if>
+			<if test="cardType != null and cardType != ''"> and CARD_TYPE = #{cardType,jdbcType=VARCHAR}</if>
+			<if test="cardNo != null and cardNo != ''"> and CARD_NO = #{cardNo,jdbcType=VARCHAR}</if>
+			<if test="sex != null and sex != ''"> and SEX = #{sex,jdbcType=VARCHAR}</if>	
+			<if test="birthday != null and birthday != ''"> and BIRTHDAY = #{birthday,jdbcType=TIMESTAMP}</if>
+			<if test="createDate != null and createDate != ''"> and CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}</if>
+			<if test="updateDate != null and updateDate != ''"> and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}</if>
+			<choose>
+				<when test="isvalid != null and isvalid != ''">
+					AND ISVALID = #{isvalid,jdbcType=CHAR}
+				</when>
+				<otherwise>
+					AND ISVALID = '1'
+				</otherwise>
+			</choose>			
+	    </trim>
+    </select>
+    
+    <!--使用软删除 将ISVALID设置为0，失效状态 -->
+   <update id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+   	update T_CUSTOMER SET ISVALID='0' where CUSTOMER_ID = #{customerId,jdbcType=CHAR}
+   </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_CUSTOMER where CUSTOMER_ID = #{customerId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.mango.fortune.policy.model.Customer" >
+    insert into T_CUSTOMER (CUSTOMER_ID, ID, USER_ID, 
+      NAME, CARD_TYPE, CARD_NO, 
+      SEX, CARD_VALID_DATE, BIRTHDAY, 
+      EMAIL, PHONE, MOBILEPHONE, 
+      POSTCODE, ADDRESS, LIVE_REGION, 
+      JOB, ISVALID, CREATE_DATE, 
+      UPDATE_DATE)
+    values (#{customerId,jdbcType=CHAR}, #{id,jdbcType=DECIMAL}, #{userId,jdbcType=CHAR}, 
+      #{name,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=CHAR}, #{cardValidDate,jdbcType=TIMESTAMP}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{mobilephone,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{liveRegion,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, '1', #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.mango.fortune.policy.model.Customer" >
+    update T_CUSTOMER
+    <trim prefix="SET" suffixOverrides=",">	
+      <if test="id != null and id != ''">ID = #{id,jdbcType=DECIMAL},</if>
+      <if test="userId != null and userId != ''">USER_ID = #{userId,jdbcType=CHAR},</if>
+      <if test="name != null and name != ''">NAME = #{name,jdbcType=VARCHAR},</if>
+      <if test="cardType != null and cardType != ''">CARD_TYPE = #{cardType,jdbcType=VARCHAR},</if>
+      <if test="cardNo != null and cardNo != ''">CARD_NO = #{cardNo,jdbcType=VARCHAR},</if>
+      <if test="sex != null and sex != ''">SEX = #{sex,jdbcType=CHAR},</if>
+      <if test="cardValidDate != null and cardValidDate != ''">CARD_VALID_DATE = #{cardValidDate,jdbcType=TIMESTAMP},</if>
+      <if test="birthday != null and birthday != ''">BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},</if>
+      <if test="email != null and email != ''">EMAIL = #{email,jdbcType=VARCHAR},</if>
+      <if test="phone != null and phone != ''">PHONE = #{phone,jdbcType=VARCHAR},</if>
+      <if test="mobilephone != null and mobilephone != ''">MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},</if>
+      <if test="postcode != null and postcode != ''">POSTCODE = #{postcode,jdbcType=VARCHAR},</if>
+      <if test="address != null and address != ''">ADDRESS = #{address,jdbcType=VARCHAR},</if>
+      <if test="liveRegion != null and liveRegion != ''">LIVE_REGION = #{liveRegion,jdbcType=VARCHAR},</if>
+      <if test="job != null and job != ''">JOB = #{job,jdbcType=VARCHAR},</if>
+      <if test="isvalid != null and isvalid != ''">ISVALID = #{isvalid,jdbcType=CHAR},</if>
+      <if test="createDate != null and createDate != ''">CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},</if>
+      <if test="updateDate != null and updateDate != ''">UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},</if>
+    </trim>
+    where CUSTOMER_ID = #{customerId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" /> from T_CUSTOMER where CUSTOMER_ID = #{customerId,jdbcType=CHAR} AND ISVALID = '1'
+  </select>
+
+</mapper>

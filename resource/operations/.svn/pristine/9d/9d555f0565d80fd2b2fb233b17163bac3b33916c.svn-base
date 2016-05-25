@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.account.dao.PublicMessageDao">
+    <insert id="add" parameterType="com.douins.account.domain.model.PublicMessage">
+        insert into tb_public_message (title, content, createTime, updateTime)
+        values (#{title}, #{content}, #{createTime}, #{updateTime})
+    </insert>
+    
+    <select id="listMessages" parameterType="Map" resultType="com.douins.account.domain.model.PublicMessage">
+        select * from td_pubic_message order by createTime desc limit #{start}, #{size}
+    </select>
+    
+    <select id="findById" parameterType="long" resultType="com.douins.account.domain.model.PublicMessage">
+        select * from td_public_message where msgId = #{msgId}
+    </select>
+    
+    <select id="listMessagesById" parameterType="com.douins.account.domain.vo.MessageRequest" resultType="com.douins.account.domain.model.PublicMessage">
+        select * from td_public_message where msgId >= #{notificationId} order by createTime asc limit #{amount}
+    </select>
+    
+</mapper>

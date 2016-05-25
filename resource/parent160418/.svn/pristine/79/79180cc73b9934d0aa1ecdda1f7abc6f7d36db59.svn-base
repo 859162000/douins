@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.douins.idea.dao.IdeaFeedBackDao" >
+  <resultMap id="BaseResultMap" type="com.douins.idea.domain.model.IdeaFeedBack" >
+   <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="IDEA_FEEDBACK_ID" property="ideaFeedbackId" jdbcType="CHAR" />
+    <result column="USER_ID" property="userId" jdbcType="CHAR" />
+    <result column="CONTACT" property="contact" jdbcType="VARCHAR" />
+    <result column="FEEDBACK_TIME" property="feedbackTime" jdbcType="TIMESTAMP" />
+    <result column="IDEA" property="idea" jdbcType="VARCHAR" />
+    <result column="ISVALID" property="isvalid" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+       ID,IDEA_FEEDBACK_ID, USER_ID, CONTACT, FEEDBACK_TIME, IDEA, ISVALID, CREATE_DATE, UPDATE_DATE
+  </sql>
+  
+  <delete id="softDeleteByPrimaryKey" parameterType="java.lang.String" >
+     update T_IDEA_FEEDBACK set   ISVALID = '0', UPDATE_DATE = sysdate where IDEA_FEEDBACK_ID = #{ideaFeedbackId,jdbcType=CHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.douins.idea.domain.model.IdeaFeedBack" >
+    insert into T_IDEA_FEEDBACK (IDEA_FEEDBACK_ID, USER_ID, CONTACT, FEEDBACK_TIME, IDEA, ISVALID, CREATE_DATE, UPDATE_DATE
+      ) values (#{ideaFeedbackId,jdbcType=CHAR}, #{userId,jdbcType=CHAR}, 
+      #{contact,jdbcType=VARCHAR}, #{feedbackTime,jdbcType=TIMESTAMP}, #{idea,jdbcType=VARCHAR}, 
+      '1', NOW(), NOW())
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.douins.idea.domain.model.IdeaFeedBack" >
+    update T_IDEA_FEEDBACK
+    set 
+      USER_ID = #{userId,jdbcType=CHAR},
+      CONTACT = #{contact,jdbcType=VARCHAR},
+      FEEDBACK_TIME = #{feedbackTime,jdbcType=TIMESTAMP},
+      IDEA = #{idea,jdbcType=VARCHAR},
+      UPDATE_DATE = NOW()
+    where IDEA_FEEDBACK_ID = #{ideaFeedbackId,jdbcType=CHAR}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List" />
+    from T_IDEA_FEEDBACK
+    where IDEA_FEEDBACK_ID = #{ideaFeedbackId,jdbcType=CHAR} AND ISVALID='1'
+  </select>
+
+</mapper>

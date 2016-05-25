@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- 继承 -->
+  <parent>
+    <groupId>com.douins.agency</groupId>
+    <artifactId>agency</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>agency-service</artifactId>
+  <name>agency-service</name>
+  <packaging>jar</packaging>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <freemark.version>2.3.18</freemark.version>
+    <jsoup.version>1.8.3</jsoup.version>
+    <httpclient.version>4.5.1</httpclient.version>
+    <xstream.version>1.4.8</xstream.version>
+  </properties>
+  
+  <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/.svn/*</exclude>
+                </excludes>
+                
+            </resource>
+         <resource>
+                <directory>src/main/resources</directory>
+            <!--     <filtering>true</filtering> -->
+                <includes>
+                       <include>**/*.*</include>
+               </includes>
+            </resource> 
+        </resources>
+  </build> 
+
+  
+    
+  <dependencies>
+    <dependency>
+        <groupId>org.freemarker</groupId>
+        <artifactId>freemarker</artifactId>
+        <version>${freemark.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>${jsoup.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${httpclient.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.thoughtworks.xstream</groupId>
+        <artifactId>xstream</artifactId>
+        <version>${xstream.version}</version>
+    </dependency>
+  </dependencies>
+</project>

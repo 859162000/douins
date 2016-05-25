@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  base href="/api/"  不使用 api.js 时，要打开这一句 -->
+    <meta charset="UTF-8">
+    <title>豆芽金服前后端接口</title>
+
+<style>
+body {
+    font-family: monospace;
+    padding-left: 10px;
+}
+
+.intro {
+    margin-left: 40px;
+}
+
+ul {
+    margin-left: 40px;
+    padding-left: 0px;
+}
+
+h3 {
+    width: 400px;
+    border-bottom-color: #ccc;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 5px;
+}
+
+.blank20 {
+    clear: both;
+    height: 20px;
+}
+
+.json {
+    padding-left: 100px;
+    border-left: 1px solid #eee;
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.red{
+    color: red;
+}
+</style>
+</head>
+
+<body>
+    <!--  div>
+    <ul>
+        <a href="javascript:request(url, 'meaasge', params)" >javascript 的调用方式</a>
+    </ul>
+    </div -->
+    <!--  div>
+        <ul>
+            <a target="_blank" href="javascript:post(url, 'test', {'A':'a', 'B':'b'})">post 提交</a>
+        </ul>
+    </div -->
+
+    <h2>前后端接口列表</h2>
+    <div class="intro">
+        所有接口返回格式：
+        <div class="json">{"status": 0, "message": "success","data":JSONObject or JSONArray}</div>
+    </div>
+    
+    <div class="blank20"></div>
+    
+    <div>
+        <h3>部署测试接口</h3>
+        <ul>
+            <a target="_blank" class="red" href="javascript:request('user/test', paramName, {'userId':'110'})">获取一条用户信息</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>用户信息</h3>
+        <ul>
+            <a target="" href="user/regist">用户注册</a>
+        </ul>
+        <ul>
+            <a href="user/login">用户登录</a>
+        </ul>
+        <ul>
+            <a href="user/passwordChange">修改密码</a>
+        </ul>
+        <ul>
+            <a href="user/modify">用户信息修改</a>
+        </ul>
+        
+        <ul>
+            <a href ="user/gtcid/set">设置用户的个推 ClientId</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('user/info/get','userVo',{})">获取用户信息（购买产品页面调用）</a>
+        </ul>
+        <ul>
+            <a target="_blank", href="javascript:request('user/priv/info','userVo',{'userName':'机器人','certiCode':'310210198012056732','userMobile':'13987654321'})">设置用户信息：姓名、身份证、手机</a>
+        </ul>
+    </div>
+    
+    
+    <div>
+        <h3>用户账户</h3>
+        <ul >
+            <a href="userAcount/add">开户</a>
+        </ul>
+        <ul>
+            <a href="userAccount/get">查询账户信息</a>
+        </ul>
+        <ul>
+            <a href="userAccount/pay">充值或提现</a>
+        </ul>
+        
+    </div>
+        <h3>用户账户详情</h3>
+        <ul>
+            <a href="userAccountDetail/getList">查询账户交易记录</a>
+        </ul>
+    <div>
+    
+    <div>
+        <h3>用户支付账户</h3>
+        <ul>
+            <a href="userPayAccount/add">添加账户：绑卡并开户</a>
+        </ul>
+        <ul>
+            <a href="userPayAccount/getList">查询绑定的银行卡</a>
+        </ul>
+        <ul>
+            <a href="userPayAccount/change">变更银行卡</a>
+        </ul>
+        <ul>
+            <a href="userAccount/validate">验证支付密码</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>验证码</h3>
+        <ul>
+            <a href="validateCode/send">发送验证码</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>客户信息</h3>
+        <ul>
+            <a href="customer/getList">查询客户</a>
+        </ul>
+        <ul>
+            <a href="customer/add">新增客户</a>
+        </ul>
+        <ul>
+            <a href="customer/delete">删除客户</a>
+        </ul>
+        <ul>
+            <a href="customer/modify">修改客户</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>保单信息</h3>
+        <ul>
+            <a href="javascript:request('policy/getList', 'policyVo', {'userId':'65f961126c0942ea9d33ca08dad2fd48'}) ">查询保单</a>
+        </ul>
+        <ul>
+            <a href="policy/uw">保单核保</a>
+        </ul>
+        <ul>
+            <a href="policy/pay">保单承保并支付</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('policy/query/list','policyVo',{'certiCode':'310214197301272576'})">根据身份证号查询保单信息</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('policy/finace/detail', 'policyRequest',{'policyId':'120'})">理财详情</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>贷款申请</h3>
+        <ul>
+            <a href="loan/loan">申请贷款</a>
+        </ul>
+        <ul>
+            <a href="loan/save">确认贷款</a>
+        </ul>
+        <ul>
+            <a href="loan/get">查询用户保单贷款的信息(我的保单贷款)</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>还款申请</h3>
+        <ul>
+            <a href="repay/save">确认还款</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>退保申请</h3>
+        <ul>
+            <a href="surrender/surrender">申请退保</a>
+        </ul>
+        <ul>
+            <a href="surrender/save">确认退保</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>银行信息接口</h3>
+        <ul>
+            <a href="bankType/getList">银行列表</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>产品信息</h3>
+        <ul>
+            <a href="product/get">产品(保险)列表</a>
+        </ul>
+        <ul>
+            <a href="product/detail">保险介绍</a>
+        </ul>
+        <ul>
+            <a href="javascript:request('product/recommend', 'product',{})">产品推荐</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('product/detail', 'product', {'productId':'112'})">产品详情</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="api/product/moredetail">更多详情</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>静态数据</h3>
+        <div>
+            <h2>广告位</h2>
+            <ul>
+                <a target="_blank" href="javascript:request('img/get/list', '', {})">获取图像列表</a>
+            </ul>
+        </div>
+        <div>
+            <h2>H5 页面 url</h2>
+            <ul>
+                <a target="_blank" href="javascript:request('url/h5',paramName,{})">H5 页面 Url 列表</a>
+            </ul>
+        </div>
+        <div>
+            <h2>App 版本检查</h2>
+            <ul>
+                <a target="_blank" href="javascript:request('sys/version/new',paramName,{'version':'0.0.0'})">检查是否有新版本</a>
+            </ul>
+        </div>
+    </div>
+    
+    <div>
+        <h3>用户消息</h3>
+        <ul>
+            <a target="_blank" href="javascript:request('msg/priv/list', 'messageRequest', {'amount':'10', 'notificationId':'1'})">获取用户私有消息</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('msg/priv/delete', 'messageRequest', {'notificationId':'1'})">软删除私有消息</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('msg/priv/read', 'messageRequest', {'notificationId':'1'})">将私有消息置为已读</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('msg/pub/list', 'messageRequest', {amount':'10', 'notificationId':'1'})">获取公告消息</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>银行业务接口</h3>
+        <ul>
+            <a target="_blank" href="javascript:request('bank/ny/verify/id','userVo', {'userName':'测试','certiType':'0','certiCode':'370816197208154832'})">南粤银行核查身份接口</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('bank/ny/account/regist','userVo',{'userName':'用户名','certiCode':'310215198212041452'})">注册资金账户</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('bank/ny/account/query','userVo',{'userId':'110','certiCode':'310215198212041452'})">查询账户信息</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('bank/ny/getSign','param',{'params':'test'})">网关求情参数加签</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('bank/ny/gateway/save','param',{'params':'gateway response datas'})">网关响应参数落地</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('bank/sign/url','requestParams',{'userName':'测试','certiCode':'310215198212041452'})">广发开户的URL签名拼接</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>我的账号</h3>
+        <ul>
+            <a target="_blank" href="javascript:request('idea/save', 'ideaVo', {'idea':'有意见先保留', 'userId':'110'})">意见反馈提交</a>
+        </ul>
+        <ul>
+            <a target="_blank" href="javascript:request('user/status', 'userVo',{})">用户账户状态同步</a>
+        </ul>
+    </div>
+    
+    <div>
+        <h3>END</h3>
+    </div>    
+    </div>  
+    
+    <script type="text/javascript">
+    paramName = "requestParams";
+    </script>
+    <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="json2.js"></script>
+    <script type="text/javascript" src="api.js"></script>
+</body>
+</html>
